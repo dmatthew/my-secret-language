@@ -1,4 +1,4 @@
-my-secret-language
+MySecretLanguage
 ==================
 
 Create your own secret language.
