@@ -9,7 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="css/af.ui.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/icons.min.css" />
     <link rel="stylesheet" type="text/css" href="css/app.css" />
-    
+
     <!-- SCRIPTS -->
 	<script type="text/javascript" charset="utf-8" src="js/appframework/appframework.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="js/appframework/ui/appframework.ui.min.js"></script>
@@ -19,11 +19,11 @@
     <script type="text/javascript" charset="utf-8" src="js/my-secret-language/app.controller.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/my-secret-language/app.directives.js"></script>
 
-	<!-- Required if packaging to native app using Intel XDK --> 
+	<!-- Required if packaging to native app using Intel XDK -->
 	<script src="intelxdk.js"></script>
 	<script src="xhr.js"></script>
-	<script> 
-	function onDeviceReady(){ 
+	<script>
+	function onDeviceReady(){
 		$.ui.launch();
 		intel.xdk.device.hideSplashScreen();
 	}
@@ -31,17 +31,17 @@
 	</script>
 	<!-- end Intel XDK code -->
 
-	<script> 
-	$.ui.autoLaunch = false;
-	$.ui.animateHeaders = false;
-	$.ui.useOSThemes = false;
+	<script>
+    	$.ui.autoLaunch = false;
+    	$.ui.animateHeaders = false;
+    	$.ui.useOSThemes = false;
 
-	$(document).ready(function(){
-	  $.ui.launch();
-	});
+    	$(document).ready(function(){
+    	  $.ui.launch();
+    	});
 	</script>
   </head>
-  
+
   <body>
     <div id="afui">
 	  <div id="content" ng-controller="MSLController as msl">
@@ -57,8 +57,8 @@
 		  <a href="#notes" class="button btn-large">Notes</a>
 		</div>
 		<!-- END HOME PAGE -->
-		
-		
+
+
 		<!-- ADD WORDS PAGE -->
 		<div class="panel" title="Add Words" id="add-words" data-footer="none">
 		  <div class="formGroupHead">Add a new word</div>
@@ -71,8 +71,8 @@
 		  </form>
 		</div>
 		<!-- END ADD WORDS PAGE -->
-		
-		
+
+
 		<!-- TRANSLATE PAGE -->
 		<div class="panel" title="Translate" id="translate" data-footer="none">
 		  <textarea rows="5" placeholder="Enter your text to be translated..." ng-model="msl.translateTextarea" ng-change="msl.getTranslation()"></textarea>
@@ -90,8 +90,8 @@
 		  </div>
 		</div>
 		<!-- END TRANSLATE PAGE -->
-		
-		
+
+
 		<!-- DICTIONARY PAGE -->
 		<div class="panel" title="Dictionary" id="dictionary" data-footer="none">
 		  <input type="search" ng-model="searchText" placeholder="Enter search term...">
@@ -105,8 +105,8 @@
 		  </ul>
 		</div>
 		<!-- END DICTIONARY PAGE -->
-		
-		
+
+
 		<!-- EDIT WORD PAGE -->
 		<div class="panel" title="Dictionary" id="edit-dictionary" data-footer="none">
 		  <form name="editWordForm" ng-submit="msl.editWord()">
@@ -119,8 +119,8 @@
 		  <a my-submit my-function="msl.deleteWord()" href="" class="button btn-large red">Delete</a>
 		</div>
 		<!-- END EDIT WORD PAGE -->
-		
-		
+
+
 		<!-- FLASH CARDS PAGE -->
 		<div class="panel" title="Flash Cards" id="flash-cards" data-footer="none">
 		  <h1 ng-show="!showEnglish" ng-swipe-left="showEnglish = true">{{msl.flashWord.english}}</h1>
@@ -129,8 +129,8 @@
 		  <input class="button btn-large" type="button" ng-click="msl.nextWord()" value="Next word">
 		</div>
 		<!-- END FLASH CARDS PAGE -->
-		
-		
+
+
 		<!-- NOTES PAGE -->
 		<div class="panel" title="Notes" id="notes" data-footer="none">
 		  <ul class="list">
@@ -144,8 +144,8 @@
 		  </ul>
 		</div>
 		<!-- END NOTES PAGE -->
-		
-		
+
+
 		<!-- ADD NOTE PAGE -->
 		<div class="panel" title="Add Note" id="add-note" data-footer="none">
 		  <div class="formGroupHead">Category: {{msl.currentCategory}}</div>
@@ -158,8 +158,8 @@
 		  </form>
 		</div>
 		<!-- END ADD NOTE PAGE -->
-		
-		
+
+
 		<!-- VIEW NOTE PAGE -->
 		<div class="panel" title="View Note" id="view-note" data-footer="none">
 		  <div class="book-page">

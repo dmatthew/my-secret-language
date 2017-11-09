@@ -12,13 +12,13 @@
     function MSLController(SETUP_NOTES) {
         var msl = this;
         var ls = localStorage;
-        
+
         msl.setupNotes = SETUP_NOTES;
-        
+
         // Initialize words and notes from local storage.
         if ( ! ls.words) ls.words = JSON.stringify([]);
         if ( ! ls.notes) ls.notes = JSON.stringify(msl.setupNotes);
-        
+
         // Variables
         msl.words = JSON.parse(ls.words);          // The dictionary of all words.
         msl.notes = JSON.parse(ls.notes);          // The list of all user notes on their language.
@@ -37,7 +37,7 @@
 		msl.myEditIndex = -1;                      // The word in the edit-dictionary page which is being modified.
         msl.noteTitleText = '';                    // The title of a note.
         msl.noteDescriptionText = '';              // The descriptio of a note.
-        
+
         // Public Functions
         msl.addWord = addWord;                       // Add a new word to the dictonary;
         msl.getTranslation = getTranslation;         // Translates the english word in the translateTextarea.
@@ -55,11 +55,11 @@
         msl.setEditWord = setEditWord;               // Set the current word to be edited.
 		msl.editWord = editWord;                     // Update a word in the dictionary
         msl.deleteWord = deleteWord;                 // Delete a word from the dictionary
-        
-        
+
+
         // Initialize the flash cards.
 		msl.nextWord();
-        
+
         /**
          * Add a new word to the dictionary.
          */
@@ -72,7 +72,7 @@
 						addToWords = false;
 					}
 				}
-                
+
 				// The word is not already in the dictionary, so add it to it
 				if (addToWords) {
 					msl.words.push({english: msl.englishText, secret: msl.secretText});
@@ -83,13 +83,13 @@
 				else {
 					alert("Already exists");
 				}
-			} 
+			}
 			else {
 			// Sorry! No Web Storage support..
 				alert("Sorry, no local storage support.");
 			}
         }
-        
+
         /**
          * Translates the english word in the translateTextarea.
          */
@@ -97,20 +97,20 @@
 			var myEng = msl.translateTextarea;
 			msl.translatedWords = [];
 			myEng = myEng.split(" ");
-			
+
 			// Loop through the english textarea text
 			for (var i = 0; i < myEng.length; i++) {
 				var isFound = false;     // Whether the word is in the dictionary or not.
 				var hasSpecial = false;  // Whether the word ends in a special character or not.
 				var mySpecialChar = "";  // The special character that is at the end of the word.
-                
+
 				// Check if the word ends in a special character
 				if (myEng[i].charAt(myEng[i].length - 1) === "," || myEng[i].charAt(myEng[i].length - 1) === "." || myEng[i].charAt(myEng[i].length - 1) === ";") {
 					mySpecialChar = myEng[i].charAt(myEng[i].length - 1);
 					myEng[i] = myEng[i].substring(0, myEng[i].length - 1);
 					hasSpecial = true;
 				}
-                
+
 				//Loop through the dictionary and check if the word has been defined yet.
 				for (var j = 0; j < msl.words.length; j++) {
 					//if it is found, add it to the translatedWords array
@@ -134,11 +134,11 @@
 						word: myAddWord,
 						hasClick: true
 					});
-					(hasSpecial) 
+					(hasSpecial)
 						? msl.translatedWords.push({
 							word: mySpecialChar + " ",
 							hasClick: false
-						}) 
+						})
 						: msl.translatedWords.push({
 							word: " ",
 							hasClick: false
@@ -146,7 +146,7 @@
 				}
 			}
 		}
-        
+
         /**
          * Clear the translateTextarea.
          */
@@ -155,7 +155,7 @@
 			msl.translatedWords = [];
 			msl.showAddWordPopup = false;
 		}
-        
+
         /**
          * Display the addWord popup from the Translate Words panel.
          * @param {String} myWord
@@ -164,7 +164,7 @@
 			msl.showAddWordPopup = true;
 			msl.secretTextPopup.english = myWord;
 		}
-        
+
         /**
          * Adds a word to the dictionary.
 		 * This function gets called when a user clicks on a non-translated word
@@ -172,7 +172,7 @@
 		 */
 		function addWordPop() {
 			msl.words.push({
-				english: msl.secretTextPopup.english, 
+				english: msl.secretTextPopup.english,
 				secret: msl.secretTextPopup.secret
 			});
 			ls.words = JSON.stringify(msl.words);
@@ -180,7 +180,7 @@
 			msl.showAddWordPopup = false;
 			msl.getTranslation();
 		}
-        
+
         /**
          * Change the currentLetter in the Dictionary page.
          * @param {String} word
@@ -191,7 +191,7 @@
 				return true;
 			}
 		}
-        
+
         /**
          * Get a random word from the dictionary of words.
          * @returns {String}
@@ -205,7 +205,7 @@
 				return "";
 			}
 		}
-        
+
         /**
          * This function gets a new word for the flash cards.
          */
@@ -214,11 +214,11 @@
 			// Get a random word from the dictionary of words
 			msl.randWord = msl.getRandomWord();
 			msl.flashWord = {
-				english: msl.randWord.english, 
+				english: msl.randWord.english,
 				secret: msl.randWord.secret
 			};
 		}
-        
+
         /**
          * Set which category is being added/modified.
          * @param {String} myCategory
@@ -228,7 +228,7 @@
 			msl.currentCategory = myCategory;
 			msl.categoryIndex = myIndex;
 		}
-        
+
         /**
          * Sets the note being viewed in the view note page.
          * @param {Number} myCatIdx
@@ -237,7 +237,7 @@
         function setCurrentNote(myCatIdx, myCatNoteIdx) {
 			msl.currentNote = {catIdx: myCatIdx, catNoteIdx: myCatNoteIdx};
 		}
-        
+
         /**
          * Function to delete a note from the notes page.
          */
@@ -246,7 +246,7 @@
 			ls.notes = JSON.stringify(msl.notes);
 			history.back();
 		}
-        
+
         /**
          * Function to add a note to the notes page
          */
@@ -255,20 +255,20 @@
 			// Code for localStorage/sessionStorage
 				//Add the note to the notes page
 				msl.notes[msl.categoryIndex].categoryNotes.push({
-					title: msl.noteTitleText, 
+					title: msl.noteTitleText,
 					description: msl.noteDescriptionText
 				});
 				ls.notes = JSON.stringify(msl.notes);
 				msl.noteDescriptionText = '';
 				msl.noteTitleText = '';
-			} 
+			}
 			else {
 			// Sorry! No Web Storage support..
 				alert("Sorry, no local storage support.");
 			}
 			history.back();
 		}
-        
+
         /**
          * Save changes made to a note.
          */
@@ -276,7 +276,7 @@
 			msl.editingNote = false;
 			ls.notes = JSON.stringify(msl.notes);
 		}
-        
+
         /**
          * Set the current word to be edited.
          * @param {String} myWord
@@ -284,7 +284,7 @@
         function setEditWord(myWord) {
 			msl.myEditIndex = msl.words.map(function(e) { return e.english; }).indexOf(myWord);
 		}
-        
+
         /**
          * Update a word in the dictionary
          */
@@ -292,7 +292,7 @@
 			ls.words = JSON.stringify(msl.words);
 			history.back();
 		}
-        
+
         /**
          * Delete a word from the dictionary.
          */
