@@ -27,7 +27,7 @@
             }
         };
     }
-    
+
     function myAddNote() {
         return {
             restrict: 'A',
@@ -45,7 +45,7 @@
             }
         };
     }
-        
+
     function mySubmit() {
          return {
             restrict: 'A',
