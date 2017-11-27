@@ -5,6 +5,8 @@ Create your own secret language!
 
 Built with [AngularJS](https://angularjs.org/) v1.2 and Intel's UI [App Framework](https://github.com/intel/appframework). The My Secret Language app uses the Local Storage API so users can use the app anywhere, even offline.
 
+**UPDATE: I am currently rebuilding this app with React. See the work in progress code on the [react](https://github.com/dmatthew/my-secret-language/tree/react) branch.**
+
 ### Features of the app:
 
 * Add, edit, and delete new words.
