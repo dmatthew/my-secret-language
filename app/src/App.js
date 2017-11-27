@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  BrowserRouter,
+  Route,
+  Switch
+} from "react-router-dom";
 import Home from './Home';
 import AddWords from './AddWords';
 import Translate from './Translate';
@@ -90,30 +95,55 @@ class App extends React.Component {
   }
 
   render() {
-    return (
-      <div className="app">
-        <header className="app-header">
-          <h1 className="app-title">Mi Scrt Lngwij</h1>
-        </header>
-        <Home />
-        <hr />
+    const addWords = () => {
+      return (
         <AddWords
           mainWord={this.state.addWords.mainWord}
           secretWord={this.state.addWords.secretWord}
           onAddWordSubmit={(e) => this.handleAddWordSubmit(e)}
           onMainWordChange={(e) => this.handleMainWordChange(e)}
           onSecretWordChange={(e) => this.handleSecretWordChange(e)} />
+      )
+    };
+
+    const translate = () => {
+      return (
         <Translate
           translateText={this.state.translate.main}
           onTextareaChange={(e) => this.handleTranslateTextareaChange(e)} />
-        <hr />
+      )
+    };
+
+    const dictionary = () => {
+      return (
         <Dictionary
           words={this.state.words} />
-        <hr />
+      );
+    };
+
+    const flashCards = () => {
+      return (
         <FlashCards
           word={this.state.flashCardWord}
           onNextWordClick={(e) => this.flashCardNextWord(e)} />
-      </div>
+      );
+    };
+
+    return (
+      <BrowserRouter>
+        <div className="app">
+          <header className="app-header">
+            <h1 className="app-title">Mi Scrt Lngwij</h1>
+          </header>
+          <Switch>
+            <Route path='/' exact component={Home} />
+            <Route path='/add-words' render={addWords} />
+            <Route path='/translate' render={translate} />
+            <Route path='/dictionary' render={dictionary} />
+            <Route path='/flash-cards' render={flashCards} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }
