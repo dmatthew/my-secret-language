@@ -13,7 +13,7 @@ class Dictionary extends React.Component {
     if (this.props.words) {
       words = this.props.words.map((word, index) => {
         return (
-          <span>
+          <span key={index}>
             {word.mainWord.substr(0, 1) !== this.state.currentLetter &&
               <li class="divider">{word.mainWord.substr(0, 1).toUpperCase()}</li>
             }

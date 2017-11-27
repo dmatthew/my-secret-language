@@ -14,12 +14,22 @@ class App extends React.Component {
       addWords: {
         mainWord: '',
         secretWord: ''
+      },
+      flashCardWord: '',
+      translate: {
+        main: '',
+        secret: ''
       }
     };
   }
 
-  handleAddWordSubmit(e) {
-    alert(this.state.addWords.mainWord + ' ' + this.state.addWords.secretWord);
+  componentDidMount() {
+    let flashCardWord = this.getRandomValue(this.state.words);
+    flashCardWord = {mainWord: 'Test', secretWord: 'Sroto'};
+    this.setState({flashCardWord: flashCardWord});
+  }
+
+  handleAddWordSubmit(event) {
     let words = [...this.state.words];
     words.push({
       mainWord: this.state.addWords.mainWord,
@@ -32,22 +42,30 @@ class App extends React.Component {
         secretWord: ''
       }
     });
-    e.preventDefault();
+    event.preventDefault();
   }
 
-  handleMainWordChange(e) {
+  handleMainWordChange(event) {
     let addWords = {...this.state.addWords};
-    addWords.mainWord = e.target.value;
+    addWords.mainWord = event.target.value;
     this.setState({
       addWords: addWords
     });
   }
 
-  handleSecretWordChange(e) {
+  handleSecretWordChange(event) {
     let addWords = {...this.state.addWords};
-    addWords.secretWord = e.target.value;
+    addWords.secretWord = event.target.value;
     this.setState({
       addWords: addWords
+    });
+  }
+
+  handleTranslateTextareaChange(event) {
+    this.setState({
+      translate: {
+        main: event.target.value
+      }
     });
   }
 
@@ -65,9 +83,13 @@ class App extends React.Component {
       }
   }
 
+  flashCardNextWord(event) {
+    this.setState({
+      flashCardWord: this.getRandomValue(this.state.words)
+    });
+  }
+
   render() {
-    let flashCardWord = this.getRandomValue(this.state.words);
-    flashCardWord = {mainWord: 'Test', secretWord: 'Sroto'};
     return (
       <div className="app">
         <header className="app-header">
@@ -81,13 +103,16 @@ class App extends React.Component {
           onAddWordSubmit={(e) => this.handleAddWordSubmit(e)}
           onMainWordChange={(e) => this.handleMainWordChange(e)}
           onSecretWordChange={(e) => this.handleSecretWordChange(e)} />
-        <Translate />
+        <Translate
+          translateText={this.state.translate.main}
+          onTextareaChange={(e) => this.handleTranslateTextareaChange(e)} />
         <hr />
         <Dictionary
           words={this.state.words} />
         <hr />
         <FlashCards
-          word={flashCardWord}/>
+          word={this.state.flashCardWord}
+          onNextWordClick={(e) => this.flashCardNextWord(e)} />
       </div>
     );
   }
