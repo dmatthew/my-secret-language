@@ -3,6 +3,7 @@ import Home from './Home';
 import AddWords from './AddWords';
 import Translate from './Translate';
 import Dictionary from './Dictionary';
+import FlashCards from './FlashCards';
 import './App.css';
 
 class App extends React.Component {
@@ -50,13 +51,30 @@ class App extends React.Component {
     });
   }
 
+  /**
+  * Get a random word from the dictionary of words.
+  * @returns {String}
+  */
+  getRandomValue(arr) {
+      var randNum = Math.floor(Math.random() * arr.length);
+      if (arr[randNum]) {
+          return arr[randNum];
+      }
+      else {
+          return "";
+      }
+  }
+
   render() {
+    let flashCardWord = this.getRandomValue(this.state.words);
+    flashCardWord = {mainWord: 'Test', secretWord: 'Sroto'};
     return (
       <div className="app">
         <header className="app-header">
           <h1 className="app-title">Mi Scrt Lngwij</h1>
         </header>
         <Home />
+        <hr />
         <AddWords
           mainWord={this.state.addWords.mainWord}
           secretWord={this.state.addWords.secretWord}
@@ -64,8 +82,12 @@ class App extends React.Component {
           onMainWordChange={(e) => this.handleMainWordChange(e)}
           onSecretWordChange={(e) => this.handleSecretWordChange(e)} />
         <Translate />
+        <hr />
         <Dictionary
           words={this.state.words} />
+        <hr />
+        <FlashCards
+          word={flashCardWord}/>
       </div>
     );
   }
