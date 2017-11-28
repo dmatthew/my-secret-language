@@ -4,6 +4,7 @@ import {
   Route,
   Switch
 } from "react-router-dom";
+import createHistory from 'history/createBrowserHistory';
 import Home from './Home';
 import AddWords from './AddWords';
 import Translate from './Translate';
@@ -105,7 +106,6 @@ class App extends React.Component {
           onSecretWordChange={(e) => this.handleSecretWordChange(e)} />
       )
     };
-
     const translate = () => {
       return (
         <Translate
@@ -113,14 +113,12 @@ class App extends React.Component {
           onTextareaChange={(e) => this.handleTranslateTextareaChange(e)} />
       )
     };
-
     const dictionary = () => {
       return (
         <Dictionary
           words={this.state.words} />
       );
     };
-
     const flashCards = () => {
       return (
         <FlashCards
@@ -129,10 +127,12 @@ class App extends React.Component {
       );
     };
 
+    const history = createHistory();
     return (
       <BrowserRouter>
         <div className="app">
           <header className="app-header">
+            <a className="backButton button" onClick={history.goBack}>Back</a>
             <h1 className="app-title">Mi Scrt Lngwij</h1>
           </header>
           <Switch>
