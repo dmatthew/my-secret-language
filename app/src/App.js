@@ -78,7 +78,6 @@ class App extends React.Component {
     // Loop through the english textarea text
     for (let i = 0; i < mainText.length; i++) {
       let isWordInDictionary = false;     // Whether the word is in the dictionary or not.
-      let hasSpecialChar = false;  // Whether the word ends in a special character or not.
       let specialChar = "";  // The special character that is at the end of the word.
 
       // Check if the word ends in a special character
@@ -86,7 +85,6 @@ class App extends React.Component {
       if (specialCharsList.indexOf(mainText[i].charAt(mainText[i].length - 1)) !== -1) {
         specialChar = mainText[i].charAt(mainText[i].length - 1);
         mainText[i] = mainText[i].substring(0, mainText[i].length - 1);
-        hasSpecialChar = true;
       }
 
       // Loop through the dictionary and check if the word has been defined yet.
@@ -95,7 +93,7 @@ class App extends React.Component {
         if (mainText[i].toUpperCase() === this.state.words[j].mainWord.toUpperCase()) {
           // The word to add to the translated words array
           let newWord = this.state.words[j].secretWord;
-          newWord += (hasSpecialChar) ? specialChar + ' ' : ' ';
+          newWord += specialChar + ' ';
           translatedWords.push({
             word: newWord,
             hasClick: false
@@ -114,7 +112,7 @@ class App extends React.Component {
           hasClick: true
         });
         translatedWords.push({
-          word: (hasSpecialChar) ? specialChar +  ' ' : ' ',
+          word: specialChar +  ' ',
           hasClick: false
         });
 
