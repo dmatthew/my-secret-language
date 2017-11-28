@@ -113,21 +113,20 @@ class App extends React.Component {
           word: newWord,
           hasClick: true
         });
-        (hasSpecialChar)
-          ? translatedWords.push({
-              word: specialChar + " ",
-              hasClick: false
-            })
-          : translatedWords.push({
-              word: " ",
-              hasClick: false
-          });
+        translatedWords.push({
+          word: (hasSpecialChar) ? specialChar +  ' ' : ' ',
+          hasClick: false
+        });
 
-          this.setState({
-            translatedWords: translatedWords
-          });
+        this.setState({
+          translatedWords: translatedWords
+        });
       }
     }
+  }
+
+  handleUntranslatedNewWordSubmit(word) {
+
   }
 
   /**
@@ -166,7 +165,8 @@ class App extends React.Component {
         <Translate
           translateText={this.state.translateTextarea}
           onTextareaChange={(e) => this.handleTranslateTextareaChange(e)}
-          translatedWords={this.state.translatedWords} />
+          translatedWords={this.state.translatedWords}
+          onNewWordFormSubmit={(word) => this.handleUntranslatedNewWordSubmit(word)}/>
       )
     };
     const dictionary = () => {
