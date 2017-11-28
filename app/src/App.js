@@ -130,6 +130,17 @@ class App extends React.Component {
     });
   }
 
+  handleTranslateNewWordFormSubmit(word) {
+    let words = [...this.state.words];
+    words.push({
+      mainWord: word.main,
+      secretWord: word.secret
+    });
+    this.setState({
+      words: words
+    });
+  }
+
   /**
   * Get a random word from the dictionary of words.
   * @returns {String}
@@ -167,7 +178,8 @@ class App extends React.Component {
           translateText={this.state.translateTextarea}
           onTextareaChange={(e) => this.handleTranslateTextareaChange(e)}
           translatedWords={this.state.translatedWords}
-          onClearTranslationClick={() => this.handleClearTranslationClick()}/>
+          onClearTranslationClick={() => this.handleClearTranslationClick()}
+          onNewWordFormSubmit={(e) => this.handleTranslateNewWordFormSubmit(e)} />
       )
     };
     const dictionary = () => {

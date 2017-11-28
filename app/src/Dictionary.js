@@ -15,10 +15,10 @@ class Dictionary extends React.Component {
         return (
           <span key={index}>
             {word.mainWord.substr(0, 1) !== this.state.currentLetter &&
-              <li class="divider">{word.mainWord.substr(0, 1).toUpperCase()}</li>
+              <li className="divider">{word.mainWord.substr(0, 1).toUpperCase()}</li>
             }
             <li>
-              <a>{word.mainWord}<span class="right">{word.secretWord}</span></a>
+              <a>{word.mainWord}<span className="right">{word.secretWord}</span></a>
             </li>
           </span>
         );
