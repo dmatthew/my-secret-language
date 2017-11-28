@@ -123,8 +123,11 @@ class App extends React.Component {
     }
   }
 
-  handleUntranslatedNewWordSubmit(word) {
-
+  handleClearTranslationClick() {
+    this.setState({
+      translateTextarea: '',
+      translatedWords: []
+    });
   }
 
   /**
@@ -164,7 +167,7 @@ class App extends React.Component {
           translateText={this.state.translateTextarea}
           onTextareaChange={(e) => this.handleTranslateTextareaChange(e)}
           translatedWords={this.state.translatedWords}
-          onNewWordFormSubmit={(word) => this.handleUntranslatedNewWordSubmit(word)}/>
+          onClearTranslationClick={() => this.handleClearTranslationClick()}/>
       )
     };
     const dictionary = () => {

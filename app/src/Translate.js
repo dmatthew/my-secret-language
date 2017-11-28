@@ -11,6 +11,7 @@ class Translate extends React.Component {
       }
     };
   }
+
   handleUntranslatedWordClick(word) {
     this.setState({
       showNewWordForm: true,
@@ -18,6 +19,15 @@ class Translate extends React.Component {
         main: word
       }
     });
+  }
+
+  handleCancelNewWord() {
+    this.setState({showNewWordForm: false})
+  }
+
+  handleClearTranslationClick() {
+    this.setState({showNewWordForm: false});
+    this.props.onClearTranslationClick();
   }
 
   render() {
@@ -35,14 +45,14 @@ class Translate extends React.Component {
         <div>
           {translatedText}
         </div>
-        <input type="button" value="Clear" className="button btn-large" />
+        <input type="button" value="Clear" className="button btn-large" onClick={() => this.handleClearTranslationClick()} />
         {this.state.showNewWordForm &&
           <div id="add-word-popup">
             <form name="addFormPop">
               <label htmlFor="secret-text-pop">{this.state.newWord.main}</label>
-              <input id="secret-text-pop" placeholder="Translation" required type="text" autoFocus />
+              <input id="secret-text-pop" placeholder={"Translation for \u0022" + this.state.newWord.main + "\u0022"} required type="text" autoFocus />
               <input type="submit" className="button btn-large" value="Save" />
-              <input type="button" value="Cancel" className="button btn-large red" />
+              <input type="button" value="Cancel" className="button btn-large red" onClick={() => this.handleCancelNewWord()} />
             </form>
           </div>
         }
