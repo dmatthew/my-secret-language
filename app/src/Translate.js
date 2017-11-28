@@ -2,11 +2,19 @@ import React from 'react';
 
 class Translate extends React.Component {
   render() {
+    let translatedText = '';
+    if (this.props.translatedWords) {
+      translatedText = this.props.translatedWords.map((word, index) => {
+        return (
+          <span>{word.word}</span>
+        );
+      });
+    }
     return (
       <div>
         <textarea rows="5" placeholder="Enter your text to be translated..." value={this.props.translateText} onChange={this.props.onTextareaChange}></textarea>
         <div>
-          <span></span>
+          {translatedText}
         </div>
         <input type="button" value="Clear" className="button btn-large" />
         <div id="add-word-popup">

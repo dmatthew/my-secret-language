@@ -22,10 +22,8 @@ class App extends React.Component {
         secretWord: ''
       },
       flashCardWord: '',
-      translate: {
-        main: '',
-        secret: ''
-      }
+      translateTextarea: '',
+      translatedWords: []
     };
   }
 
@@ -69,10 +67,67 @@ class App extends React.Component {
 
   handleTranslateTextareaChange(event) {
     this.setState({
-      translate: {
-        main: event.target.value
-      }
+      translateTextarea: event.target.value,
+      translatedWords: []
     });
+
+    let mainText = event.target.value;
+    let translatedWords = [];
+    mainText = mainText.split(" ");
+
+    // Loop through the english textarea text
+    for (let i = 0; i < mainText.length; i++) {
+      let isWordInDictionary = false;     // Whether the word is in the dictionary or not.
+      let hasSpecialChar = false;  // Whether the word ends in a special character or not.
+      let specialChar = "";  // The special character that is at the end of the word.
+
+      // Check if the word ends in a special character
+      let specialCharsList = [',', '.', ';', ':', '?', '!'];
+      if (specialCharsList.indexOf(mainText[i].charAt(mainText[i].length - 1)) !== -1) {
+        specialChar = mainText[i].charAt(mainText[i].length - 1);
+        mainText[i] = mainText[i].substring(0, mainText[i].length - 1);
+        hasSpecialChar = true;
+      }
+
+      // Loop through the dictionary and check if the word has been defined yet.
+      for (let j = 0; j < this.state.words.length; j++) {
+        // if it is found, add it to the translatedWords array
+        if (mainText[i].toUpperCase() === this.state.words[j].mainWord.toUpperCase()) {
+          // The word to add to the translated words array
+          let newWord = this.state.words[j].secretWord;
+          newWord += (hasSpecialChar) ? specialChar + ' ' : ' ';
+          translatedWords.push({
+            word: newWord,
+            hasClick: false
+          });
+          this.setState({
+            translatedWords: translatedWords
+          });
+          isWordInDictionary = true;
+          break;
+        }
+      }
+      if (!isWordInDictionary) {
+        let newWord = mainText[i]; // The word to add to the translated words array.
+        translatedWords.push({
+          word: newWord,
+          hasClick: true
+        });
+        (hasSpecialChar)
+          ? translatedWords.push({
+              word: specialChar + " ",
+              hasClick: false
+            })
+          : translatedWords.push({
+              word: " ",
+              hasClick: false
+          });
+
+          this.setState({
+            translatedWords: translatedWords
+          });
+      }
+    }
   }
 
   /**
@@ -109,8 +164,9 @@ class App extends React.Component {
     const translate = () => {
       return (
         <Translate
-          translateText={this.state.translate.main}
-          onTextareaChange={(e) => this.handleTranslateTextareaChange(e)} />
+          translateText={this.state.translateTextarea}
+          onTextareaChange={(e) => this.handleTranslateTextareaChange(e)}
+          translatedWords={this.state.translatedWords} />
       )
     };
     const dictionary = () => {
