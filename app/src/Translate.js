@@ -6,7 +6,7 @@ class Translate extends React.Component {
     if (this.props.translatedWords) {
       translatedText = this.props.translatedWords.map((word, index) => {
         return (
-          <span>{word.word}</span>
+          <span key={index}>{word.word}</span>
         );
       });
     }
