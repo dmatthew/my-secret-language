@@ -1,6 +1,6 @@
 import React from 'react';
 
-class AddWords extends React.Component {
+class AddWord extends React.Component {
   render() {
     return (
       <div>
@@ -17,4 +17,4 @@ class AddWords extends React.Component {
   }
 }
 
-export default AddWords;
+export default AddWord;

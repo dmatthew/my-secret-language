@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Dictionary extends React.Component {
   constructor() {
@@ -39,7 +40,10 @@ class Dictionary extends React.Component {
                 <li className="divider">{word.mainWord.substr(0, 1).toUpperCase()}</li>
               }
               <li>
-                <a>{word.mainWord}<span className="right">{word.secretWord}</span></a>
+                <Link to={"/edit-word/" + word.mainWord} className="button btn-large">
+                  {word.mainWord}
+                  <span className="right">{word.secretWord}</span>
+                </Link>
               </li>
             </span>
           );
@@ -53,7 +57,7 @@ class Dictionary extends React.Component {
         <input value={this.state.searchTerm} onChange={(e) => this.handleSearchUpdate(e)}
           type="search" placeholder="Enter search term..." />
         <ul>
-        {words}
+          {words}
         </ul>
       </div>
     );

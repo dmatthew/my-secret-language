@@ -6,10 +6,11 @@ import {
 } from "react-router-dom";
 import createHistory from 'history/createBrowserHistory';
 import Home from './Home';
-import AddWords from './AddWords';
+import AddWord from './AddWord';
 import Translate from './Translate';
 import Dictionary from './Dictionary';
 import FlashCards from './FlashCards';
+import EditWord from './EditWord';
 import './App.css';
 
 class App extends React.Component {
@@ -161,10 +162,14 @@ class App extends React.Component {
     });
   }
 
+  getWordToEdit(pathWord) {
+    return this.state.words.find((element) => element.mainWord === pathWord);
+  }
+
   render() {
-    const addWords = () => {
+    const addWord = () => {
       return (
-        <AddWords
+        <AddWord
           mainWord={this.state.addWords.mainWord}
           secretWord={this.state.addWords.secretWord}
           onAddWordSubmit={(e) => this.handleAddWordSubmit(e)}
@@ -196,6 +201,12 @@ class App extends React.Component {
       );
     };
 
+    const editWord = ({match}) => {
+      return (
+        <EditWord word={this.getWordToEdit(match.params.word)} />
+      );
+    }
+
     const history = createHistory();
     return (
       <BrowserRouter>
@@ -206,10 +217,11 @@ class App extends React.Component {
           </header>
           <Switch>
             <Route path='/' exact component={Home} />
-            <Route path='/add-words' render={addWords} />
+            <Route path='/add-word' render={addWord} />
             <Route path='/translate' render={translate} />
             <Route path='/dictionary' render={dictionary} />
             <Route path='/flash-cards' render={flashCards} />
+            <Route path='/edit-word/:word' render={editWord} />
           </Switch>
         </div>
       </BrowserRouter>
