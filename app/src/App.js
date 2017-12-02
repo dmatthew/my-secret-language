@@ -35,6 +35,7 @@ class App extends React.Component {
   }
 
   handleAddWordSubmit(event) {
+    event.preventDefault();
     let words = [...this.state.words];
     words.push({
       mainWord: this.state.addWords.mainWord,
@@ -47,7 +48,6 @@ class App extends React.Component {
         secretWord: ''
       }
     });
-    event.preventDefault();
   }
 
   handleMainWordChange(event) {
@@ -162,8 +162,20 @@ class App extends React.Component {
     });
   }
 
-  getWordToEdit(pathWord) {
+  wordToEdit(pathWord) {
     return this.state.words.find((element) => element.mainWord === pathWord);
+  }
+
+  handleEditWordSubmit(word) {
+    let words = [...this.state.words];
+    let index = words.map(function(el) { return el.mainWord; }).indexOf(word.mainWord);
+    words[index] = {
+      mainWord: word.mainWord,
+      secretWord: word.secretWord
+    };
+    this.setState({
+      words: words
+    });
   }
 
   render() {
@@ -200,10 +212,11 @@ class App extends React.Component {
           onNextWordClick={(e) => this.flashCardNextWord(e)} />
       );
     };
-
     const editWord = ({match}) => {
       return (
-        <EditWord word={this.getWordToEdit(match.params.word)} />
+        <EditWord
+          word={this.wordToEdit(match.params.word)}
+          onEditWordFormSubmit={(e) => this.handleEditWordSubmit(e)} />
       );
     }
 
