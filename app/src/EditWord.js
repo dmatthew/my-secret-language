@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class EditWord extends React.Component {
   // NOTE: This is needed to access this.context.router.history so we can go back.
   static contextTypes = {
-    router: () => true, // replace with PropTypes.object if you use them
+    router: PropTypes.object
   }
 
   constructor(props) {
@@ -29,6 +30,7 @@ class EditWord extends React.Component {
   handleEditWordFormSubmit(event) {
     event.preventDefault();
     this.props.onEditWordFormSubmit({mainWord: this.state.mainWord, secretWord: this.state.secretWord});
+    this.context.router.history.goBack();
   }
 
   handleDeleteWordClick() {
