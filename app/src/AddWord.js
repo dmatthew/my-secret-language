@@ -1,15 +1,52 @@
 import React from 'react';
 
 class AddWord extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mainWord: '',
+      secretWord: ''
+    }
+  }
+
+  onMainWordChange(event) {
+    this.setState({
+      mainWord: event.target.value
+    });
+  }
+
+  onSecretWordChange(event) {
+    this.setState({
+      secretWord: event.target.value
+    });
+  }
+
+  onAddWordFormSubmit(event) {
+    event.preventDefault();
+    this.setState({
+      mainWord: '',
+      secretWord: ''
+    })
+    this.props.onAddWordFormSubmit(this.state.mainWord, this.state.secretWord);
+  }
+
   render() {
     return (
       <div>
         <h2>Add a new Word</h2>
-        <form name="addWordForm" onSubmit={this.props.onAddWordSubmit}>
+        <form name="addWordForm" onSubmit={(e) => this.onAddWordFormSubmit(e)}>
           <label htmlFor="main-text">English</label>
-          <input name="mainText" id="main-text" onChange={this.props.onMainWordChange} value={this.props.mainWord} placeholder="English word here..." required autoFocus type="text" />
+          <input
+            name="mainText" id="main-text"
+            onChange={(e) => this.onMainWordChange(e)}
+            value={this.state.mainWord}
+            placeholder="English word here..." required autoFocus type="text" />
           <label htmlFor="secret-text">Secret word</label>
-          <input id="secret-text" onChange={this.props.onSecretWordChange} value={this.props.secretWord} placeholder="Secret word here..." required type="text" />
+          <input
+            id="secret-text"
+             onChange={(e) => this.onSecretWordChange(e)}
+             value={this.state.secretWord}
+             placeholder="Secret word here..." required type="text" />
           <input type="submit" className="button btn-large" value="Save" />
         </form>
       </div>

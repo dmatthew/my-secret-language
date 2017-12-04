@@ -2,7 +2,8 @@ import React from 'react';
 import {
   BrowserRouter,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from "react-router-dom";
 import createHistory from 'history/createBrowserHistory';
 import Home from './Home';
@@ -10,6 +11,8 @@ import AddWord from './AddWord';
 import Translate from './Translate';
 import Dictionary from './Dictionary';
 import FlashCards from './FlashCards';
+import Notes from './Notes';
+import AddNote from './AddNote';
 import EditWord from './EditWord';
 import './App.css';
 
@@ -18,13 +21,10 @@ class App extends React.Component {
     super();
     this.state = {
       words: [],
-      addWords: {
-        mainWord: '',
-        secretWord: ''
-      },
       flashCardWord: '',
       translateTextarea: '',
-      translatedWords: []
+      translatedWords: [],
+      notes: []
     };
   }
 
@@ -34,35 +34,14 @@ class App extends React.Component {
     this.setState({flashCardWord: flashCardWord});
   }
 
-  handleAddWordSubmit(event) {
-    event.preventDefault();
+  handleAddWordFormSubmit(mainWord, secretWord) {
     let words = [...this.state.words];
     words.push({
-      mainWord: this.state.addWords.mainWord,
-      secretWord: this.state.addWords.secretWord
+      mainWord: mainWord,
+      secretWord: secretWord
     });
     this.setState({
-      words: words,
-      addWords: {
-        mainWord: '',
-        secretWord: ''
-      }
-    });
-  }
-
-  handleMainWordChange(event) {
-    let addWords = {...this.state.addWords};
-    addWords.mainWord = event.target.value;
-    this.setState({
-      addWords: addWords
-    });
-  }
-
-  handleSecretWordChange(event) {
-    let addWords = {...this.state.addWords};
-    addWords.secretWord = event.target.value;
-    this.setState({
-      addWords: addWords
+      words: words
     });
   }
 
@@ -178,15 +157,20 @@ class App extends React.Component {
     });
   }
 
+  addToCategory(category) {
+    return category;
+  }
+
+  handleAddNoteFormSubmit(category, title, description) {
+    // TODO: Use category, title, and description values to save a new note in App.js.
+    console.log('TODO: Use category, title, and description values to save a new note in App.js.');
+  }
+
   render() {
     const addWord = () => {
       return (
         <AddWord
-          mainWord={this.state.addWords.mainWord}
-          secretWord={this.state.addWords.secretWord}
-          onAddWordSubmit={(e) => this.handleAddWordSubmit(e)}
-          onMainWordChange={(e) => this.handleMainWordChange(e)}
-          onSecretWordChange={(e) => this.handleSecretWordChange(e)} />
+          onAddWordFormSubmit={(mainWord, secretWord) => this.handleAddWordFormSubmit(mainWord, secretWord)} />
       )
     };
     const translate = () => {
@@ -212,13 +196,25 @@ class App extends React.Component {
           onNextWordClick={(e) => this.flashCardNextWord(e)} />
       );
     };
+    const notes = () => {
+      return (
+        <Notes />
+      );
+    };
     const editWord = ({match}) => {
       return (
         <EditWord
           word={this.wordToEdit(match.params.word)}
-          onEditWordFormSubmit={(e) => this.handleEditWordSubmit(e)} />
+          onEditWordFormSubmit={(word) => this.handleEditWordSubmit(word)} />
       );
     }
+    const addNote = ({match}) => {
+      return (
+        <AddNote
+          category={this.addToCategory(match.params.category)}
+          onEditNoteFormSubmit={(category, title, description) => this.handleAddNoteFormSubmit(category, title, description)} />
+      );
+    };
 
     const history = createHistory();
     return (
@@ -234,7 +230,10 @@ class App extends React.Component {
             <Route path='/translate' render={translate} />
             <Route path='/dictionary' render={dictionary} />
             <Route path='/flash-cards' render={flashCards} />
+            <Route path='/notes' render={notes} />
             <Route path='/edit-word/:word' render={editWord} />
+            <Route path='/add-note/:category' render={addNote} />
+            <Redirect from='/add-note' to='/notes' />
           </Switch>
         </div>
       </BrowserRouter>
