@@ -157,6 +157,15 @@ class App extends React.Component {
     });
   }
 
+  deleteWord(mainWord) {
+    let words = [...this.state.words];
+    let index = words.map(function(el) { return el.mainWord; }).indexOf(mainWord);
+    words.splice(index, 1);
+    this.setState({
+      words: words
+    });
+  }
+
   addToCategory(category) {
     return category;
   }
@@ -205,7 +214,8 @@ class App extends React.Component {
       return (
         <EditWord
           word={this.wordToEdit(match.params.word)}
-          onEditWordFormSubmit={(word) => this.handleEditWordSubmit(word)} />
+          onEditWordFormSubmit={(word) => this.handleEditWordSubmit(word)}
+          onDeleteWordClick={(word) => this.deleteWord(word)} />
       );
     }
     const addNote = ({match}) => {
