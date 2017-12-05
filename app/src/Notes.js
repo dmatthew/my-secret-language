@@ -2,25 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 class Notes extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      notes: [
-        {
-          categoryTitle: 'General',
-          categoryNotes: [
-            {
-              title: 'This is a general note',
-              description: 'Anything that does not fit into any of the other categories should be placed into this category.'
-            }
-          ]
-        }
-      ]
-    };
-  }
-
   render() {
-    let notes = this.state.notes.map((note, index) => {
+    let notes = this.props.notes.map((note, index) => {
       return (
         <span key={index}>
           <li className="divider category">{note.categoryTitle}</li>
@@ -28,7 +11,6 @@ class Notes extends React.Component {
           <div>
             <Link to={"add-note/" + note.categoryTitle} className="button btn-sepia icon add"> Note</Link>
           </div>
-
         </span>
       );
     });

@@ -1,6 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class AddNote extends React.Component {
+  // NOTE: This is needed to access this.context.router.history so we can go back.
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +29,8 @@ class AddNote extends React.Component {
 
   handleAddNoteFormSubmit(event) {
     event.preventDefault();
-      this.props.onEditNoteFormSubmit(this.props.category, this.state.noteTitle, this.state.noteDescription);
+    this.props.onEditNoteFormSubmit(this.props.category, this.state.noteTitle, this.state.noteDescription);
+    this.context.router.history.goBack();
   }
 
   render() {

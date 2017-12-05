@@ -14,6 +14,7 @@ import FlashCards from './FlashCards';
 import Notes from './Notes';
 import AddNote from './AddNote';
 import EditWord from './EditWord';
+import Setup from './Setup';
 import './App.css';
 
 class App extends React.Component {
@@ -24,7 +25,7 @@ class App extends React.Component {
       flashCardWord: '',
       translateTextarea: '',
       translatedWords: [],
-      notes: []
+      notes: Setup.DEFAULT_NOTES
     };
   }
 
@@ -171,8 +172,15 @@ class App extends React.Component {
   }
 
   handleAddNoteFormSubmit(category, title, description) {
-    // TODO: Use category, title, and description values to save a new note in App.js.
-    console.log('TODO: Use category, title, and description values to save a new note in App.js.');
+    let notes = [...this.state.notes];
+    let index = notes.map(function(el) { return el.categoryTitle; }).indexOf(category);
+    notes[index].categoryNotes.push({
+      title: title,
+      description: description
+    });
+    this.setState({
+      notes: notes
+    });
   }
 
   render() {
@@ -207,7 +215,8 @@ class App extends React.Component {
     };
     const notes = () => {
       return (
-        <Notes />
+        <Notes
+          notes={this.state.notes} />
       );
     };
     const editWord = ({match}) => {
