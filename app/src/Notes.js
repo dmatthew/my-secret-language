@@ -7,7 +7,7 @@ class Notes extends React.Component {
       return (
         <span key={index}>
           <li className="divider category">{note.categoryTitle}</li>
-          <IndividualNotes notes={note.categoryNotes} />
+          <IndividualNotes category={note.categoryTitle} notes={note.categoryNotes} />
           <div>
             <Link to={"add-note/" + note.categoryTitle} className="button btn-sepia icon add"> Note</Link>
           </div>
@@ -29,7 +29,7 @@ class IndividualNotes extends React.Component {
     let notes = this.props.notes.map((note, index) => {
       return (
         <li key={index}>
-          <a>{note.title}</a>
+          <Link to={"/view-note/" + this.props.category + "/" + index}>{note.title}</Link>
         </li>
       );
     });

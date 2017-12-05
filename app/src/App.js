@@ -13,6 +13,7 @@ import Dictionary from './Dictionary';
 import FlashCards from './FlashCards';
 import Notes from './Notes';
 import AddNote from './AddNote';
+import ViewNote from './ViewNote';
 import EditWord from './EditWord';
 import Setup from './Setup';
 import './App.css';
@@ -183,6 +184,12 @@ class App extends React.Component {
     });
   }
 
+  getNote(category, index) {
+    let categoryGroup = this.state.notes.find(function(el) { return el.categoryTitle === category});
+    if (categoryGroup.categoryNotes[index]) return categoryGroup.categoryNotes[index];
+    return {categoryTitle: '', categoryNotes: []};
+  }
+
   render() {
     const addWord = () => {
       return (
@@ -234,6 +241,13 @@ class App extends React.Component {
           onEditNoteFormSubmit={(category, title, description) => this.handleAddNoteFormSubmit(category, title, description)} />
       );
     };
+    const viewNote = ({match}) => {
+      return (
+        <ViewNote
+          note={this.getNote(match.params.category, match.params.id)}
+          category={this.addToCategory(match.params.category)} />
+      );
+    };
 
     const history = createHistory();
     return (
@@ -252,6 +266,7 @@ class App extends React.Component {
             <Route path='/notes' render={notes} />
             <Route path='/edit-word/:word' render={editWord} />
             <Route path='/add-note/:category' render={addNote} />
+            <Route path='/view-note/:category/:id' render={viewNote} />
             <Redirect from='/add-note' to='/notes' />
           </Switch>
         </div>
