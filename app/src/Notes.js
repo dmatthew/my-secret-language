@@ -9,7 +9,7 @@ class Notes extends React.Component {
           <li className="divider category">{note.categoryTitle}</li>
           <IndividualNotes category={note.categoryTitle} notes={note.categoryNotes} />
           <div>
-            <Link to={"add-note/" + note.categoryTitle} className="button btn-sepia icon add"> Note</Link>
+            <Link to={"/add-note/" + note.categoryTitle} className="button btn-sepia icon add"> Note</Link>
           </div>
         </span>
       );

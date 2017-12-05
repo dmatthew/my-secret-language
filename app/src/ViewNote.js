@@ -10,6 +10,8 @@ class ViewNote extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      noteTitle: this.props.note.title,
+      noteDescription: this.props.note.description,
       isEditingNote: false
     };
   }
@@ -20,7 +22,21 @@ class ViewNote extends React.Component {
     });
   }
 
+  handleNoteTitleChange(event) {
+    this.setState({
+      noteTitle: event.target.value
+    });
+  }
+
+  handleNoteDescriptionChange(event) {
+    this.setState({
+      noteDescription: event.target.value
+    });
+  }
+
   handleDeleteNoteClick() {
+    // TODO: Delete the note
+    this.props.onDeleteNoteClick(this.props.category, this.props.index);
     this.context.router.history.goBack();
   }
 
@@ -37,9 +53,16 @@ class ViewNote extends React.Component {
           {this.state.isEditingNote === true &&
             <form>
               <label htmlFor="noteTitleEdit">Note Title</label>
-              <input id="note-title-edit" required autoFocus type="text" />
+              <input
+                id="note-title-edit" required autoFocus type="text"
+                value={this.state.noteTitle}
+                onChange={(e) => this.handleNoteTitleChange(e)} />
               <label htmlFor="noteDescriptionEdit">Note Description</label>
-              <input id="note-description-edit" required type="text" />
+              <textarea
+                id="note-description-edit" required type="text" rows="10"
+                value={this.state.noteDescription}
+                onChange={(e) => this.handleNoteDescriptionChange(e)}>
+              </textarea>
               <input type="submit" className="button btn-large" value="Save changes" />
             </form>
           }

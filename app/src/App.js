@@ -190,6 +190,15 @@ class App extends React.Component {
     return {categoryTitle: '', categoryNotes: []};
   }
 
+  deleteNote(category, index) {
+    let categoryGroupIndex = this.state.notes.map(function(el) { return el.categoryTitle; }).indexOf(category);
+    let notes = [...this.state.notes];
+    notes[categoryGroupIndex].categoryNotes.splice(index, 1);
+    this.setState({
+      notes: notes
+    });
+  }
+
   render() {
     const addWord = () => {
       return (
@@ -245,7 +254,9 @@ class App extends React.Component {
       return (
         <ViewNote
           note={this.getNote(match.params.category, match.params.id)}
-          category={this.addToCategory(match.params.category)} />
+          category={this.addToCategory(match.params.category)}
+          index={match.params.id}
+          onDeleteNoteClick={(category, index) => this.deleteNote(category, index)} />
       );
     };
 
