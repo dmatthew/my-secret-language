@@ -29,7 +29,7 @@ class AddNote extends React.Component {
 
   handleAddNoteFormSubmit(event) {
     event.preventDefault();
-    this.props.onEditNoteFormSubmit(this.props.category, this.state.noteTitle, this.state.noteDescription);
+    this.props.onAddNoteFormSubmit(this.props.category, this.state.noteTitle, this.state.noteDescription);
     this.context.router.history.goBack();
   }
 

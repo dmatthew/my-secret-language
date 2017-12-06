@@ -190,6 +190,18 @@ class App extends React.Component {
     return {categoryTitle: '', categoryNotes: []};
   }
 
+  editNote(category, index, noteTitle, noteDescription) {
+    let categoryGroupIndex = this.state.notes.map(function(el) { return el.categoryTitle; }).indexOf(category);
+    let notes = [...this.state.notes];
+    notes[categoryGroupIndex].categoryNotes[index] = {
+      title: noteTitle,
+      description: noteDescription
+    };
+    this.setState({
+      notes: notes
+    });
+  }
+
   deleteNote(category, index) {
     let categoryGroupIndex = this.state.notes.map(function(el) { return el.categoryTitle; }).indexOf(category);
     let notes = [...this.state.notes];
@@ -247,7 +259,7 @@ class App extends React.Component {
       return (
         <AddNote
           category={this.addToCategory(match.params.category)}
-          onEditNoteFormSubmit={(category, title, description) => this.handleAddNoteFormSubmit(category, title, description)} />
+          onAddNoteFormSubmit={(category, title, description) => this.handleAddNoteFormSubmit(category, title, description)} />
       );
     };
     const viewNote = ({match}) => {
@@ -256,7 +268,8 @@ class App extends React.Component {
           note={this.getNote(match.params.category, match.params.id)}
           category={this.addToCategory(match.params.category)}
           index={match.params.id}
-          onDeleteNoteClick={(category, index) => this.deleteNote(category, index)} />
+          onDeleteNoteClick={(category, index) => this.deleteNote(category, index)}
+          onEditNoteFormSubmit={(category, index, noteTitle, noteDescription) => this.editNote(category, index, noteTitle, noteDescription)} />
       );
     };
 

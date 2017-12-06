@@ -34,6 +34,14 @@ class ViewNote extends React.Component {
     });
   }
 
+  handleEditNoteFormSubmit(event) {
+    event.preventDefault();
+    this.setState({
+      isEditingNote: false
+    });
+    this.props.onEditNoteFormSubmit(this.props.category, this.props.index, this.state.noteTitle, this.state.noteDescription);
+  }
+
   handleDeleteNoteClick() {
     // TODO: Delete the note
     this.props.onDeleteNoteClick(this.props.category, this.props.index);
@@ -51,7 +59,7 @@ class ViewNote extends React.Component {
             </div>
           }
           {this.state.isEditingNote === true &&
-            <form>
+            <form onSubmit={(e) => this.handleEditNoteFormSubmit(e)}>
               <label htmlFor="noteTitleEdit">Note Title</label>
               <input
                 id="note-title-edit" required autoFocus type="text"
