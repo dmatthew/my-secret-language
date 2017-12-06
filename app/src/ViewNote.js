@@ -43,7 +43,6 @@ class ViewNote extends React.Component {
   }
 
   handleDeleteNoteClick() {
-    // TODO: Delete the note
     this.props.onDeleteNoteClick(this.props.category, this.props.index);
     this.context.router.history.goBack();
   }

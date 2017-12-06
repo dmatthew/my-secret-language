@@ -32,7 +32,6 @@ class App extends React.Component {
 
   componentDidMount() {
     let flashCardWord = this.getRandomValue(this.state.words);
-    flashCardWord = {mainWord: 'Test', secretWord: 'Sroto'};
     this.setState({flashCardWord: flashCardWord});
   }
 
