@@ -275,23 +275,25 @@ class App extends React.Component {
     const history = createHistory();
     return (
       <BrowserRouter>
-        <div className="app">
-          <header className="app-header">
-            <a className="backButton button" onClick={history.goBack}>Back</a>
+        <div id="app">
+          <header className="header">
+            <a className="back-button button" onClick={history.goBack}>Back</a>
             <h1 className="app-title">Mi Scrt Lngwij</h1>
           </header>
-          <Switch>
-            <Route path='/' exact component={Home} />
-            <Route path='/add-word' render={addWord} />
-            <Route path='/translate' render={translate} />
-            <Route path='/dictionary' render={dictionary} />
-            <Route path='/flash-cards' render={flashCards} />
-            <Route path='/notes' render={notes} />
-            <Route path='/edit-word/:word' render={editWord} />
-            <Route path='/add-note/:category' render={addNote} />
-            <Route path='/view-note/:category/:id' render={viewNote} />
-            <Redirect from='/add-note' to='/notes' />
-          </Switch>
+          <div id="content">
+            <Switch>
+              <Route path='/' exact component={Home} />
+              <Route path='/add-word' render={addWord} />
+              <Route path='/translate' render={translate} />
+              <Route path='/dictionary' render={dictionary} />
+              <Route path='/flash-cards' render={flashCards} />
+              <Route path='/notes' render={notes} />
+              <Route path='/edit-word/:word' render={editWord} />
+              <Route path='/add-note/:category' render={addNote} />
+              <Route path='/view-note/:category/:id' render={viewNote} />
+              <Redirect from='/add-note' to='/notes' />
+            </Switch>
+          </div>
         </div>
       </BrowserRouter>
     );

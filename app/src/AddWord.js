@@ -33,9 +33,9 @@ class AddWord extends React.Component {
   render() {
     return (
       <div>
-        <h2>Add a new Word</h2>
+        <h3>Add a new Word</h3>
         <form name="addWordForm" onSubmit={(e) => this.onAddWordFormSubmit(e)}>
-          <label htmlFor="main-text">English</label>
+          <label htmlFor="main-text">Main</label>
           <input
             name="mainText" id="main-text"
             onChange={(e) => this.onMainWordChange(e)}
