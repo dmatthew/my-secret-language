@@ -35,12 +35,12 @@ class AddWord extends React.Component {
       <div>
         <h3>Add a new Word</h3>
         <form name="addWordForm" onSubmit={(e) => this.onAddWordFormSubmit(e)}>
-          <label htmlFor="main-text">Main</label>
+          <label htmlFor="main-text">Main Word</label>
           <input
             name="mainText" id="main-text"
             onChange={(e) => this.onMainWordChange(e)}
             value={this.state.mainWord}
-            placeholder="English word here..." required autoFocus type="text" />
+            placeholder="Main word here..." required autoFocus type="text" />
           <label htmlFor="secret-text">Secret word</label>
           <input
             id="secret-text"

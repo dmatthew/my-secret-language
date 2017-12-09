@@ -23,6 +23,7 @@ a {
 }
 #content {
 	background: rgb(238, 188, 144) url(./images/background.jpg) center center fixed no-repeat;
+    background-size: cover;
     flex: 1;
     padding: 10px;
 }
@@ -79,7 +80,7 @@ label {
     line-height: 44px;
     padding: 0 6px 0 0;
 }
-label + input {
+label + input, label + textarea {
     width: 66%;
 }
 .left {
@@ -165,11 +166,10 @@ ul.list {
 .book-page {
 	background: url(./images/background-sepia.jpg) center center;
 	border: 10px double;
-	margin-top: 10px;
 }
 .book-page h1 {
 	text-align: center;
 }
-.book-page div {
+.book-page div, .book-page form {
 	padding: 10px;
 }
