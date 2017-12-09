@@ -57,7 +57,12 @@ class Translate extends React.Component {
     if (this.props.translatedWords) {
       translatedText = this.props.translatedWords.map((word, index) => {
         return (
-          <span key={index} onClick={word.hasClick ? (() => this.handleUntranslatedWordClick(word.word)) : undefined}>{word.word}</span>
+          <span
+            key={index}
+            onClick={word.hasClick ? (() => this.handleUntranslatedWordClick(word.word)) : undefined}
+            className={word.hasClick ? 'highlight' : ''}>
+            {word.word}
+          </span>
         );
       });
     }

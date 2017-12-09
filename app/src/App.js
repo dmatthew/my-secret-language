@@ -5,7 +5,7 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
-import createHistory from 'history/createBrowserHistory';
+import Header from './Header';
 import Home from './Home';
 import AddWord from './AddWord';
 import Translate from './Translate';
@@ -272,14 +272,10 @@ class App extends React.Component {
       );
     };
 
-    const history = createHistory();
     return (
       <BrowserRouter>
         <div id="app">
-          <header className="header">
-            <a className="back-button button" onClick={history.goBack}>Back</a>
-            <h1 className="app-title">Mi Scrt Lngwij</h1>
-          </header>
+          <Header title="Mi Scrt Lngwij" />
           <div id="content">
             <Switch>
               <Route path='/' exact component={Home} />

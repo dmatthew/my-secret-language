@@ -130,7 +130,7 @@ label + input, label + textarea {
 #translate span {
 	font-size: 18px;
 }
-span.notExists {
+span.highlight {
 	background-color: #f00;
 	border-radius: 4px;
 	color: #fff;
