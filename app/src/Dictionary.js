@@ -40,7 +40,7 @@ class Dictionary extends React.Component {
                 <li className="divider">{word.mainWord.substr(0, 1).toUpperCase()}</li>
               }
               <li>
-                <Link to={"/edit-word/" + word.mainWord} className="button btn-large">
+                <Link to={"/edit-word/" + word.mainWord}>
                   {word.mainWord}
                   <span className="right">{word.secretWord}</span>
                 </Link>
@@ -56,7 +56,7 @@ class Dictionary extends React.Component {
       <div>
         <input value={this.state.searchTerm} onChange={(e) => this.handleSearchUpdate(e)}
           type="search" placeholder="Enter search term..." />
-        <ul>
+        <ul className="list">
           {words}
         </ul>
       </div>

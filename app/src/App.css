@@ -26,6 +26,7 @@ a {
     background-size: cover;
     flex: 1;
     padding: 10px;
+    overflow: scroll;
 }
 h3 {
     margin-top: 0;
@@ -46,6 +47,18 @@ header h1 {
 }
 header .back-button {
     position: absolute;
+    left: 15px;
+    margin: 0;
+    padding: 11px 12px;
+    background: none;
+}
+header .back-button::before {
+    content: '\f053';
+    font-family: FontAwesome;
+    left: -10px;
+    position: absolute;
+    top: 14px;
+    font-size: 22px;
 }
 select, textarea, input, .input-group {
 	background: beige;
@@ -55,8 +68,8 @@ input {
     margin-bottom: 10px;
     width: 100%;
 }
-input:focus {
-	border: 2px solid darkolivegreen;
+input:focus, textarea:focus {
+	border: 1px solid darkolivegreen;
 	box-shadow: 0px 2px 5px #333;
 	outline: none;
 }
@@ -117,7 +130,7 @@ label + input, label + textarea {
 #translate span {
 	font-size: 18px;
 }
- span.notExists {
+span.notExists {
 	background-color: #f00;
 	border-radius: 4px;
 	color: #fff;
@@ -131,6 +144,7 @@ ul.list {
 }
 .list li {
     list-style: none;
+    background: url(./images/background.jpg) center center;
 }
 .list-item {
     border-bottom: 1px solid darkolivegreen;
@@ -147,6 +161,7 @@ ul.list {
 	color: #fff;
     position: relative;
     box-shadow: inset 0 1px 1px rgba(255,255,255,.4);
+    padding: 0 10px;
 }
 .list .divider.category {
 	padding-right: 20px;
@@ -162,6 +177,7 @@ ul.list {
 	margin: 5% 0%;
 	padding: 20% 0px;
 	text-align: center;
+    overflow-wrap: break-word;
 }
 .book-page {
 	background: url(./images/background-sepia.jpg) center center;
@@ -172,4 +188,9 @@ ul.list {
 }
 .book-page div, .book-page form {
 	padding: 10px;
+}
+.icon.add::before {
+    content: '\f055';
+    font-family: FontAwesome;
+    color: darkolivegreen;
 }
