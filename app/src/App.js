@@ -21,12 +21,15 @@ import './App.css';
 class App extends React.Component {
   constructor() {
     super();
+    // Initialize words and notes from local storage.
+    if ( ! localStorage.getItem('words')) localStorage.setItem('words', JSON.stringify([]));
+    if ( ! localStorage.getItem('notes')) localStorage.setItem('notes', JSON.stringify(Setup.DEFAULT_NOTES));
     this.state = {
-      words: [],
+      words: JSON.parse(localStorage.getItem('words')),
       flashCardWord: '',
       translateTextarea: '',
       translatedWords: [],
-      notes: Setup.DEFAULT_NOTES
+      notes: JSON.parse(localStorage.getItem('notes'))
     };
   }
 
@@ -44,6 +47,7 @@ class App extends React.Component {
     this.setState({
       words: words
     });
+    localStorage.setItem('words', JSON.stringify(words));
   }
 
   handleTranslateTextareaChange(event) {
@@ -120,6 +124,7 @@ class App extends React.Component {
     this.setState({
       words: words
     });
+    localStorage.setItem('words', JSON.stringify(words));
   }
 
   /**
@@ -156,6 +161,7 @@ class App extends React.Component {
     this.setState({
       words: words
     });
+    localStorage.setItem('words', JSON.stringify(words));
   }
 
   deleteWord(mainWord) {
@@ -165,6 +171,7 @@ class App extends React.Component {
     this.setState({
       words: words
     });
+    localStorage.setItem('words', JSON.stringify(words));
   }
 
   addToCategory(category) {
@@ -181,6 +188,7 @@ class App extends React.Component {
     this.setState({
       notes: notes
     });
+    localStorage.setItem('notes', JSON.stringify(notes));
   }
 
   getNote(category, index) {
@@ -199,6 +207,7 @@ class App extends React.Component {
     this.setState({
       notes: notes
     });
+    localStorage.setItem('notes', JSON.stringify(notes));
   }
 
   deleteNote(category, index) {
@@ -208,6 +217,7 @@ class App extends React.Component {
     this.setState({
       notes: notes
     });
+    localStorage.setItem('notes', JSON.stringify(notes));
   }
 
   render() {
