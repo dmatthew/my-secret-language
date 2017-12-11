@@ -36,4 +36,4 @@ jobs:
           working_directory: app
 
       - run: ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
-      - run: rsync -az ~/repo/build/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_DIRECTORY --delete
+      - run: rsync -az ~/repo/app/build/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_DIRECTORY --delete
