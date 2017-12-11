@@ -51,12 +51,16 @@ class App extends React.Component {
   }
 
   handleTranslateTextareaChange(event) {
+    let mainText = event.target.value;
     this.setState({
-      translateTextarea: event.target.value,
+      translateTextarea: mainText,
       translatedWords: []
     });
 
-    let mainText = event.target.value;
+    this.updateTranslatedWords(mainText);
+  }
+
+  updateTranslatedWords(mainText) {
     let translatedWords = [];
     mainText = mainText.split(" ");
 
@@ -121,10 +125,10 @@ class App extends React.Component {
       mainWord: word.main,
       secretWord: word.secret
     });
+    localStorage.setItem('words', JSON.stringify(words));
     this.setState({
       words: words
-    });
-    localStorage.setItem('words', JSON.stringify(words));
+    }, () => this.updateTranslatedWords(this.state.translateTextarea));
   }
 
   /**
