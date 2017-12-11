@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: node:8.9
+      - image: circleci/node:8.9
 
     working_directory: ~/repo
 
@@ -29,7 +29,8 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "app/package.json" }}
 
-      # run tests!
+      # Build
+      - run: sudo apt install rsync
       - run:
           command: yarn build
           working_directory: app
