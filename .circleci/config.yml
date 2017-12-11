@@ -8,7 +8,7 @@ jobs:
 
     branches:
       only:
-        - master
+        - production
 
     steps:
       - checkout
