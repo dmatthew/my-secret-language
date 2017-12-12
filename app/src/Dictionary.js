@@ -39,7 +39,7 @@ class Dictionary extends React.Component {
           return (
             <span key={index}>
               {isNewLetter &&
-                <li className="divider">{word.mainWord.substr(0, 1).toUpperCase()}</li>
+                <li className="divider">{currentLetter}</li>
               }
               <li>
                 <Link to={"/edit-word/" + word.mainWord}>
