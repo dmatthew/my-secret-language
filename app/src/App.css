@@ -49,15 +49,16 @@ header .back-button {
     position: absolute;
     left: 15px;
     margin: 0;
-    padding: 11px 12px;
+    padding: 12px;
     background: none;
+    border: none;
 }
 header .back-button::before {
     content: '\f053';
     font-family: FontAwesome;
     left: -10px;
     position: absolute;
-    top: 14px;
+    top: 15px;
     font-size: 22px;
 }
 select, textarea, input, .input-group {
