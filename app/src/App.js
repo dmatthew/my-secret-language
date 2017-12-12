@@ -78,7 +78,7 @@ class App extends React.Component {
 
   updateTranslatedWords(mainText) {
     let translatedWords = [];
-    mainText = mainText.split(" ");
+    mainText = mainText.trim().split(" ");
 
     // Loop through the english textarea text
     for (let i = 0; i < mainText.length; i++) {
