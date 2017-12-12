@@ -34,8 +34,8 @@ class Dictionary extends React.Component {
       words = words.map((word, index) => {
         let found = word.mainWord.indexOf(searchTerm) !== -1 || word.secretWord.indexOf(searchTerm) !== -1;
         if (searchTerm === '' || found) {
-          let isNewLetter = word.mainWord.substr(0, 1) !== currentLetter;
-          currentLetter = word.mainWord.substr(0, 1);
+          let isNewLetter = word.mainWord.substr(0, 1).toUpperCase() !== currentLetter;
+          currentLetter = word.mainWord.substr(0, 1).toUpperCase();
           return (
             <span key={index}>
               {isNewLetter &&
