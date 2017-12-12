@@ -13,7 +13,7 @@ Built with [React](https://reactjs.org/) v16. The My Secret Language app uses th
 * Study your own secret language by using the app's flashcards feature.
 * Can be used offline when you don't have an internet connection.
 
-![App Home](docs/screenshots/app-home.png)
+![App Home](docs/screenshots/app-home.jpg)
 
 ### License
 [MIT](/LICENSE)
