@@ -5,7 +5,6 @@ class Dictionary extends React.Component {
   constructor() {
     super();
     this.state = {
-      currentLetter: '',
       searchTerm: ''
     };
   }
@@ -29,14 +28,17 @@ class Dictionary extends React.Component {
     let words = '';
     if (this.props.words) {
       let searchTerm = this.state.searchTerm;
+      let currentLetter = '';
       words = this.props.words.slice(0);
       words = this.sortByMainWord(words);
       words = words.map((word, index) => {
         let found = word.mainWord.indexOf(searchTerm) !== -1 || word.secretWord.indexOf(searchTerm) !== -1;
         if (searchTerm === '' || found) {
+          let isNewLetter = word.mainWord.substr(0, 1) !== currentLetter;
+          currentLetter = word.mainWord.substr(0, 1);
           return (
             <span key={index}>
-              {word.mainWord.substr(0, 1) !== this.state.currentLetter &&
+              {isNewLetter &&
                 <li className="divider">{word.mainWord.substr(0, 1).toUpperCase()}</li>
               }
               <li>
