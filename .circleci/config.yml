@@ -23,6 +23,9 @@ jobs:
       - run:
           command: yarn install
           working_directory: app
+      - run:
+          command: yarn test
+          working_directory: app
 
       - save_cache:
           paths:

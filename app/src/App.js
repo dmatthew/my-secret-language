@@ -283,7 +283,7 @@ class App extends React.Component {
           onEditWordFormSubmit={(word) => this.handleEditWordSubmit(word)}
           onDeleteWordClick={(word) => this.deleteWord(word)} />
       );
-    }
+    };
     const addNote = ({match}) => {
       return (
         <AddNote
