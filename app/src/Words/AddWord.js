@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 class AddWord extends React.Component {
   constructor(props) {
@@ -54,4 +55,10 @@ class AddWord extends React.Component {
   }
 }
 
-export default AddWord;
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onAddWordFormSubmit: () => console.log('AddWord mapDispatchToProps onAddWordFormSubmit')
+  }
+}
+
+export default connect(mapDispatchToProps)(AddWord);

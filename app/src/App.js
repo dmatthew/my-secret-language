@@ -7,51 +7,51 @@ import {
 } from "react-router-dom";
 import Header from './Header';
 import Home from './Home';
-import AddWord from './AddWord';
-import Translate from './Translate';
-import Dictionary from './Dictionary';
-import FlashCards from './FlashCards';
-import Notes from './Notes';
-import AddNote from './AddNote';
+import AddWord from './Words/AddWord';
+import Translate from './Words/Translate';
+import Dictionary from './Words/Dictionary';
+import FlashCards from './Words/FlashCards';
+import Notes from './Notes/Notes';
+import AddNote from './Notes/AddNote';
 import ViewNote from './ViewNote';
 import EditWord from './EditWord';
-import Setup from './Setup';
+// import Setup from './Setup';
 import './App.css';
 
 class App extends React.Component {
-  constructor() {
-    super();
-    // Initialize words and notes from local storage.
-    if ( ! localStorage.getItem('words')) localStorage.setItem('words', JSON.stringify([]));
-    if ( ! localStorage.getItem('notes')) localStorage.setItem('notes', JSON.stringify(Setup.DEFAULT_NOTES));
-    let words = JSON.parse(localStorage.getItem('words'));
-    // Old "word" structure was {english: '', secret: ''}. Now its {mainWord: '', secretWord: ''}
-    if (localStorage.getItem('wordObjectKeysVersion') !== '2') {
-      localStorage.setItem('wordObjectKeysVersion', '2');
-      for (let i = 0; i < words.length; i++) {
-        if (words[i].english) {
-          words[i].mainWord = words[i].english;
-          delete words[i].english;
-        }
-        if (words[i].secret) {
-          words[i].secretWord = words[i].secret;
-          delete words[i].secret;
-        }
-      }
-      localStorage.setItem('words', JSON.stringify(words));
-    }
-    this.state = {
-      words: words,
-      flashCardWord: '',
-      translateTextarea: '',
-      translatedWords: [],
-      notes: JSON.parse(localStorage.getItem('notes'))
-    };
-  }
+  // constructor() {
+  //   super();
+    // // Initialize words and notes from local storage.
+    // if ( ! localStorage.getItem('words')) localStorage.setItem('words', JSON.stringify([]));
+    // if ( ! localStorage.getItem('notes')) localStorage.setItem('notes', JSON.stringify(Setup.DEFAULT_NOTES));
+    // let words = JSON.parse(localStorage.getItem('words'));
+    // // Old "word" structure was {english: '', secret: ''}. Now its {mainWord: '', secretWord: ''}
+    // if (localStorage.getItem('wordObjectKeysVersion') !== '2') {
+    //   localStorage.setItem('wordObjectKeysVersion', '2');
+    //   for (let i = 0; i < words.length; i++) {
+    //     if (words[i].english) {
+    //       words[i].mainWord = words[i].english;
+    //       delete words[i].english;
+    //     }
+    //     if (words[i].secret) {
+    //       words[i].secretWord = words[i].secret;
+    //       delete words[i].secret;
+    //     }
+    //   }
+    //   localStorage.setItem('words', JSON.stringify(words));
+    // }
+    // this.state = {
+    //   words: words,
+    //   flashCardWord: '',
+    //   translateTextarea: '',
+    //   translatedWords: [],
+    //   notes: JSON.parse(localStorage.getItem('notes'))
+    // };
+  // }
 
   componentDidMount() {
-    let flashCardWord = this.getRandomValue(this.state.words);
-    this.setState({flashCardWord: flashCardWord});
+    // let flashCardWord = this.getRandomValue(this.state.words);
+    // this.setState({flashCardWord: flashCardWord});
   }
 
   handleAddWordFormSubmit(mainWord, secretWord) {
@@ -194,10 +194,6 @@ class App extends React.Component {
     localStorage.setItem('words', JSON.stringify(words));
   }
 
-  addToCategory(category) {
-    return category;
-  }
-
   handleAddNoteFormSubmit(category, title, description) {
     let notes = [...this.state.notes];
     let index = notes.map(function(el) { return el.categoryTitle; }).indexOf(category);
@@ -241,41 +237,41 @@ class App extends React.Component {
   }
 
   render() {
-    const addWord = () => {
-      return (
-        <AddWord
-          onAddWordFormSubmit={(mainWord, secretWord) => this.handleAddWordFormSubmit(mainWord, secretWord)} />
-      )
-    };
-    const translate = () => {
-      return (
-        <Translate
-          translateText={this.state.translateTextarea}
-          onTextareaChange={(e) => this.handleTranslateTextareaChange(e)}
-          translatedWords={this.state.translatedWords}
-          onClearTranslationClick={() => this.handleClearTranslationClick()}
-          onNewWordFormSubmit={(e) => this.handleTranslateNewWordFormSubmit(e)} />
-      )
-    };
-    const dictionary = () => {
-      return (
-        <Dictionary
-          words={this.state.words} />
-      );
-    };
-    const flashCards = () => {
-      return (
-        <FlashCards
-          word={this.state.flashCardWord}
-          onNextWordClick={(e) => this.flashCardNextWord(e)} />
-      );
-    };
-    const notes = () => {
-      return (
-        <Notes
-          notes={this.state.notes} />
-      );
-    };
+    // const addWord = () => {
+    //   return (
+    //     <AddWord
+    //       onAddWordFormSubmit={(mainWord, secretWord) => this.handleAddWordFormSubmit(mainWord, secretWord)} />
+    //   )
+    // };
+    // const translate = () => {
+    //   return (
+    //     <Translate
+    //       translateText={this.state.translateTextarea}
+    //       onTextareaChange={(e) => this.handleTranslateTextareaChange(e)}
+    //       translatedWords={this.state.translatedWords}
+    //       onClearTranslationClick={() => this.handleClearTranslationClick()}
+    //       onNewWordFormSubmit={(e) => this.handleTranslateNewWordFormSubmit(e)} />
+    //   )
+    // };
+    // const dictionary = () => {
+    //   return (
+    //     <Dictionary
+    //       words={this.state.words} />
+    //   );
+    // };
+    // const flashCards = () => {
+    //   return (
+    //     <FlashCards
+    //       word={this.state.flashCardWord}
+    //       onNextWordClick={(e) => this.flashCardNextWord(e)} />
+    //   );
+    // };
+    // const notes = () => {
+    //   return (
+    //     <Notes
+    //       notes={this.state.notes} />
+    //   );
+    // };
     const editWord = ({match}) => {
       return (
         <EditWord
@@ -284,18 +280,18 @@ class App extends React.Component {
           onDeleteWordClick={(word) => this.deleteWord(word)} />
       );
     };
-    const addNote = ({match}) => {
-      return (
-        <AddNote
-          category={this.addToCategory(match.params.category)}
-          onAddNoteFormSubmit={(category, title, description) => this.handleAddNoteFormSubmit(category, title, description)} />
-      );
-    };
+    // const addNote = ({match}) => {
+    //   return (
+    //     <AddNote
+    //       category={match.params.category}
+    //       onAddNoteFormSubmit={(category, title, description) => this.handleAddNoteFormSubmit(category, title, description)} />
+    //   );
+    // };
     const viewNote = ({match}) => {
       return (
         <ViewNote
           note={this.getNote(match.params.category, match.params.id)}
-          category={this.addToCategory(match.params.category)}
+          category={match.params.category}
           index={match.params.id}
           onDeleteNoteClick={(category, index) => this.deleteNote(category, index)}
           onEditNoteFormSubmit={(category, index, noteTitle, noteDescription) => this.editNote(category, index, noteTitle, noteDescription)} />
@@ -309,13 +305,13 @@ class App extends React.Component {
           <div id="content">
             <Switch>
               <Route path='/' exact component={Home} />
-              <Route path='/add-word' render={addWord} />
-              <Route path='/translate' render={translate} />
-              <Route path='/dictionary' render={dictionary} />
-              <Route path='/flash-cards' render={flashCards} />
-              <Route path='/notes' render={notes} />
+              <Route path='/add-word' component={AddWord} />
+              <Route path='/translate' component={Translate} />
+              <Route path='/dictionary' component={Dictionary} />
+              <Route path='/flash-cards' component={FlashCards} />
+              <Route path='/notes' component={Notes} />
               <Route path='/edit-word/:word' render={editWord} />
-              <Route path='/add-note/:category' render={addNote} />
+              <Route path='/add-note/:category' component={AddNote} />
               <Route path='/view-note/:category/:id' render={viewNote} />
               <Redirect from='/add-note' to='/notes' />
             </Switch>

@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 class Translate extends React.Component {
   constructor(props) {
@@ -93,4 +94,19 @@ class Translate extends React.Component {
   }
 }
 
-export default Translate;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    translateText: state.translateTextArea,
+    translatedWords: state.translatedWords
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {      
+    onTextareaChange: () => console.log('Translate onTextareaChange'),
+    onClearTranslationClick: () => console.log('Translate onClearTranslationClick'),
+    onNewWordFormSubmit: () => console.log('Translate onNewWordFormSubmit')
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Translate);
