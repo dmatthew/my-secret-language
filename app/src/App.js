@@ -49,23 +49,6 @@ class App extends React.Component {
     // };
   // }
 
-  componentDidMount() {
-    // let flashCardWord = this.getRandomValue(this.state.words);
-    // this.setState({flashCardWord: flashCardWord});
-  }
-
-  handleAddWordFormSubmit(mainWord, secretWord) {
-    let words = [...this.state.words];
-    words.push({
-      mainWord: mainWord,
-      secretWord: secretWord
-    });
-    this.setState({
-      words: words
-    });
-    localStorage.setItem('words', JSON.stringify(words));
-  }
-
   handleTranslateTextareaChange(event) {
     let mainText = event.target.value;
     this.setState({
@@ -147,26 +130,6 @@ class App extends React.Component {
     }, () => this.updateTranslatedWords(this.state.translateTextarea));
   }
 
-  /**
-  * Get a random word from the dictionary of words.
-  * @returns {String}
-  */
-  getRandomValue(arr) {
-      var randNum = Math.floor(Math.random() * arr.length);
-      if (arr[randNum]) {
-          return arr[randNum];
-      }
-      else {
-          return "";
-      }
-  }
-
-  flashCardNextWord(event) {
-    this.setState({
-      flashCardWord: this.getRandomValue(this.state.words)
-    });
-  }
-
   wordToEdit(pathWord) {
     return this.state.words.find((element) => element.mainWord === pathWord);
   }
@@ -237,12 +200,6 @@ class App extends React.Component {
   }
 
   render() {
-    // const addWord = () => {
-    //   return (
-    //     <AddWord
-    //       onAddWordFormSubmit={(mainWord, secretWord) => this.handleAddWordFormSubmit(mainWord, secretWord)} />
-    //   )
-    // };
     // const translate = () => {
     //   return (
     //     <Translate
@@ -252,19 +209,6 @@ class App extends React.Component {
     //       onClearTranslationClick={() => this.handleClearTranslationClick()}
     //       onNewWordFormSubmit={(e) => this.handleTranslateNewWordFormSubmit(e)} />
     //   )
-    // };
-    // const dictionary = () => {
-    //   return (
-    //     <Dictionary
-    //       words={this.state.words} />
-    //   );
-    // };
-    // const flashCards = () => {
-    //   return (
-    //     <FlashCards
-    //       word={this.state.flashCardWord}
-    //       onNextWordClick={(e) => this.flashCardNextWord(e)} />
-    //   );
     // };
     // const notes = () => {
     //   return (

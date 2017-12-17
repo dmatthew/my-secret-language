@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './reducers'
 import './index.css';
 import App from './App';
@@ -31,7 +31,27 @@ const persistedState = {
   words: JSON.parse(localStorage.getItem('words')),
   notes: JSON.parse(localStorage.getItem('notes'))
 }
-const store = createStore(rootReducer, persistedState);
+
+/*
+ * Middleware example:
+ * We can check action.type and if it is ADD/EDIT?DELETE WORD then get the 'word'
+ * state from getState() and save it to localStorage.
+ */
+function logger({ getState }) {
+  return next => action => {
+    console.log('will dispatch', action)
+
+    // Call the next dispatch method in the middleware chain.
+    let returnValue = next(action)
+
+    console.log('state after dispatch', getState())
+
+    // This will likely be the action itself, unless
+    // a middleware further in chain changed it.
+    return returnValue
+  }
+}
+const store = createStore(rootReducer, persistedState, applyMiddleware(logger));
 
 ReactDOM.render(
   <Provider store={store}>

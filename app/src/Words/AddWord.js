@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {addWord} from './actions'
 
 class AddWord extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class AddWord extends React.Component {
       secretWord: ''
     })
     this.props.onAddWordFormSubmit(this.state.mainWord, this.state.secretWord);
+    console.log("localStorage.setItem('words', JSON.stringify(words));");
   }
 
   render() {
@@ -57,8 +59,8 @@ class AddWord extends React.Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onAddWordFormSubmit: () => console.log('AddWord mapDispatchToProps onAddWordFormSubmit')
+    onAddWordFormSubmit: (mainWord, secretWord) => dispatch(addWord(mainWord, secretWord))
   }
 }
 
-export default connect(mapDispatchToProps)(AddWord);
+export default connect(null, mapDispatchToProps)(AddWord);
