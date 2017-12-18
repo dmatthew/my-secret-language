@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
-// eslint-disable-next-line
 import { addNote } from './actions'
 
 class AddNote extends React.Component {
@@ -64,7 +63,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onAddNoteFormSubmit: () => console.log('AddNote mapDispatchToProps onAddNoteFormSubmit')
+    onAddNoteFormSubmit: (category, title, description) => dispatch(addNote(category, title, description))
   }
 }
 

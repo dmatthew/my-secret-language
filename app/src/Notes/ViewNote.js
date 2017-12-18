@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {editNote, deleteNote} from './actions';
 
 class ViewNote extends React.Component {
   // NOTE: This is needed to access this.context.router.history so we can go back.
@@ -81,4 +83,25 @@ class ViewNote extends React.Component {
   }
 }
 
-export default ViewNote;
+const mapStateToProps = (state, ownProps) => {
+  let category = ownProps.match.params.category;
+  let index = ownProps.match.params.id;
+  let categoryGroup = state.notes.find(function(el) { return el.categoryTitle === category});
+  let note = (categoryGroup.categoryNotes[index])
+    ? categoryGroup.categoryNotes[index]
+    : {categoryTitle: '', categoryNotes: []};
+  return {
+    note,
+    category,
+    index
+  };
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onDeleteNoteClick: (category, index) => dispatch(deleteNote(category, index)),
+    onEditNoteFormSubmit: (category, index, title, description) => dispatch(editNote(category, index, title, description))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewNote);

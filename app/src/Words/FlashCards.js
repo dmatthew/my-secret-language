@@ -6,7 +6,7 @@ class FlashCards extends React.Component {
     super(props);
     this.state = {
       mainIsVisible: true,
-      flashCardWord: this.getNextFlashCard(props.words)
+      flashCardWord: this.getNextFlashCard()
     };
   }
 

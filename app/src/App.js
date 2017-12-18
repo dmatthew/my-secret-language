@@ -13,7 +13,7 @@ import Dictionary from './Words/Dictionary';
 import FlashCards from './Words/FlashCards';
 import Notes from './Notes/Notes';
 import AddNote from './Notes/AddNote';
-import ViewNote from './ViewNote';
+import ViewNote from './Notes/ViewNote';
 import EditWord from './Words/EditWord';
 // import Setup from './Setup';
 import './App.css';
@@ -49,67 +49,7 @@ class App extends React.Component {
     // };
   // }
 
-  handleAddNoteFormSubmit(category, title, description) {
-    let notes = [...this.state.notes];
-    let index = notes.map(function(el) { return el.categoryTitle; }).indexOf(category);
-    notes[index].categoryNotes.push({
-      title: title,
-      description: description
-    });
-    this.setState({
-      notes: notes
-    });
-    localStorage.setItem('notes', JSON.stringify(notes));
-  }
-
-  getNote(category, index) {
-    let categoryGroup = this.state.notes.find(function(el) { return el.categoryTitle === category});
-    if (categoryGroup.categoryNotes[index]) return categoryGroup.categoryNotes[index];
-    return {categoryTitle: '', categoryNotes: []};
-  }
-
-  editNote(category, index, noteTitle, noteDescription) {
-    let categoryGroupIndex = this.state.notes.map(function(el) { return el.categoryTitle; }).indexOf(category);
-    let notes = [...this.state.notes];
-    notes[categoryGroupIndex].categoryNotes[index] = {
-      title: noteTitle,
-      description: noteDescription
-    };
-    this.setState({
-      notes: notes
-    });
-    localStorage.setItem('notes', JSON.stringify(notes));
-  }
-
-  deleteNote(category, index) {
-    let categoryGroupIndex = this.state.notes.map(function(el) { return el.categoryTitle; }).indexOf(category);
-    let notes = [...this.state.notes];
-    notes[categoryGroupIndex].categoryNotes.splice(index, 1);
-    this.setState({
-      notes: notes
-    });
-    localStorage.setItem('notes', JSON.stringify(notes));
-  }
-
   render() {
-    // const addNote = ({match}) => {
-    //   return (
-    //     <AddNote
-    //       category={match.params.category}
-    //       onAddNoteFormSubmit={(category, title, description) => this.handleAddNoteFormSubmit(category, title, description)} />
-    //   );
-    // };
-    const viewNote = ({match}) => {
-      return (
-        <ViewNote
-          note={this.getNote(match.params.category, match.params.id)}
-          category={match.params.category}
-          index={match.params.id}
-          onDeleteNoteClick={(category, index) => this.deleteNote(category, index)}
-          onEditNoteFormSubmit={(category, index, noteTitle, noteDescription) => this.editNote(category, index, noteTitle, noteDescription)} />
-      );
-    };
-
     return (
       <BrowserRouter>
         <div id="app">
@@ -124,7 +64,7 @@ class App extends React.Component {
               <Route path='/notes' component={Notes} />
               <Route path='/edit-word/:word' component={EditWord} />
               <Route path='/add-note/:category' component={AddNote} />
-              <Route path='/view-note/:category/:id' render={viewNote} />
+              <Route path='/view-note/:category/:id' component={ViewNote} />
               <Redirect from='/add-note' to='/notes' />
             </Switch>
           </div>
