@@ -14,7 +14,7 @@ import FlashCards from './Words/FlashCards';
 import Notes from './Notes/Notes';
 import AddNote from './Notes/AddNote';
 import ViewNote from './ViewNote';
-import EditWord from './EditWord';
+import EditWord from './Words/EditWord';
 // import Setup from './Setup';
 import './App.css';
 
@@ -130,9 +130,9 @@ class App extends React.Component {
     }, () => this.updateTranslatedWords(this.state.translateTextarea));
   }
 
-  wordToEdit(pathWord) {
-    return this.state.words.find((element) => element.mainWord === pathWord);
-  }
+  // wordToEdit(pathWord) {
+  //   return this.state.words.find((element) => element.mainWord === pathWord);
+  // }
 
   handleEditWordSubmit(word) {
     let words = [...this.state.words];
@@ -147,15 +147,15 @@ class App extends React.Component {
     localStorage.setItem('words', JSON.stringify(words));
   }
 
-  deleteWord(mainWord) {
-    let words = [...this.state.words];
-    let index = words.map(function(el) { return el.mainWord; }).indexOf(mainWord);
-    words.splice(index, 1);
-    this.setState({
-      words: words
-    });
-    localStorage.setItem('words', JSON.stringify(words));
-  }
+  // deleteWord(mainWord) {
+  //   let words = [...this.state.words];
+  //   let index = words.map(function(el) { return el.mainWord; }).indexOf(mainWord);
+  //   words.splice(index, 1);
+  //   this.setState({
+  //     words: words
+  //   });
+  //   localStorage.setItem('words', JSON.stringify(words));
+  // }
 
   handleAddNoteFormSubmit(category, title, description) {
     let notes = [...this.state.notes];
@@ -210,20 +210,14 @@ class App extends React.Component {
     //       onNewWordFormSubmit={(e) => this.handleTranslateNewWordFormSubmit(e)} />
     //   )
     // };
-    // const notes = () => {
+    // const editWord = ({match}) => {
     //   return (
-    //     <Notes
-    //       notes={this.state.notes} />
+    //     <EditWord
+    //       word={this.wordToEdit(match.params.word)}
+    //       onEditWordFormSubmit={(word) => this.handleEditWordSubmit(word)}
+    //       onDeleteWordClick={(word) => this.deleteWord(word)} />
     //   );
     // };
-    const editWord = ({match}) => {
-      return (
-        <EditWord
-          word={this.wordToEdit(match.params.word)}
-          onEditWordFormSubmit={(word) => this.handleEditWordSubmit(word)}
-          onDeleteWordClick={(word) => this.deleteWord(word)} />
-      );
-    };
     // const addNote = ({match}) => {
     //   return (
     //     <AddNote
@@ -254,7 +248,7 @@ class App extends React.Component {
               <Route path='/dictionary' component={Dictionary} />
               <Route path='/flash-cards' component={FlashCards} />
               <Route path='/notes' component={Notes} />
-              <Route path='/edit-word/:word' render={editWord} />
+              <Route path='/edit-word/:word' component={EditWord} />
               <Route path='/add-note/:category' component={AddNote} />
               <Route path='/view-note/:category/:id' render={viewNote} />
               <Redirect from='/add-note' to='/notes' />

@@ -11,7 +11,10 @@ const words = (state = [], action) => {
     case 'EDIT_WORD':
       return state;
     case 'DELETE_WORD':
-      return state;
+      let words = [...state];
+      let index = words.map(function(el) { return el.mainWord; }).indexOf(action.mainWord);
+      words.splice(index, 1);
+      return words;
     default:
       return state;
   }

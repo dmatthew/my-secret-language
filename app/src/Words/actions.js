@@ -14,3 +14,11 @@ export const editWord = (index, mainWord, secretWord) => {
     index
   }
 }
+
+// This really should use an id field!
+export const deleteWord = (mainWord) => {
+  return {
+    type: 'DELETE_WORD',
+    mainWord
+  }
+}

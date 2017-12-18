@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {deleteWord} from './actions';
 
 class EditWord extends React.Component {
   // NOTE: This is needed to access this.context.router.history so we can go back.
@@ -54,4 +56,18 @@ class EditWord extends React.Component {
   }
 }
 
-export default EditWord;
+const mapStateToProps = (state, ownProps) => {
+  let word = state.words.find((element) => element.mainWord === ownProps.match.params.word);
+  return {
+    word
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onEditWordFormSubmit: () => console.log('EditWord: form submit'),
+    onDeleteWordClick: (mainWord) => dispatch(deleteWord(mainWord))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditWord);
