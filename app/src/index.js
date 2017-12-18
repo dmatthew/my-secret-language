@@ -7,6 +7,7 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import Setup from './Setup';
+import {saveToLocalStorage} from './saveToLocalStorage';
 
 // Initialize words and notes from local storage.
 if ( ! localStorage.getItem('words')) localStorage.setItem('words', JSON.stringify([]));
@@ -32,26 +33,7 @@ const persistedState = {
   notes: JSON.parse(localStorage.getItem('notes'))
 }
 
-/*
- * Middleware example:
- * We can check action.type and if it is ADD/EDIT?DELETE WORD then get the 'word'
- * state from getState() and save it to localStorage.
- */
-function logger({ getState }) {
-  return next => action => {
-    console.log('will dispatch', action)
-
-    // Call the next dispatch method in the middleware chain.
-    let returnValue = next(action)
-
-    console.log('state after dispatch', getState())
-
-    // This will likely be the action itself, unless
-    // a middleware further in chain changed it.
-    return returnValue
-  }
-}
-const store = createStore(rootReducer, persistedState, applyMiddleware(logger));
+const store = createStore(rootReducer, persistedState, applyMiddleware(saveToLocalStorage));
 
 ReactDOM.render(
   <Provider store={store}>
