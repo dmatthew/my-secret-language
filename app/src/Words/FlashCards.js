@@ -66,10 +66,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onNextWordClick: () => console.log('FlashCards mapDispatchToProps onNextWordClick')
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FlashCards);
+export default connect(mapStateToProps)(FlashCards);

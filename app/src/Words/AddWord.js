@@ -30,7 +30,6 @@ class AddWord extends React.Component {
       secretWord: ''
     })
     this.props.onAddWordFormSubmit(this.state.mainWord, this.state.secretWord);
-    console.log("localStorage.setItem('words', JSON.stringify(words));");
   }
 
   render() {
