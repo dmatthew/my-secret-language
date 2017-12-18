@@ -49,87 +49,6 @@ class App extends React.Component {
     // };
   // }
 
-  handleTranslateTextareaChange(event) {
-    let mainText = event.target.value;
-    this.setState({
-      translateTextarea: mainText,
-      translatedWords: []
-    });
-
-    this.updateTranslatedWords(mainText);
-  }
-
-  updateTranslatedWords(mainText) {
-    let translatedWords = [];
-    mainText = mainText.trim().split(" ");
-
-    // Loop through the english textarea text
-    for (let i = 0; i < mainText.length; i++) {
-      let isWordInDictionary = false;     // Whether the word is in the dictionary or not.
-      let specialChar = "";  // The special character that is at the end of the word.
-
-      // Check if the word ends in a special character
-      let specialCharsList = [',', '.', ';', ':', '?', '!'];
-      if (specialCharsList.indexOf(mainText[i].charAt(mainText[i].length - 1)) !== -1) {
-        specialChar = mainText[i].charAt(mainText[i].length - 1);
-        mainText[i] = mainText[i].substring(0, mainText[i].length - 1);
-      }
-
-      // Loop through the dictionary and check if the word has been defined yet.
-      for (let j = 0; j < this.state.words.length; j++) {
-        // if it is found, add it to the translatedWords array
-        if (mainText[i].toUpperCase() === this.state.words[j].mainWord.toUpperCase()) {
-          // The word to add to the translated words array
-          let newWord = this.state.words[j].secretWord;
-          newWord += specialChar + ' ';
-          translatedWords.push({
-            word: newWord,
-            hasClick: false
-          });
-          this.setState({
-            translatedWords: translatedWords
-          });
-          isWordInDictionary = true;
-          break;
-        }
-      }
-      if (!isWordInDictionary) {
-        let newWord = mainText[i]; // The word to add to the translated words array.
-        translatedWords.push({
-          word: newWord,
-          hasClick: true
-        });
-        translatedWords.push({
-          word: specialChar +  ' ',
-          hasClick: false
-        });
-
-        this.setState({
-          translatedWords: translatedWords
-        });
-      }
-    }
-  }
-
-  handleClearTranslationClick() {
-    this.setState({
-      translateTextarea: '',
-      translatedWords: []
-    });
-  }
-
-  handleTranslateNewWordFormSubmit(word) {
-    let words = [...this.state.words];
-    words.push({
-      mainWord: word.main,
-      secretWord: word.secret
-    });
-    localStorage.setItem('words', JSON.stringify(words));
-    this.setState({
-      words: words
-    }, () => this.updateTranslatedWords(this.state.translateTextarea));
-  }
-
   handleAddNoteFormSubmit(category, title, description) {
     let notes = [...this.state.notes];
     let index = notes.map(function(el) { return el.categoryTitle; }).indexOf(category);
@@ -173,16 +92,6 @@ class App extends React.Component {
   }
 
   render() {
-    // const translate = () => {
-    //   return (
-    //     <Translate
-    //       translateText={this.state.translateTextarea}
-    //       onTextareaChange={(e) => this.handleTranslateTextareaChange(e)}
-    //       translatedWords={this.state.translatedWords}
-    //       onClearTranslationClick={() => this.handleClearTranslationClick()}
-    //       onNewWordFormSubmit={(e) => this.handleTranslateNewWordFormSubmit(e)} />
-    //   )
-    // };
     // const addNote = ({match}) => {
     //   return (
     //     <AddNote
