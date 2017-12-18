@@ -130,33 +130,6 @@ class App extends React.Component {
     }, () => this.updateTranslatedWords(this.state.translateTextarea));
   }
 
-  // wordToEdit(pathWord) {
-  //   return this.state.words.find((element) => element.mainWord === pathWord);
-  // }
-
-  handleEditWordSubmit(word) {
-    let words = [...this.state.words];
-    let index = words.map(function(el) { return el.mainWord; }).indexOf(word.mainWord);
-    words[index] = {
-      mainWord: word.mainWord,
-      secretWord: word.secretWord
-    };
-    this.setState({
-      words: words
-    });
-    localStorage.setItem('words', JSON.stringify(words));
-  }
-
-  // deleteWord(mainWord) {
-  //   let words = [...this.state.words];
-  //   let index = words.map(function(el) { return el.mainWord; }).indexOf(mainWord);
-  //   words.splice(index, 1);
-  //   this.setState({
-  //     words: words
-  //   });
-  //   localStorage.setItem('words', JSON.stringify(words));
-  // }
-
   handleAddNoteFormSubmit(category, title, description) {
     let notes = [...this.state.notes];
     let index = notes.map(function(el) { return el.categoryTitle; }).indexOf(category);
@@ -209,14 +182,6 @@ class App extends React.Component {
     //       onClearTranslationClick={() => this.handleClearTranslationClick()}
     //       onNewWordFormSubmit={(e) => this.handleTranslateNewWordFormSubmit(e)} />
     //   )
-    // };
-    // const editWord = ({match}) => {
-    //   return (
-    //     <EditWord
-    //       word={this.wordToEdit(match.params.word)}
-    //       onEditWordFormSubmit={(word) => this.handleEditWordSubmit(word)}
-    //       onDeleteWordClick={(word) => this.deleteWord(word)} />
-    //   );
     // };
     // const addNote = ({match}) => {
     //   return (

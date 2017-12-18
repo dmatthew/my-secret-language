@@ -6,12 +6,12 @@ export const addWord = (mainWord, secretWord) => {
   }
 }
 
-export const editWord = (index, mainWord, secretWord) => {
+// This should use an id field!
+export const editWord = (mainWord, secretWord) => {
   return {
     type: 'EDIT_WORD',
     mainWord,
-    editWord,
-    index
+    secretWord
   }
 }
 
