@@ -4,10 +4,12 @@ const notes = (state = [], action) => {
     case 'ADD_NOTE':
       notes = [...state];
       index = notes.map(function(el) { return el.categoryTitle; }).indexOf(action.category);
-      notes[index].categoryNotes.push({
-        title: action.title,
-        description: action.description
-      });
+      if (notes[index]) {  
+        notes[index].categoryNotes.push({
+          title: action.title,
+          description: action.description
+        });
+      }
       return notes;
     case 'EDIT_NOTE':
       categoryGroupIndex = state.map(function(el) { return el.categoryTitle; }).indexOf(action.category);
