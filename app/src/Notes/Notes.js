@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 class Notes extends React.Component {
   render() {
@@ -44,4 +45,10 @@ class IndividualNotes extends React.Component {
   }
 }
 
-export default Notes;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    notes: state.notes
+  }
+}
+
+export default connect(mapStateToProps)(Notes);

@@ -176,7 +176,7 @@ ul.list {
 #notes-container {
 	margin-top: -10px;
 }
-#flash-cards h1 {
+#flash-cards h1, #flash-cards h2 {
 	background: url(./images/background-sepia.jpg) center center;
 	border: 10px double #000;
 	font-size: 42px;
@@ -184,6 +184,10 @@ ul.list {
 	padding: 20% 0px;
 	text-align: center;
     overflow-wrap: break-word;
+}
+#flash-cards h2 {
+    font-size: 22px;
+    padding: 20% 10px;
 }
 .book-page {
 	background: url(./images/background-sepia.jpg) center center;

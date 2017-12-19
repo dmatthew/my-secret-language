@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 class Dictionary extends React.Component {
   constructor() {
@@ -66,4 +67,10 @@ class Dictionary extends React.Component {
   }
 }
 
-export default Dictionary;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    words: state.words
+  }
+}
+
+export default connect(mapStateToProps)(Dictionary);

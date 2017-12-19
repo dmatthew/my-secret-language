@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
+import { addNote } from './actions'
 
 class AddNote extends React.Component {
   // NOTE: This is needed to access this.context.router.history so we can go back.
@@ -53,4 +55,16 @@ class AddNote extends React.Component {
   }
 }
 
-export default AddNote;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    category: ownProps.match.params.category
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onAddNoteFormSubmit: (category, title, description) => dispatch(addNote(category, title, description))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddNote);
