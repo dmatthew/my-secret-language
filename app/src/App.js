@@ -17,30 +17,28 @@ import ViewNote from './Notes/ViewNote';
 import EditWord from './Words/EditWord';
 import './App.css';
 
-class App extends React.Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <div id="app">
-          <Header title="Mi Scrt Lngwij" />
-          <div id="content">
-            <Switch>
-              <Route path='/' exact component={Home} />
-              <Route path='/add-word' component={AddWord} />
-              <Route path='/translate' component={Translate} />
-              <Route path='/dictionary' component={Dictionary} />
-              <Route path='/flash-cards' component={FlashCards} />
-              <Route path='/notes' component={Notes} />
-              <Route path='/edit-word/:word' component={EditWord} />
-              <Route path='/add-note/:category' component={AddNote} />
-              <Route path='/view-note/:category/:id' component={ViewNote} />
-              <Redirect from='/add-note' to='/notes' />
-            </Switch>
-          </div>
+const App = () => {
+  return (
+    <BrowserRouter>
+      <div id="app">
+        <Header title="Mi Scrt Lngwij" />
+        <div id="content">
+          <Switch>
+            <Route path='/' exact component={Home} />
+            <Route path='/add-word' component={AddWord} />
+            <Route path='/translate' component={Translate} />
+            <Route path='/dictionary' component={Dictionary} />
+            <Route path='/flash-cards' component={FlashCards} />
+            <Route path='/notes' component={Notes} />
+            <Route path='/edit-word/:word' component={EditWord} />
+            <Route path='/add-note/:category' component={AddNote} />
+            <Route path='/view-note/:category/:id' component={ViewNote} />
+            <Redirect from='/add-note' to='/notes' />
+          </Switch>
         </div>
-      </BrowserRouter>
-    );
-  }
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default App;
