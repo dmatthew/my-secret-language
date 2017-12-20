@@ -24,7 +24,7 @@ jobs:
           command: yarn install
           working_directory: app
       - run:
-          command: yarn test
+          command: yarn build-css && yarn test
           working_directory: app
 
       - save_cache:
