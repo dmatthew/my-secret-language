@@ -1,0 +1,28 @@
+.header {
+	background: url(./images/header-green.jpg);
+  height: 50px;
+}
+
+.appTitle {
+  color: #fff;
+	font-size: 22px;
+  width: 50%;
+  left: 22.5%;
+  position: absolute;
+  margin: 0;
+  padding: 7px 0;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.backButton {
+  position: absolute;
+  left: 15px;
+  margin: 0;
+  padding: 12px;
+  background: none;
+  border: none;
+  color: white;
+}

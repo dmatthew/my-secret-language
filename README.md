@@ -3,7 +3,7 @@ My Secret Language
 
 Create your own secret language!
 
-Built with [React](https://reactjs.org/) v16. The My Secret Language app uses the Local Storage API so users can use the app anywhere, even offline.
+Built with [Next.js](https://nextjs.org/). The My Secret Language app uses the Local Storage API so users can use the app anywhere, even offline.
 
 ### Features of the app:
 
