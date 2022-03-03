@@ -1,3 +1,12 @@
+.appContainer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .header {
 	background: url(./images/header-green.jpg);
   height: 50px;
@@ -7,7 +16,7 @@
   color: #fff;
 	font-size: 22px;
   width: 50%;
-  left: 22.5%;
+  left: 25%;
   position: absolute;
   margin: 0;
   padding: 7px 0;
@@ -25,4 +34,11 @@
   background: none;
   border: none;
   color: white;
+}
+
+.content {
+  background: rgb(238, 188, 144) url(./images/background.jpg) center center fixed no-repeat;
+  background-size: cover;
+  flex: 1;
+  padding: 10px;
 }

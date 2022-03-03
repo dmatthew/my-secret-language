@@ -1,30 +1,27 @@
-import Layout from '../components/layout'
+import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { useAppContext } from '../contexts/word-context';
 
-export default function AddWord() {
+export default function AddWord(): ReactElement {
   const [mainWord, setMainWord] = useState('');
   const [secretWord, setSecretWord] = useState('')
   const [words, setWords] = useAppContext()
 
-  let handleAddWord = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleAddWord = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-
-    console.log(mainWord, secretWord)
 
     setWords({
       type: "ADD_WORD",
       mainWord,
       secretWord
     })
-    console.log(words)
   }
 
   return (
     <Layout>
       <Head>
-        <title>My Secret Language - Add a new word</title>
+        <title>{siteTitle} - Add a new word</title>
       </Head>
       <div>
         <h3>Add a new word</h3>

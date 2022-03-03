@@ -1,11 +1,11 @@
-import Layout from '../components/layout'
+import Layout, { siteTitle} from '../components/layout'
 import Head from 'next/head'
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useAppContext } from '../contexts/word-context';
 import { Word } from '../lib/types'
 import Link from 'next/link'
 
-export default function Dictionary() {
+export default function Dictionary(): ReactElement {
   const [searchTerm, setSearchTerm] = useState('')
   const [words, setWords] = useAppContext()
 
@@ -53,7 +53,7 @@ export default function Dictionary() {
   return (
     <Layout>
       <Head>
-        <title>My Secret Language - Dictionary</title>
+        <title>{siteTitle} - Dictionary</title>
       </Head>
       <div>
       <input

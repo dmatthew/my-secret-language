@@ -1,10 +1,15 @@
-import { createContext, useContext, useReducer } from "react"
+import React, { createContext, useContext, useReducer } from "react"
+import { Word } from '../lib/types'
+
+type Action =
+  | { type: 'ADD_WORD', mainWord: string, secretWord: string }
+  | { type: 'DELETE_WORD', mainWord: string }
 
 const WordContext = createContext([])
 
 const initState = []
 
-const reducer = (state, action) => {
+const reducer = (state: Word[], action: Action): Word[] => {
   switch (action.type) {
     case "ADD_WORD":
       return [

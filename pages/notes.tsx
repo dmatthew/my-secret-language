@@ -1,11 +1,11 @@
-import Layout from '../components/layout'
+import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
 
 export default function AddWord() {
   return (
     <Layout>
       <Head>
-        <title>My Secret Language - Add a new word</title>
+        <title>{siteTitle} - Notes</title>
       </Head>
       <div>
         <ul className="list">

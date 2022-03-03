@@ -12,7 +12,7 @@ export default function Layout({
   home?: boolean
 }) {  
   return (
-    <div>
+    <div className={styles.appContainer}>
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="og:title" content={siteTitle} />
@@ -25,7 +25,7 @@ export default function Layout({
         }
         <h1 className={styles.appTitle}>Mi Scrt Lngwij</h1>
       </header>
-      <main>{children}</main>
+      <main className={styles.content}>{children}</main>
     </div>
   )
 }

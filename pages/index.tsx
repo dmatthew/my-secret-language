@@ -8,7 +8,7 @@ export default function Home() {
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <div id="content">
+      <div>
         <Link href="/add-word">
           <a className="button btn-large">Add new word</a>
         </Link>
