@@ -1,6 +1,6 @@
 import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../contexts/word-context'
 import { Word } from '../lib/types'
 
@@ -14,11 +14,11 @@ export default function Translate() {
   const [translationInput, setTranslationInput] = useState<string>('')
   const [translationOutput, setTranslationOutput] = useState<TranslatedWord[]>([])
   const [showNewWordForm, setShowNewWordForm] = useState<boolean>(false)
-  const [newWord, setNewWord] = useState<Word>({ mainWord: '', secretWord: '' })
+  const [newWord, setNewWord] = useState<Word>({mainWord: '', secretWord: ''})
 
-  const updateTranslationOutput = (inputText: string): void => {
+  const updateTranslationOutput = (): void => {
     let translatedWords: TranslatedWord[] = []
-    let inputTextArray: string[] = inputText.trim().split(" ")
+    let inputTextArray: string[] = translationInput.trim().split(" ")
 
     // Loop through the textarea text
     inputTextArray.forEach(inputTextItem => {
@@ -54,21 +54,44 @@ export default function Translate() {
           hasClick: false
         })
 
-        setTranslationOutput(translatedWords)
+        setTranslationOutput(translatedWords) 
       }
     })
   }
 
-  const handleTranslationInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    setTranslationInput(event.target.value)
-    updateTranslationOutput(event.target.value)
-  }
-
-  const clearAll = () => {
+  const clearAll = (): void => {
     setShowNewWordForm(false)
     setTranslationInput('')
     setTranslationOutput([])
   }
+
+  const handleUntranslatedWordClick = (text: string): void => {
+    setShowNewWordForm(true)
+    setNewWord({mainWord: text, secretWord: ''})
+  }
+
+  const handleNewWordFormSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+
+    setWords({
+      type: "ADD_WORD",
+      mainWord: newWord.mainWord,
+      secretWord: newWord.secretWord
+    })
+
+    setNewWord({mainWord: '', secretWord: ''})
+    setShowNewWordForm(false)
+  }
+
+  const cancelNewWord = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault()
+    setNewWord({mainWord: '', secretWord: ''})
+    setShowNewWordForm(false)
+  }
+
+  useEffect(() => {
+    updateTranslationOutput()
+  }, [translationInput, newWord])
 
   return (
     <Layout>
@@ -78,7 +101,7 @@ export default function Translate() {
       <div>
         <textarea 
           value={translationInput}
-          onChange={(e) => handleTranslationInputChange(e)}
+          onChange={(e) => setTranslationInput(e.target.value)}
           placeholder="Enter your text to be translated..."
           autoFocus></textarea>
         <div>
@@ -86,7 +109,8 @@ export default function Translate() {
             return (
               <span
                 key={index}
-                className={word.hasClick ? 'highlight': ''}>
+                onClick={word.hasClick ? (() => handleUntranslatedWordClick(word.text)) : undefined}
+                className={word.hasClick ? 'highlight' : ''}>
                   {word.text}
               </span>
             )
@@ -97,7 +121,22 @@ export default function Translate() {
           className="button btn-large"
           onClick={clearAll}>
             Clear
-          </button>
+        </button>
+        {showNewWordForm &&
+          <div id="add-word-popup">
+            <form name="addFormPop" onSubmit={(e) => handleNewWordFormSubmit(e)}>
+              <label htmlFor="secret-text-pop">{newWord.mainWord}</label>
+              <input
+                id="secret-text-pop"
+                placeholder={"Translation for \u0022" + newWord.mainWord + "\u0022"}
+                value={newWord.secretWord}
+                onChange={(e) => setNewWord({...newWord, secretWord: e.target.value})}
+                required type="text" autoFocus />
+              <input type="submit" className="button btn-large" value="Save" />
+              <button className="button btn-large red" onClick={cancelNewWord}>Cancel</button>
+            </form>
+          </div>
+        }
       </div>
     </Layout>
    )
