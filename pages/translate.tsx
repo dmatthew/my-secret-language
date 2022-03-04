@@ -1,6 +1,6 @@
 import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useAppContext } from '../contexts/word-context'
 import { Word } from '../lib/types'
 
@@ -9,7 +9,7 @@ interface TranslatedWord {
   hasClick: boolean
 }
 
-export default function Translate() {
+export default function Translate(): ReactElement {
   const [words, setWords] = useAppContext()
   const [translationInput, setTranslationInput] = useState<string>('')
   const [translationOutput, setTranslationOutput] = useState<TranslatedWord[]>([])
