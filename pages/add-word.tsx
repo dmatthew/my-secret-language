@@ -1,12 +1,13 @@
 import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { useAppContext } from '../contexts/word-context';
 
 export default function AddWord(): ReactElement {
   const [mainWord, setMainWord] = useState('');
   const [secretWord, setSecretWord] = useState('')
   const [words, setWords] = useAppContext()
+  const mainWordInput = useRef(null)
 
   const handleAddWord = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
@@ -16,7 +17,13 @@ export default function AddWord(): ReactElement {
       mainWord,
       secretWord
     })
+    setMainWord('')
+    setSecretWord('')
   }
+
+  useEffect(() => {
+    mainWordInput.current.focus()
+  }, [words])
 
   return (
     <Layout>
@@ -30,8 +37,9 @@ export default function AddWord(): ReactElement {
           <input
             value={mainWord}
             onChange={(e) => setMainWord(e.target.value)}
+            ref={mainWordInput}
             name="mainText" id="main-text"
-            placeholder="Main word here..." required autoFocus type="text" />
+            placeholder="Main word here..." required type="text" />
           <label htmlFor="secret-text">Secret word</label>
           <input
             value={secretWord}

@@ -5,7 +5,7 @@ import { ReactElement, useState } from 'react'
 import { useAppContext } from '../contexts/word-context';
 import { Word } from '../lib/types'
 
-export default function Dictionary(): ReactElement {
+export default function FlashCards(): ReactElement {
   const [words, setWords] = useAppContext()
 
   const flipCard = (): void => {
