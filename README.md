@@ -17,4 +17,3 @@ Built with [React](https://reactjs.org/) v16. The My Secret Language app uses th
 
 ### License
 [MIT](/LICENSE)
-
