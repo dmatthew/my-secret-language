@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from './layout.module.css'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 export const siteTitle = 'My Secret Language'
 
@@ -22,7 +23,11 @@ export default function Layout({
         {!home && 
           <a className={`${styles.backButton} ${styles.button}`} onClick={() => router.back()}>Back</a>
         }
-        <h1 className={styles.appTitle}>Mi Scrt Lngwij</h1>
+        <Link href="/">
+          <a>
+            <h1 className={styles.appTitle}>Mi Scrt Lngwij</h1>
+          </a>
+        </Link>
       </header>
       <main className={styles.content}>{children}</main>
     </div>

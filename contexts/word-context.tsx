@@ -29,6 +29,11 @@ const reducer = (state: Word[], action: Action): Word[] => {
         secretWord: action.secretWord
       }
       return words
+    case 'DELETE_WORD':
+      words = [...state]
+      index = words.map((el) => { return el.mainWord }).indexOf(action.mainWord)
+      words.splice(index, 1)
+      return words
   }
 }
 

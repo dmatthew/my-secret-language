@@ -12,8 +12,15 @@ export default function EditWord(): ReactElement {
   const [secretWord, setSecretWord] = useState('')
   const [words, setWords] = useAppContext()
 
-  const handleDeleteWordClick = (): void => {
+  const deleteWord = (event: React.FormEvent<HTMLButtonElement>): void => {
+    event.preventDefault()
 
+    setWords({
+      type: "DELETE_WORD",
+      mainWord,
+      secretWord
+    })
+    router.back()
   }
 
   const handleEditWordFormSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -52,7 +59,7 @@ export default function EditWord(): ReactElement {
             required type="text" />
           <input type="submit" className="button btn-large" value="Save" />
         </form>
-        <button className="button btn-large red" onClick={() => handleDeleteWordClick()}>Delete</button>
+        <button className="button btn-large red" onClick={(e) => deleteWord(e)}>Delete</button>
       </div>
     </Layout>
   )
