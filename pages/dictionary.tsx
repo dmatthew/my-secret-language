@@ -28,8 +28,8 @@ export default function Dictionary(): ReactElement {
     wordsToDisplay = words.map((word: Word, index: number) => {
       let found: boolean = word.mainWord.indexOf(currentSearchTerm) !== -1 || word.secretWord.indexOf(searchTerm) !== -1
       if (currentSearchTerm === '' || found) {
-        let isNewLetter: boolean = word.mainWord.substr(0, 1).toUpperCase() !== currentLetter
-        currentLetter = word.mainWord.substr(0, 1).toUpperCase()
+        let isNewLetter: boolean = word.mainWord.substring(0, 1).toUpperCase() !== currentLetter
+        currentLetter = word.mainWord.substring(0, 1).toUpperCase()
         
         return (
           <span key={index}>

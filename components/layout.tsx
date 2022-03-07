@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import styles from './layout.module.css'
+import { useRouter } from 'next/router'
 
 export const siteTitle = 'My Secret Language'
 
@@ -10,7 +10,8 @@ export default function Layout({
 }: {
   children: React.ReactNode,
   home?: boolean
-}) {  
+}) {
+  const router = useRouter()
   return (
     <div className={styles.appContainer}>
       <Head>
@@ -19,9 +20,7 @@ export default function Layout({
       </Head>
       <header className={styles.header}>
         {!home && 
-          <Link href="/">
-            <a className={`${styles.backButton} ${styles.button}`}>Home</a>
-          </Link>
+          <a className={`${styles.backButton} ${styles.button}`} onClick={() => router.back()}>Back</a>
         }
         <h1 className={styles.appTitle}>Mi Scrt Lngwij</h1>
       </header>

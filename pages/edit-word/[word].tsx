@@ -3,17 +3,30 @@ import Head from 'next/head'
 import { ReactElement, useState } from 'react';
 import { useAppContext } from '../../contexts/word-context';
 import { Word } from '../../lib/types'
+import { useRouter } from 'next/router';
 
 export default function EditWord(): ReactElement {
-  const [mainWord, setMainWord] = useState('')
+  const router = useRouter()
+  const { word } = router.query
+  const [mainWord, setMainWord] = useState(word)
   const [secretWord, setSecretWord] = useState('')
+  const [words, setWords] = useAppContext()
 
   const handleDeleteWordClick = (): void => {
 
   }
 
   const handleEditWordFormSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
 
+    setWords({
+      type: "EDIT_WORD",
+      mainWord,
+      secretWord
+    })
+    setMainWord('')
+    setSecretWord('')
+    router.back()
   }
 
   return (
@@ -35,6 +48,7 @@ export default function EditWord(): ReactElement {
             id="edit-secret-text" 
             onChange={(e) => setSecretWord(e.target.value)}
             value={secretWord} 
+            autoFocus
             required type="text" />
           <input type="submit" className="button btn-large" value="Save" />
         </form>
