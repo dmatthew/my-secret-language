@@ -8,7 +8,7 @@ Built with [React](https://reactjs.org/) v16. The My Secret Language app uses th
 ### Features of the app:
 
 * Add, edit, and delete new words.
-* Translate sentences from English into your secret language.
+* Translate sentences from your native language into your secret language.
 * View all your words in your own language's dictionary.
 * Study your own secret language by using the app's flashcards feature.
 * Can be used offline when you don't have an internet connection.
