@@ -34,10 +34,12 @@ const reducer = (state: Word[], action: Action): Word[] => {
       index = words.map((el) => { return el.mainWord }).indexOf(action.mainWord)
       words.splice(index, 1)
       return words
+    default:
+      return state
   }
 }
 
-export function AppProvider({ children}) {
+export function WordContextProvider({ children}) {
   const [words, setWords] = useReducer(reducer, initState)
 
   return (
@@ -47,6 +49,6 @@ export function AppProvider({ children}) {
   )
 }
 
-export function useAppContext() {
+export function useWordContext() {
   return useContext(WordContext)
 }

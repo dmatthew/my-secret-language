@@ -1,7 +1,7 @@
 import Layout, { siteTitle} from '../../components/layout'
 import Head from 'next/head'
 import { ReactElement, useState } from 'react';
-import { useAppContext } from '../../contexts/word-context';
+import { useWordContext } from '../../contexts/word-context';
 import { Word } from '../../lib/types'
 import { useRouter } from 'next/router';
 
@@ -10,7 +10,7 @@ export default function EditWord(): ReactElement {
   const { word } = router.query
   const [mainWord, setMainWord] = useState(word)
   const [secretWord, setSecretWord] = useState('')
-  const [words, setWords] = useAppContext()
+  const [words, setWords] = useWordContext()
 
   const deleteWord = (event: React.FormEvent<HTMLButtonElement>): void => {
     event.preventDefault()

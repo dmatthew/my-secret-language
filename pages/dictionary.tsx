@@ -1,13 +1,13 @@
 import Layout, { siteTitle} from '../components/layout'
 import Head from 'next/head'
 import { ReactElement, useState } from 'react';
-import { useAppContext } from '../contexts/word-context';
+import { useWordContext } from '../contexts/word-context';
 import { Word } from '../lib/types'
 import Link from 'next/link'
 
 export default function Dictionary(): ReactElement {
   const [searchTerm, setSearchTerm] = useState('')
-  const [words, setWords] = useAppContext()
+  const [words, setWords] = useWordContext()
 
   function sortByMainWord(wordsArray: Word[]): Word[] {
     wordsArray.sort((a, b) => {

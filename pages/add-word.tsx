@@ -1,12 +1,12 @@
 import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
-import { useAppContext } from '../contexts/word-context';
+import { useWordContext } from '../contexts/word-context';
 
 export default function AddWord(): ReactElement {
   const [mainWord, setMainWord] = useState('');
   const [secretWord, setSecretWord] = useState('')
-  const [words, setWords] = useAppContext()
+  const [words, setWords] = useWordContext()
   const mainWordInput = useRef(null)
 
   const handleAddWord = (event: React.FormEvent<HTMLFormElement>): void => {
