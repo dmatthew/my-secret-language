@@ -1,11 +1,14 @@
 import '../styles/global.css'
 import { AppProps } from 'next/app'
-import { AppProvider } from '../contexts/word-context'
+import { WordContextProvider } from '../contexts/word-context'
+import { NoteContextProvider } from '../contexts/note-context'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <AppProvider>
-      <Component {...pageProps} />
-    </AppProvider>
+    <WordContextProvider>
+      <NoteContextProvider>
+        <Component {...pageProps} />
+      </NoteContextProvider>
+    </WordContextProvider>
   )
 }

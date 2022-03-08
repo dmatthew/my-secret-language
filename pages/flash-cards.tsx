@@ -2,11 +2,11 @@ import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
 import Link from 'next/link'
 import { ReactElement, useState } from 'react'
-import { useAppContext } from '../contexts/word-context';
+import { useWordContext } from '../contexts/word-context';
 import { Word } from '../lib/types'
 
 export default function FlashCards(): ReactElement {
-  const [words, setWords] = useAppContext()
+  const [words, setWords] = useWordContext()
 
   const flipCard = (): void => {
     setMainIsVisible(!mainIsVisible)

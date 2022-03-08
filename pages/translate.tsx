@@ -1,7 +1,7 @@
 import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
 import React, { ReactElement, useEffect, useState } from 'react'
-import { useAppContext } from '../contexts/word-context'
+import { useWordContext } from '../contexts/word-context'
 import { Word } from '../lib/types'
 
 interface TranslatedWord {
@@ -10,7 +10,7 @@ interface TranslatedWord {
 }
 
 export default function Translate(): ReactElement {
-  const [words, setWords] = useAppContext()
+  const [words, setWords] = useWordContext()
   const [translationInput, setTranslationInput] = useState<string>('')
   const [translationOutput, setTranslationOutput] = useState<TranslatedWord[]>([])
   const [showNewWordForm, setShowNewWordForm] = useState<boolean>(false)
