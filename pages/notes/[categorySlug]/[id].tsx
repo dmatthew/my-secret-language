@@ -106,3 +106,7 @@ export default function EditNote(): ReactElement {
     </Layout>
   )
 }
+
+EditNote.getInitialProps = async ({ req }) => {
+  return {}
+}

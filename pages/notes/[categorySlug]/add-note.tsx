@@ -69,3 +69,7 @@ export default function AddNote(): ReactElement {
     </Layout>
   )
 }
+
+AddNote.getInitialProps = async ({ req }) => {
+  return {}
+}
