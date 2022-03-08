@@ -47,29 +47,30 @@ export default function AddNote(): ReactElement {
         <title>{siteTitle} - Edit Word</title>
       </Head>
       <div>
-      <div className="formGroupHead">Category: {category}</div>
-  		  <form name="addNoteForm" onSubmit={(e) => handleAddNoteFormSubmit(e)}>
-    			<label htmlFor="noteTitleText">Note Title</label>
-    			<input
+        <div className="formGroupHead">Category: {category}</div>
+        <form name="addNoteForm" onSubmit={(e) => handleAddNoteFormSubmit(e)}>
+          <label htmlFor="noteTitleText">Note Title</label>
+          <input
             name="noteTitleText"
             id="note-title-text"
             placeholder="Note title here..."
             required type="text"
             onChange={(e) => setTitle(e.target.value)}
             value={title} />
-    			<label htmlFor="noteDescription">Description</label>
-    			<textarea
+          <label htmlFor="noteDescription">Description</label>
+          <textarea
             required
             placeholder="Enter your note description..."
             onChange={(e) => setDescription(e.target.value)}
             value={description}></textarea>
-    			<input type="submit" className="button btn-large" value="Save note" />
-  		  </form>
+          <input type="submit" className="button btn-large" value="Save note" />
+        </form>
       </div>
     </Layout>
   )
 }
 
+/** NOTE: This is needed to disable pre-rendering on this page only. */
 AddNote.getInitialProps = async ({ req }) => {
   return {}
 }

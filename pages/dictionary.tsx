@@ -56,6 +56,7 @@ export default function Dictionary(): ReactElement {
         <title>{siteTitle} - Dictionary</title>
       </Head>
       <div>
+        <h3>Dictionary</h3>
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

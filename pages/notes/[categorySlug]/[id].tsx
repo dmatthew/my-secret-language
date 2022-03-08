@@ -107,6 +107,7 @@ export default function EditNote(): ReactElement {
   )
 }
 
+/** NOTE: This is needed to disable pre-rendering on this page only. */
 EditNote.getInitialProps = async ({ req }) => {
   return {}
 }

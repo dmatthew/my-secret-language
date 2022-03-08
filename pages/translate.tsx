@@ -17,6 +17,11 @@ export default function Translate(): ReactElement {
   const [newWord, setNewWord] = useState<Word>({mainWord: '', secretWord: ''})
 
   const updateTranslationOutput = (): void => {
+    if (!translationInput) {
+      setTranslationOutput([])
+      return
+    }
+
     let translatedWords: TranslatedWord[] = []
     let inputTextArray: string[] = translationInput.trim().split(" ")
 
@@ -99,6 +104,7 @@ export default function Translate(): ReactElement {
         <title>{siteTitle} - Translate</title>
       </Head>
       <div>
+        <h3>Translate</h3>
         <textarea 
           value={translationInput}
           onChange={(e) => setTranslationInput(e.target.value)}
@@ -128,7 +134,7 @@ export default function Translate(): ReactElement {
               <label htmlFor="secret-text-pop">{newWord.mainWord}</label>
               <input
                 id="secret-text-pop"
-                placeholder={"Translation for \u0022" + newWord.mainWord + "\u0022"}
+                placeholder={'Translation for "' + newWord.mainWord + '"'}
                 value={newWord.secretWord}
                 onChange={(e) => setNewWord({...newWord, secretWord: e.target.value})}
                 required type="text" autoFocus />

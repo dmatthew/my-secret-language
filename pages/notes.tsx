@@ -16,7 +16,7 @@ export default function Notes(): ReactElement {
         <IndividualNote category={category.title} notes={category.notes} />
         <div className="center-content">
           <Link href={`/notes/${category.title}/add-note`}>
-            <a className="button btn-sepia icon add">Add Note</a>
+            <a className="button btn-sepia icon add">Add {category.title} Note</a>
           </Link>
         </div>
       </div>

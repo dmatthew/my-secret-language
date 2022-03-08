@@ -49,13 +49,6 @@ export default function AddWord(): ReactElement {
           <input type="submit" className="button btn-large" value="Save" />
         </form>
       </div>
-      <ul>
-        {words.map(({ mainWord, secretWord }, id) => (
-          <li key={id}>
-            {mainWord} - {secretWord} - {id}
-          </li>
-        ))}
-      </ul>
     </Layout>
   )
 }

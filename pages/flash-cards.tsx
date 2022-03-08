@@ -44,16 +44,17 @@ export default function FlashCards(): ReactElement {
       <Head>
         <title>{siteTitle} - Dictionary</title>
       </Head>
-      <div>
+      <div id="flash-cards">
+        <h3>Flash Cards</h3>
         {flashCardWord ? (
           <>
-            <h1>{mainIsVisible ? flashCardWord.mainWord : flashCardWord.secretWord}</h1>
+            <div className="card">{mainIsVisible ? flashCardWord.mainWord : flashCardWord.secretWord}</div>
             <button className="button btn-large" type="button" onClick={flipCard}>Flip card</button>
             <button className="button btn-large" type="button" onClick={handleNextWordClick}>Next word</button>
           </>
         ) : (
           <>
-            <h2>You have no words in your dictionary. Go to the <Link href="/add-word">Add Word</Link> page to start adding new words.</h2>
+            <h2 className="card">You have no words in your dictionary. Go to the <Link href="/add-word">Add Word</Link> page to start adding new words.</h2>
           </>
         )}
       </div>

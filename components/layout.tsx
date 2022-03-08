@@ -14,7 +14,7 @@ export default function Layout({
 }) {
   const router = useRouter()
   return (
-    <div className={styles.appContainer}>
+    <div>
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="og:title" content={siteTitle} />
