@@ -1,6 +1,6 @@
 import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState, useCallback } from 'react'
 import { useWordContext } from '../contexts/word-context'
 import { Word } from '../lib/types'
 
@@ -16,53 +16,56 @@ export default function Translate(): ReactElement {
   const [showNewWordForm, setShowNewWordForm] = useState<boolean>(false)
   const [newWord, setNewWord] = useState<Word>({mainWord: '', secretWord: ''})
 
-  const updateTranslationOutput = (): void => {
-    if (!translationInput) {
-      setTranslationOutput([])
-      return
-    }
-
-    let translatedWords: TranslatedWord[] = []
-    let inputTextArray: string[] = translationInput.trim().split(" ")
-
-    // Loop through the textarea text
-    inputTextArray.forEach(inputTextItem => {
-      let isWordInDictionary: boolean = false
-      let specialChar: string = ""
-
-      // If the word ends in a special character, split it apart.
-      const specialCharsList: string[] = [',', '.', ';', ':', '?', '!']
-      if (specialCharsList.indexOf(inputTextItem.slice(-1)) !== -1) {
-        specialChar = inputTextItem.slice(-1)
-        inputTextItem = inputTextItem.slice(0, -1)
+  const updateTranslationOutput = useCallback(
+    () => {
+      if (!translationInput) {
+        setTranslationOutput([])
+        return
       }
 
-      // Loop through the dictionary and check if the word has been defined yet.
-      let myWord = words.find((w: Word) => {
-        return w.mainWord.toUpperCase() === inputTextItem.toUpperCase()
+      let translatedWords: TranslatedWord[] = []
+      let inputTextArray: string[] = translationInput.trim().split(" ")
+
+      // Loop through the textarea text
+      inputTextArray.forEach(inputTextItem => {
+        let isWordInDictionary: boolean = false
+        let specialChar: string = ""
+
+        // If the word ends in a special character, split it apart.
+        const specialCharsList: string[] = [',', '.', ';', ':', '?', '!']
+        if (specialCharsList.indexOf(inputTextItem.slice(-1)) !== -1) {
+          specialChar = inputTextItem.slice(-1)
+          inputTextItem = inputTextItem.slice(0, -1)
+        }
+
+        // Loop through the dictionary and check if the word has been defined yet.
+        let myWord = words.find((w: Word) => {
+          return w.mainWord.toUpperCase() === inputTextItem.toUpperCase()
+        })
+        if (myWord) {
+          translatedWords.push({
+            text: myWord.secretWord + specialChar + ' ',
+            hasClick: false
+          })
+          setTranslationOutput(translatedWords)
+          isWordInDictionary = true
+        }
+        if (!isWordInDictionary) {
+          translatedWords.push({
+            text: inputTextItem,
+            hasClick: true
+          })
+          translatedWords.push({
+            text: specialChar +  ' ',
+            hasClick: false
+          })
+
+          setTranslationOutput(translatedWords) 
+        }
       })
-      if (myWord) {
-        translatedWords.push({
-          text: myWord.secretWord + specialChar + ' ',
-          hasClick: false
-        })
-        setTranslationOutput(translatedWords)
-        isWordInDictionary = true
-      }
-      if (!isWordInDictionary) {
-        translatedWords.push({
-          text: inputTextItem,
-          hasClick: true
-        })
-        translatedWords.push({
-          text: specialChar +  ' ',
-          hasClick: false
-        })
-
-        setTranslationOutput(translatedWords) 
-      }
-    })
-  }
+    },
+    [translationInput, words]
+  )
 
   const clearAll = (): void => {
     setShowNewWordForm(false)
@@ -96,7 +99,7 @@ export default function Translate(): ReactElement {
 
   useEffect(() => {
     updateTranslationOutput()
-  }, [translationInput, newWord])
+  }, [updateTranslationOutput])
 
   return (
     <Layout>

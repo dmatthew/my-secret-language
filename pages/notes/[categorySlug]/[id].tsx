@@ -1,6 +1,6 @@
 import Layout, { siteTitle} from '../../../components/layout'
 import Head from 'next/head'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { useNoteContext } from '../../../contexts/note-context'
 import { Note } from '../../../lib/types'
 import { useRouter } from 'next/router'
@@ -12,36 +12,39 @@ export default function EditNote(props): ReactElement {
   const router = useRouter()
   const { categorySlug, id } = router.query
 
-  const getNoteFromQuery = (): Note => {
-    if (typeof id === "string") {
-      if (typeof categorySlug === "string") {
-        let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug.toLowerCase()})
-        if (categoryGroup) {
-          return categoryGroup.notes[id]
+  const getNoteFromQuery = useCallback(
+    () => {
+      if (typeof id === "string") {
+        if (typeof categorySlug === "string") {
+          let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug.toLowerCase()})
+          if (categoryGroup) {
+            return categoryGroup.notes[id]
+          }
+        }
+        else {
+          let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug[0].toLowerCase()})
+          if (categoryGroup) {
+            return categoryGroup.notes[id]
+          }
         }
       }
       else {
-        let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug[0].toLowerCase()})
-        if (categoryGroup) {
-          return categoryGroup.notes[id]
+        if (typeof categorySlug === "string") {
+          let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug.toLowerCase()})
+          if (categoryGroup) {
+            return categoryGroup.notes[id[0]]
+          }
+        }
+        else {
+          let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug[0].toLowerCase()})
+          if (categoryGroup) {
+            return categoryGroup.notes[id[0]]
+          }
         }
       }
-    }
-    else {
-      if (typeof categorySlug === "string") {
-        let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug.toLowerCase()})
-        if (categoryGroup) {
-          return categoryGroup.notes[id[0]]
-        }
-      }
-      else {
-        let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug[0].toLowerCase()})
-        if (categoryGroup) {
-          return categoryGroup.notes[id[0]]
-        }
-      }
-    }
-  }
+    },
+    [categoryNotes, categorySlug, id]
+  )
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -58,7 +61,7 @@ export default function EditNote(props): ReactElement {
         setDescription(queryNote.description)
       }
     }
-  })
+  }, [title, getNoteFromQuery])
 
   const handleEditNoteFormSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()

@@ -7,14 +7,12 @@ import { NoteCategory } from '../../../lib/types'
 
 export default function AddNote(): ReactElement {
   const router = useRouter()
+  const { categorySlug } = router.query
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [categoryNotes, noteDispatch] = useNoteContext()
 
   const getCategoryFromQuery = (): string => {
-    const router = useRouter()
-    const { categorySlug } = router.query
-
     if (typeof categorySlug === "string") {
       let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug.toLowerCase()})
       if (categoryGroup) {
