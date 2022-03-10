@@ -2,15 +2,16 @@
 
 Create your own secret language!
 
-Built with [React](https://reactjs.org) using [Next.js](https://nextjs.org/). The My Secret Language app uses the Local Storage API so users can use the app anywhere, even offline. It uses function components and React hooks.
+Built with [React](https://reactjs.org) using [Next.js](https://nextjs.org/). The My Secret Language app uses the Local Storage API for storing your dictionary of words. It uses function components and React hooks.
+
+See the app in action at [my-secret-language.vercel.app](https://my-secret-language.vercel.app/).
 
 ### Features of the app:
 
 - Add, edit, and delete new words.
-- Translate sentences from English into your secret language.
+- Translate sentences from your native language into your secret language.
 - View all your words in your own language's dictionary.
 - Study your own secret language by using the app's flashcards feature.
-- Can be used offline when you don't have an internet connection.
 
 |    ![App Home](docs/screenshots/home.png)     | ![App Home](docs/screenshots/add-word.png)  | ![App Home](docs/screenshots/dictionary.png) |
 | :-------------------------------------------: | :-----------------------------------------: | :------------------------------------------: |
