@@ -65,7 +65,6 @@ export function NoteContextProvider({ children}) {
     }
     if (state !== initialState) {
       // create and/or set a new localStorage variable called "state"
-      console.log('note-context.tsx:useEffect', state)
       localStorage.setItem("notes", JSON.stringify(state))
     }
   }, [state])

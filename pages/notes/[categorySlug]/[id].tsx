@@ -47,10 +47,16 @@ export default function EditNote(props): ReactElement {
   const [description, setDescription] = useState('')
 
   useEffect(() => {
-    let queryNote: Note = getNoteFromQuery()
-    if (queryNote) {
-      setTitle(queryNote.title)
-      setDescription(queryNote.description)
+    /**
+     * TODO: The first time this EditNote component gets rendered the categoryNotes value from the context doesn't have the values from localStorage.
+     * This useEffect function may be a hack and not following best practices for React ad/or Next.js.
+     */
+    if (!title) { 
+      let queryNote: Note = getNoteFromQuery()
+      if (queryNote) {
+        setTitle(queryNote.title)
+        setDescription(queryNote.description)
+      }
     }
   })
 

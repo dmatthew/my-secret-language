@@ -7,9 +7,9 @@ type Action =
   | { type: 'INIT_STORED', value: NoteCategory[] }
 
 export default function NoteReducer (state: NoteCategory[], action: Action): NoteCategory[] {
+  let noteCategories: NoteCategory[], categoryGroupIndex: number
   switch (action.type) {
     case "ADD_NOTE":
-      let noteCategories: NoteCategory[], categoryGroupIndex: number
       noteCategories = [...state]
       categoryGroupIndex = noteCategories.map((el) => { return el.title.toLowerCase() }).indexOf(action.categorySlug.toLowerCase())
       if (noteCategories[categoryGroupIndex]) {
@@ -19,7 +19,6 @@ export default function NoteReducer (state: NoteCategory[], action: Action): Not
         }
         noteCategories[categoryGroupIndex].notes.push(newNote)
       }
-      console.log(noteCategories)
       return noteCategories
     case "EDIT_NOTE":
       noteCategories = [...state]
