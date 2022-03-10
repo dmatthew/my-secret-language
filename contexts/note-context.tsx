@@ -1,12 +1,8 @@
-import React, { createContext, useContext, useReducer } from "react"
-import { Note, NoteCategory } from '../lib/types'
+import React, { createContext, useContext, useEffect, useReducer } from "react"
+import { NoteCategory } from '../lib/types'
+import NoteReducer from "./NoteReducer"
 
-type Action =
-  | { type: 'ADD_NOTE', categorySlug: string, title: string, description: string }
-  | { type: 'DELETE_NOTE', categorySlug: string, id: number }
-  | { type: 'EDIT_NOTE', categorySlug: string, noteId: number, title: string, description: string }
-
-const initState: NoteCategory[] = [
+const DEFAULT_STATE: NoteCategory[] = [
   {
     title: "General",
     notes: [
@@ -45,51 +41,37 @@ const initState: NoteCategory[] = [
   }
 ]
 
-const NoteContext = createContext([])
+let initialState: NoteCategory[] = []
 
-const reducer = (state: NoteCategory[], action: Action): NoteCategory[] => {
-  switch (action.type) {
-    case "ADD_NOTE":
-      let noteCategories: NoteCategory[], categoryGroupIndex: number
-      noteCategories = [...state]
-      categoryGroupIndex = noteCategories.map((el) => { return el.title.toLowerCase() }).indexOf(action.categorySlug.toLowerCase())
-      if (noteCategories[categoryGroupIndex]) {
-        let newNote: Note = {
-          title: action.title,
-          description: action.description
-        }
-        noteCategories[categoryGroupIndex].notes.push(newNote)
-      }
-      console.log(noteCategories)
-      return noteCategories
-    case "EDIT_NOTE":
-      noteCategories = [...state]
-      categoryGroupIndex = state.map((el) => { return el.title.toLowerCase() }).indexOf(action.categorySlug.toLowerCase())
-      if (noteCategories[categoryGroupIndex]) {
-        let updatedNote: Note = {
-          title: action.title,
-          description: action.description
-        }
-        noteCategories[categoryGroupIndex].notes[action.noteId] = updatedNote
-      }
-      return noteCategories
-    case "DELETE_NOTE":
-      noteCategories = [...state]
-      categoryGroupIndex = state.map((el) => { return el.title.toLowerCase() }).indexOf(action.categorySlug.toLowerCase())
-      if (noteCategories[categoryGroupIndex]) {
-        noteCategories[categoryGroupIndex].notes.splice(action.id, 1)
-      }
-      return noteCategories
-    default:
-      return state
-  }
-}
+const NoteContext = createContext(undefined)
 
 export function NoteContextProvider({ children}) {
-  const [noteCategories, setNoteCategories] = useReducer(reducer, initState)
+  const [state, dispatch] = useReducer(NoteReducer, DEFAULT_STATE)
+
+  useEffect(() => {
+    // checking if there already is a state in localStorage
+    // if yes, update the current state with the stored one
+    if (JSON.parse(localStorage.getItem("notes"))) {
+      dispatch({
+        type: "INIT_STORED",
+        value: JSON.parse(localStorage.getItem("notes"))
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!localStorage.getItem('notes')) {
+      localStorage.setItem('notes', JSON.stringify(DEFAULT_STATE))
+    }
+    if (state !== initialState) {
+      // create and/or set a new localStorage variable called "state"
+      console.log('note-context.tsx:useEffect', state)
+      localStorage.setItem("notes", JSON.stringify(state))
+    }
+  }, [state])
 
   return (
-    <NoteContext.Provider value={[noteCategories, setNoteCategories]}>
+    <NoteContext.Provider value={[state, dispatch]}>
       {children}
     </NoteContext.Provider>
   )

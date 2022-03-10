@@ -6,7 +6,7 @@ import { Note } from '../../../lib/types'
 import { useRouter } from 'next/router'
 import { NoteCategory } from '../../../lib/types'
 
-export default function EditNote(): ReactElement {
+export default function EditNote(props): ReactElement {
   const [isEditingNote, setIsEditingNote] = useState(false)
   const [categoryNotes, noteDispatch] = useNoteContext()
   const router = useRouter()
@@ -43,10 +43,16 @@ export default function EditNote(): ReactElement {
     }
   }
 
-  let queryNote: Note = getNoteFromQuery()
-  const [note, setNote] = useState(queryNote)
-  const [title, setTitle] = useState(note.title)
-  const [description, setDescription] = useState(note.description)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+
+  useEffect(() => {
+    let queryNote: Note = getNoteFromQuery()
+    if (queryNote) {
+      setTitle(queryNote.title)
+      setDescription(queryNote.description)
+    }
+  })
 
   const handleEditNoteFormSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
@@ -108,6 +114,6 @@ export default function EditNote(): ReactElement {
 }
 
 /** NOTE: This is needed to disable pre-rendering on this page only. */
-EditNote.getInitialProps = async ({ req }) => {
+EditNote.getInitialProps = async () => {
   return {}
 }
