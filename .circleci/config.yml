@@ -19,7 +19,7 @@ jobs:
       - run:
           command: npm install
       - run:
-          command: npm test:ci
+          command: npm run test:ci
 
       - save_cache:
           paths:
