@@ -7,9 +7,9 @@ export const siteTitle = 'My Secret Language'
 
 export default function Layout({
   children,
-  home
+  home,
 }: {
-  children: React.ReactNode,
+  children: React.ReactNode
   home?: boolean
 }) {
   const router = useRouter()
@@ -20,9 +20,14 @@ export default function Layout({
         <meta name="og:title" content={siteTitle} />
       </Head>
       <header className={styles.header}>
-        {!home && 
-          <a className={`${styles.backButton} ${styles.button}`} onClick={() => router.back()}>Back</a>
-        }
+        {!home && (
+          <a
+            className={`${styles.backButton} ${styles.button}`}
+            onClick={() => router.back()}
+          >
+            Back
+          </a>
+        )}
         <Link href="/">
           <a>
             <h1 className={styles.appTitle}>Mi Scrt Lngwij</h1>

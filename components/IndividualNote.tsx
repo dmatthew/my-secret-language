@@ -4,22 +4,20 @@ import Link from 'next/link'
 
 export default function IndividualNote({
   category,
-  notes
+  notes,
 }: {
-  category: string,
+  category: string
   notes: Note[]
 }): ReactElement {
   let notesList = notes.map((note, index) => {
     return (
       <li key={index} className="list-item">
-        <Link href={`/notes/${category.toLowerCase()}/${index}`}>{note.title}</Link>
+        <Link href={`/notes/${category.toLowerCase()}/${index}`}>
+          {note.title}
+        </Link>
       </li>
     )
   })
 
-  return (
-    <ul className="list">
-      {notesList}
-    </ul>
-  )
+  return <ul className="list">{notesList}</ul>
 }

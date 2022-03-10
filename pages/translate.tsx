@@ -5,67 +5,66 @@ import { useWordContext } from '../contexts/word-context'
 import { Word } from '../lib/types'
 
 interface TranslatedWord {
-  text: string,
+  text: string
   hasClick: boolean
 }
 
 export default function Translate(): ReactElement {
   const [words, setWords] = useWordContext()
   const [translationInput, setTranslationInput] = useState<string>('')
-  const [translationOutput, setTranslationOutput] = useState<TranslatedWord[]>([])
+  const [translationOutput, setTranslationOutput] = useState<TranslatedWord[]>(
+    []
+  )
   const [showNewWordForm, setShowNewWordForm] = useState<boolean>(false)
-  const [newWord, setNewWord] = useState<Word>({mainWord: '', secretWord: ''})
+  const [newWord, setNewWord] = useState<Word>({ mainWord: '', secretWord: '' })
 
-  const updateTranslationOutput = useCallback(
-    () => {
-      if (!translationInput) {
-        setTranslationOutput([])
-        return
+  const updateTranslationOutput = useCallback(() => {
+    if (!translationInput) {
+      setTranslationOutput([])
+      return
+    }
+
+    let translatedWords: TranslatedWord[] = []
+    let inputTextArray: string[] = translationInput.trim().split(' ')
+
+    // Loop through the textarea text
+    inputTextArray.forEach((inputTextItem) => {
+      let isWordInDictionary: boolean = false
+      let specialChar: string = ''
+
+      // If the word ends in a special character, split it apart.
+      const specialCharsList: string[] = [',', '.', ';', ':', '?', '!']
+      if (specialCharsList.indexOf(inputTextItem.slice(-1)) !== -1) {
+        specialChar = inputTextItem.slice(-1)
+        inputTextItem = inputTextItem.slice(0, -1)
       }
 
-      let translatedWords: TranslatedWord[] = []
-      let inputTextArray: string[] = translationInput.trim().split(" ")
-
-      // Loop through the textarea text
-      inputTextArray.forEach(inputTextItem => {
-        let isWordInDictionary: boolean = false
-        let specialChar: string = ""
-
-        // If the word ends in a special character, split it apart.
-        const specialCharsList: string[] = [',', '.', ';', ':', '?', '!']
-        if (specialCharsList.indexOf(inputTextItem.slice(-1)) !== -1) {
-          specialChar = inputTextItem.slice(-1)
-          inputTextItem = inputTextItem.slice(0, -1)
-        }
-
-        // Loop through the dictionary and check if the word has been defined yet.
-        let myWord = words.find((w: Word) => {
-          return w.mainWord.toUpperCase() === inputTextItem.toUpperCase()
-        })
-        if (myWord) {
-          translatedWords.push({
-            text: myWord.secretWord + specialChar + ' ',
-            hasClick: false
-          })
-          setTranslationOutput(translatedWords)
-          isWordInDictionary = true
-        }
-        if (!isWordInDictionary) {
-          translatedWords.push({
-            text: inputTextItem,
-            hasClick: true
-          })
-          translatedWords.push({
-            text: specialChar +  ' ',
-            hasClick: false
-          })
-
-          setTranslationOutput(translatedWords) 
-        }
+      // Loop through the dictionary and check if the word has been defined yet.
+      let myWord = words.find((w: Word) => {
+        return w.mainWord.toUpperCase() === inputTextItem.toUpperCase()
       })
-    },
-    [translationInput, words]
-  )
+      if (myWord) {
+        translatedWords.push({
+          text: myWord.secretWord + specialChar + ' ',
+          hasClick: false,
+        })
+        setTranslationOutput(translatedWords)
+        isWordInDictionary = true
+      }
+      if (!isWordInDictionary) {
+        translatedWords.push({
+          text: inputTextItem,
+          hasClick: true,
+        })
+        translatedWords.push({
+          text: specialChar + ' ',
+          hasClick: false,
+        })
+
+        setTranslationOutput(translatedWords)
+      }
+    })
+  }, [translationInput, words])
 
   const clearAll = (): void => {
     setShowNewWordForm(false)
@@ -75,25 +74,27 @@ export default function Translate(): ReactElement {
 
   const handleUntranslatedWordClick = (text: string): void => {
     setShowNewWordForm(true)
-    setNewWord({mainWord: text, secretWord: ''})
+    setNewWord({ mainWord: text, secretWord: '' })
   }
 
-  const handleNewWordFormSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleNewWordFormSubmit = (
+    event: React.FormEvent<HTMLFormElement>
+  ): void => {
     event.preventDefault()
 
     setWords({
-      type: "ADD_WORD",
+      type: 'ADD_WORD',
       mainWord: newWord.mainWord,
-      secretWord: newWord.secretWord
+      secretWord: newWord.secretWord,
     })
 
-    setNewWord({mainWord: '', secretWord: ''})
+    setNewWord({ mainWord: '', secretWord: '' })
     setShowNewWordForm(false)
   }
 
   const cancelNewWord = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault()
-    setNewWord({mainWord: '', secretWord: ''})
+    setNewWord({ mainWord: '', secretWord: '' })
     setShowNewWordForm(false)
   }
 
@@ -108,45 +109,58 @@ export default function Translate(): ReactElement {
       </Head>
       <div>
         <h3>Translate</h3>
-        <textarea 
+        <textarea
           value={translationInput}
           onChange={(e) => setTranslationInput(e.target.value)}
           placeholder="Enter your text to be translated..."
-          autoFocus></textarea>
+          autoFocus
+        ></textarea>
         <div>
           {translationOutput.map((word, index) => {
             return (
               <span
                 key={index}
-                onClick={word.hasClick ? (() => handleUntranslatedWordClick(word.text)) : undefined}
-                className={word.hasClick ? 'highlight' : ''}>
-                  {word.text}
+                onClick={
+                  word.hasClick
+                    ? () => handleUntranslatedWordClick(word.text)
+                    : undefined
+                }
+                className={word.hasClick ? 'highlight' : ''}
+              >
+                {word.text}
               </span>
             )
           })}
         </div>
-        <button 
-          type="button"
-          className="button btn-large"
-          onClick={clearAll}>
-            Clear
+        <button type="button" className="button btn-large" onClick={clearAll}>
+          Clear
         </button>
-        {showNewWordForm &&
+        {showNewWordForm && (
           <div id="add-word-popup">
-            <form name="addFormPop" onSubmit={(e) => handleNewWordFormSubmit(e)}>
+            <form
+              name="addFormPop"
+              onSubmit={(e) => handleNewWordFormSubmit(e)}
+            >
               <label htmlFor="secret-text-pop">{newWord.mainWord}</label>
               <input
                 id="secret-text-pop"
                 placeholder={'Translation for "' + newWord.mainWord + '"'}
                 value={newWord.secretWord}
-                onChange={(e) => setNewWord({...newWord, secretWord: e.target.value})}
-                required type="text" autoFocus />
+                onChange={(e) =>
+                  setNewWord({ ...newWord, secretWord: e.target.value })
+                }
+                required
+                type="text"
+                autoFocus
+              />
               <input type="submit" className="button btn-large" value="Save" />
-              <button className="button btn-large red" onClick={cancelNewWord}>Cancel</button>
+              <button className="button btn-large red" onClick={cancelNewWord}>
+                Cancel
+              </button>
             </form>
           </div>
-        }
+        )}
       </div>
     </Layout>
-   )
+  )
 }

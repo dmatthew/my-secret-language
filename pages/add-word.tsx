@@ -1,10 +1,10 @@
 import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
-import { useWordContext } from '../contexts/word-context';
+import { useWordContext } from '../contexts/word-context'
 
 export default function AddWord(): ReactElement {
-  const [mainWord, setMainWord] = useState('');
+  const [mainWord, setMainWord] = useState('')
   const [secretWord, setSecretWord] = useState('')
   const [words, setWords] = useWordContext()
   const mainWordInput = useRef(null)
@@ -13,9 +13,9 @@ export default function AddWord(): ReactElement {
     event.preventDefault()
 
     setWords({
-      type: "ADD_WORD",
+      type: 'ADD_WORD',
       mainWord,
-      secretWord
+      secretWord,
     })
     setMainWord('')
     setSecretWord('')
@@ -38,14 +38,21 @@ export default function AddWord(): ReactElement {
             value={mainWord}
             onChange={(e) => setMainWord(e.target.value)}
             ref={mainWordInput}
-            name="mainText" id="main-text"
-            placeholder="Main word here..." required type="text" />
+            name="mainText"
+            id="main-text"
+            placeholder="Main word here..."
+            required
+            type="text"
+          />
           <label htmlFor="secret-text">Secret word</label>
           <input
             value={secretWord}
             onChange={(e) => setSecretWord(e.target.value)}
             id="secret-text"
-            placeholder="Secret word here..." required type="text" />
+            placeholder="Secret word here..."
+            required
+            type="text"
+          />
           <input type="submit" className="button btn-large" value="Save" />
         </form>
       </div>

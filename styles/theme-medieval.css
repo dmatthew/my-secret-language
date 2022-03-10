@@ -2,8 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
-    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   line-height: 1.6;
   font-size: 18px;
 }
@@ -27,111 +27,118 @@ img {
 }
 
 body {
-	font-family: 'Eagle Lake', cursive;
+  font-family: 'Eagle Lake', cursive;
 }
 #app {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 a {
-	color: inherit;
-	text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 #content {
-	background: rgb(238, 188, 144) url(./images/background.jpg) center center fixed no-repeat;
-    background-size: cover;
-    flex: 1;
-    padding: 10px;
-    overflow: scroll;
+  background: rgb(238, 188, 144) url(./images/background.jpg) center center
+    fixed no-repeat;
+  background-size: cover;
+  flex: 1;
+  padding: 10px;
+  overflow: scroll;
 }
 h3 {
-    margin-top: 0;
+  margin-top: 0;
 }
 header {
-	background: url(./images/header-green.jpg);
-    height: 50px;
+  background: url(./images/header-green.jpg);
+  height: 50px;
 }
 header h1 {
-	color: #fff;
-	font-size: 22px;
-    width: 50%;
-    left: 22.5%;
-    position: absolute;
-    margin: 0;
-    padding: 7px 0;
-    text-align: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+  color: #fff;
+  font-size: 22px;
+  width: 50%;
+  left: 22.5%;
+  position: absolute;
+  margin: 0;
+  padding: 7px 0;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 header .back-button {
-    position: absolute;
-    left: 15px;
-    margin: 0;
-    padding: 12px;
-    background: none;
-    border: none;
+  position: absolute;
+  left: 15px;
+  margin: 0;
+  padding: 12px;
+  background: none;
+  border: none;
 }
 header .back-button::before {
-    content: '\f053';
-    font-family: FontAwesome;
-    left: -10px;
-    position: absolute;
-    top: 15px;
-    font-size: 22px;
+  content: '\f053';
+  font-family: FontAwesome;
+  left: -10px;
+  position: absolute;
+  top: 15px;
+  font-size: 22px;
 }
-select, textarea, input, .input-group {
-	background: beige;
+select,
+textarea,
+input,
+.input-group {
+  background: beige;
 }
 input {
-    background-color: beige;
-    margin-bottom: 10px;
-    width: 100%;
+  background-color: beige;
+  margin-bottom: 10px;
+  width: 100%;
 }
-input:focus, textarea:focus {
-	border: 1px solid darkolivegreen;
-	box-shadow: 0px 2px 5px #333;
-	outline: none;
+input:focus,
+textarea:focus {
+  border: 1px solid darkolivegreen;
+  box-shadow: 0px 2px 5px #333;
+  outline: none;
 }
 textarea:focus {
-	outline-color: darkolivegreen;
+  outline-color: darkolivegreen;
 }
-input, textarea {
-    font-family: 'Eagle Lake', cursive;
-	padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+input,
+textarea {
+  font-family: 'Eagle Lake', cursive;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 textarea {
-    width: 100%;
+  width: 100%;
 }
 label {
-    width: 33%;
-    float: left;
-    text-align: right;
-    font-size: 14px;
-    line-height: 44px;
-    padding: 0 6px 0 0;
+  width: 33%;
+  float: left;
+  text-align: right;
+  font-size: 14px;
+  line-height: 44px;
+  padding: 0 6px 0 0;
 }
-label + input, label + textarea {
-    width: 66%;
+label + input,
+label + textarea {
+  width: 66%;
 }
 .left {
-	float: left;
+  float: left;
 }
 .right {
-	float: right;
+  float: right;
 }
 .center-content {
-    text-align: center;
+  text-align: center;
 }
 .button {
-	background: darkolivegreen;
-	color: #fff;
+  background: darkolivegreen;
+  color: #fff;
   border: 1px solid #666;
   border-radius: 6px;
   padding: 8px 12px;
@@ -141,86 +148,88 @@ label + input, label + textarea {
   font-family: 'Eagle Lake', cursive;
 }
 .button.btn-large {
-	width: 100%;
+  width: 100%;
 }
 .button.red {
-  background-color: #B20000;
+  background-color: #b20000;
 }
 .button.btn-sepia {
-	background: url(./images/background-sepia.jpg) center center;
-	color: darkolivegreen;
-	font-family: inherit;
+  background: url(./images/background-sepia.jpg) center center;
+  color: darkolivegreen;
+  font-family: inherit;
 }
 #translate span {
-	font-size: 18px;
+  font-size: 18px;
 }
 span.highlight {
-	background-color: #f00;
-	border-radius: 4px;
-	color: #fff;
-	line-height: 2.5em;
-	margin: 0px 3px 0px 2px;
-	padding: 4px 6px;
+  background-color: #f00;
+  border-radius: 4px;
+  color: #fff;
+  line-height: 2.5em;
+  margin: 0px 3px 0px 2px;
+  padding: 4px 6px;
 }
 ul.list {
-    padding: 0;
-    margin: 0 -10px;
+  padding: 0;
+  margin: 0 -10px;
 }
 .list li {
-    list-style: none;
-    background: url(./images/background.jpg) center center;
-    border-bottom: 1px solid darkolivegreen;
+  list-style: none;
+  background: url(./images/background.jpg) center center;
+  border-bottom: 1px solid darkolivegreen;
 }
 .list-item {
-    border-bottom: 1px solid darkolivegreen;
+  border-bottom: 1px solid darkolivegreen;
 }
 .list li a {
-	display: block;
-	padding: 20px 10px;
+  display: block;
+  padding: 20px 10px;
 }
 .list .list {
-    margin: 0;
+  margin: 0;
 }
 .list .divider {
-	background: darkolivegreen;
-	color: #fff;
-    position: relative;
-    box-shadow: inset 0 1px 1px rgba(255,255,255,.4);
-    padding: 0 10px;
-    top: -1px;
+  background: darkolivegreen;
+  color: #fff;
+  position: relative;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  padding: 0 10px;
+  top: -1px;
 }
 .list .divider.category {
-	padding-right: 20px;
-	text-align: center;
+  padding-right: 20px;
+  text-align: center;
 }
 #notes-container {
-	margin-top: -10px;
+  margin-top: -10px;
 }
-#flash-cards h1, #flash-cards h2 {
-	background: url(./images/background-sepia.jpg) center center;
-	border: 10px double #000;
-	font-size: 42px;
-	margin: 5% 0%;
-	padding: 20% 0px;
-	text-align: center;
-    overflow-wrap: break-word;
+#flash-cards h1,
+#flash-cards h2 {
+  background: url(./images/background-sepia.jpg) center center;
+  border: 10px double #000;
+  font-size: 42px;
+  margin: 5% 0%;
+  padding: 20% 0px;
+  text-align: center;
+  overflow-wrap: break-word;
 }
 #flash-cards h2 {
-    font-size: 22px;
-    padding: 20% 10px;
+  font-size: 22px;
+  padding: 20% 10px;
 }
 .book-page {
-	background: url(./images/background-sepia.jpg) center center;
-	border: 10px double;
+  background: url(./images/background-sepia.jpg) center center;
+  border: 10px double;
 }
 .book-page h1 {
-	text-align: center;
+  text-align: center;
 }
-.book-page div, .book-page form {
-	padding: 10px;
+.book-page div,
+.book-page form {
+  padding: 10px;
 }
 .icon.add::before {
-    content: '\f055';
-    font-family: FontAwesome;
-    color: darkolivegreen;
+  content: '\f055';
+  font-family: FontAwesome;
+  color: darkolivegreen;
 }

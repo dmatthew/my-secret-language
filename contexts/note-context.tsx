@@ -1,60 +1,63 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react"
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import { NoteCategory } from '../lib/types'
-import NoteReducer from "./NoteReducer"
+import NoteReducer from './NoteReducer'
 
 const DEFAULT_STATE: NoteCategory[] = [
   {
-    title: "General",
+    title: 'General',
     notes: [
       {
-        title: "This is a general note",
-        description: "Anything that does not fit into any of the other categories should be placed into this category."
-      }
-    ]
+        title: 'This is a general note',
+        description:
+          'Anything that does not fit into any of the other categories should be placed into this category.',
+      },
+    ],
   },
   {
-    title: "Phonology",
+    title: 'Phonology',
     notes: [
       {
-        title: "Notes on phonology",
-        description: "The sounds of words and letters in your language."
-      }
-    ]
+        title: 'Notes on phonology',
+        description: 'The sounds of words and letters in your language.',
+      },
+    ],
   },
   {
-    title: "Morphology",
+    title: 'Morphology',
     notes: [
       {
-        title: "A note on morphology",
-        description: "Anything do to with how words are structured in your language should be placed here."
-      }
-    ]
+        title: 'A note on morphology',
+        description:
+          'Anything do to with how words are structured in your language should be placed here.',
+      },
+    ],
   },
   {
-    title: "Syntax",
+    title: 'Syntax',
     notes: [
       {
-        title: "Some notes about syntax",
-        description: "Notes you have that involve the syntax of your language go here."
-      }
-    ]
-  }
+        title: 'Some notes about syntax',
+        description:
+          'Notes you have that involve the syntax of your language go here.',
+      },
+    ],
+  },
 ]
 
 let initialState: NoteCategory[] = []
 
 const NoteContext = createContext(undefined)
 
-export function NoteContextProvider({ children}) {
+export function NoteContextProvider({ children }) {
   const [state, dispatch] = useReducer(NoteReducer, DEFAULT_STATE)
 
   useEffect(() => {
     // checking if there already is a state in localStorage
     // if yes, update the current state with the stored one
-    if (JSON.parse(localStorage.getItem("notes"))) {
+    if (JSON.parse(localStorage.getItem('notes'))) {
       dispatch({
-        type: "INIT_STORED",
-        value: JSON.parse(localStorage.getItem("notes"))
+        type: 'INIT_STORED',
+        value: JSON.parse(localStorage.getItem('notes')),
       })
     }
   }, [])
@@ -65,7 +68,7 @@ export function NoteContextProvider({ children}) {
     }
     if (state !== initialState) {
       // create and/or set a new localStorage variable called "state"
-      localStorage.setItem("notes", JSON.stringify(state))
+      localStorage.setItem('notes', JSON.stringify(state))
     }
   }, [state])
 

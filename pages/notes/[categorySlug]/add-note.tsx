@@ -1,4 +1,4 @@
-import Layout, { siteTitle} from '../../../components/layout'
+import Layout, { siteTitle } from '../../../components/layout'
 import Head from 'next/head'
 import { ReactElement, useState } from 'react'
 import { useNoteContext } from '../../../contexts/note-context'
@@ -13,13 +13,17 @@ export default function AddNote(): ReactElement {
   const [categoryNotes, noteDispatch] = useNoteContext()
 
   const getCategoryFromQuery = (): string => {
-    if (typeof categorySlug === "string") {
-      let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug.toLowerCase()})
+    if (typeof categorySlug === 'string') {
+      let categoryGroup = categoryNotes.find((el: NoteCategory) => {
+        return el.title.toLowerCase() === categorySlug.toLowerCase()
+      })
       if (categoryGroup) {
         return categoryGroup.title
       }
     } else {
-      let categoryGroup = categoryNotes.find((el: NoteCategory) => {return el.title.toLowerCase() === categorySlug[0].toLowerCase()})
+      let categoryGroup = categoryNotes.find((el: NoteCategory) => {
+        return el.title.toLowerCase() === categorySlug[0].toLowerCase()
+      })
       if (categoryGroup) {
         return categoryGroup.title
       }
@@ -28,13 +32,15 @@ export default function AddNote(): ReactElement {
 
   let category: string = getCategoryFromQuery()
 
-  const handleAddNoteFormSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleAddNoteFormSubmit = (
+    event: React.FormEvent<HTMLFormElement>
+  ): void => {
     event.preventDefault()
     noteDispatch({
-      type: "ADD_NOTE",
+      type: 'ADD_NOTE',
       categorySlug: category,
       title: title,
-      description: description
+      description: description,
     })
     router.back()
   }
@@ -52,15 +58,18 @@ export default function AddNote(): ReactElement {
             name="noteTitleText"
             id="note-title-text"
             placeholder="Note title here..."
-            required type="text"
+            required
+            type="text"
             onChange={(e) => setTitle(e.target.value)}
-            value={title} />
+            value={title}
+          />
           <label htmlFor="noteDescription">Description</label>
           <textarea
             required
             placeholder="Enter your note description..."
             onChange={(e) => setDescription(e.target.value)}
-            value={description}></textarea>
+            value={description}
+          ></textarea>
           <input type="submit" className="button btn-large" value="Save note" />
         </form>
       </div>
