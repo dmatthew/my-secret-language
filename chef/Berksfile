@@ -1,3 +1,0 @@
-source 'https://supermarket.chef.io'
-
-cookbook 'react_base', path: 'cookbooks/react_base'

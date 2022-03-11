@@ -1,6 +1,0 @@
-DEPENDENCIES
-  react_base
-    path: cookbooks/react_base
-
-GRAPH
-  react_base (0.1.0)

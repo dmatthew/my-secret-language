@@ -1,14 +1,10 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:8.9
+      - image: cimg/node:14.19
 
     working_directory: ~/repo
-
-    branches:
-      only:
-        - production
 
     steps:
       - checkout
@@ -16,27 +12,25 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "app/package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
 
       - run:
-          command: yarn install
-          working_directory: app
+          command: npm install
       - run:
-          command: yarn build-css && yarn test
-          working_directory: app
+          command: npm run test:ci
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "app/package.json" }}
+          key: v1-dependencies-{{ checksum "package.json" }}
 
-      # Build
-      - run: sudo apt install rsync
-      - run:
-          command: yarn build
-          working_directory: app
-
-      - run: ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
-      - run: rsync -az ~/repo/app/build/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_DIRECTORY --delete
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: nextjs

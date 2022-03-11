@@ -1,0 +1,164 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+select,
+textarea,
+input,
+.input-group {
+  background: #fff;
+}
+input {
+  margin-bottom: 10px;
+  width: 100%;
+}
+input:focus,
+textarea:focus {
+  border: 1px solid #000;
+  box-shadow: 0px 2px 5px #333;
+  outline: none;
+}
+textarea:focus {
+  outline-color: #000;
+}
+input,
+textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+textarea {
+  width: 100%;
+}
+label {
+  width: 33%;
+  float: left;
+  text-align: right;
+  font-size: 14px;
+  line-height: 44px;
+  padding: 0 6px 0 0;
+}
+label + input,
+label + textarea {
+  width: 66%;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.center-content {
+  text-align: center;
+}
+.button {
+  background: #fff;
+  color: #000;
+  border: 1px solid #666;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 8px 0;
+  display: inline-block;
+  text-align: center;
+}
+.button.btn-large {
+  width: 100%;
+}
+.button.red {
+  background-color: #b20000;
+}
+#translate span {
+  font-size: 18px;
+}
+span.highlight {
+  background-color: #f00;
+  border-radius: 4px;
+  color: #fff;
+  line-height: 2.5em;
+  margin: 0px 3px 0px 2px;
+  padding: 4px 6px;
+}
+ul.list {
+  padding: 0;
+  margin: 0 -10px;
+}
+.list li {
+  list-style: none;
+  border-bottom: 1px solid #000;
+}
+.list-item {
+  border-bottom: 1px solid #000;
+}
+.list li a {
+  display: block;
+  padding: 20px 10px;
+}
+.list .list {
+  margin: 0;
+}
+.list .divider {
+  background: #000;
+  color: #fff;
+  position: relative;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  padding: 0 10px;
+  top: -1px;
+  font-weight: bold;
+}
+.list .divider.category {
+  padding-right: 20px;
+  text-align: center;
+}
+#notes-container {
+  margin-top: -10px;
+}
+#flash-cards .card {
+  border: 10px double #000;
+  font-size: 42px;
+  margin: 5% 0%;
+  padding: 20% 10px;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+#flash-cards h2.card {
+  font-size: 22px;
+  padding: 20% 10px;
+}
+.book-page {
+  border: 10px double;
+}
+.book-page h1 {
+  text-align: center;
+}
+.book-page div,
+.book-page form {
+  padding: 10px;
+}
