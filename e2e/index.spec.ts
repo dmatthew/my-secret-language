@@ -7,6 +7,6 @@ test('should navigate to the Add new word page', async ({ page }) => {
   await page.click('text=Add new word')
   // The new url should be "/add-word" (baseURL is used there)
   await expect(page).toHaveURL('/add-word')
-  // The new page should contain an h1 with "About Page"
+  // The new page should contain an h3 with "Add a new word"
   await expect(page.locator('h3')).toContainText('Add a new word')
 })
