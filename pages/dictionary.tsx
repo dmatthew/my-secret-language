@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function Dictionary(): ReactElement {
   const [searchTerm, setSearchTerm] = useState('')
-  const [words, setWords] = useWordContext()
+  const { state: words, dispatch: setWords } = useWordContext()
 
   function sortByMainWord(wordsArray: Word[]): Word[] {
     wordsArray.sort((a, b) => {
@@ -20,7 +20,7 @@ export default function Dictionary(): ReactElement {
     return wordsArray
   }
 
-  let wordsToDisplay: Word[] = []
+  let wordsToDisplay = []
   if (words) {
     let currentSearchTerm: string = searchTerm
     let currentLetter: string = ''

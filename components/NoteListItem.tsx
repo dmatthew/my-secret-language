@@ -2,7 +2,7 @@ import { Note } from '../lib/types'
 import { ReactElement } from 'react'
 import Link from 'next/link'
 
-export default function IndividualNote({
+export default function NoteListItem({
   category,
   notes,
 }: {

@@ -1,11 +1,20 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import WordReducer from './WordReducer'
+import { Word } from '../lib/types'
+import WordReducer, { WordAction } from './WordReducer'
 
-const WordContext = createContext([])
+interface WordState {
+  dispatch: (action: WordAction) => void
+  state: Word[]
+}
 
-const initialState = []
+const initialState: Word[] = []
 
-export function WordContextProvider({ children }) {
+export const WordContext = createContext<WordState>({
+  state: initialState,
+  dispatch: () => {},
+})
+
+export function WordContextProvider({ children }: any) {
   const [state, dispatch] = useReducer(WordReducer, initialState)
 
   useEffect(() => {
@@ -27,7 +36,8 @@ export function WordContextProvider({ children }) {
   }, [state])
 
   return (
-    <WordContext.Provider value={[state, dispatch]}>
+    <WordContext.Provider value={{ state, dispatch }}>
+      {/* <WordContext.Provider value={{ dispatch, words: state}}> */}
       {children}
     </WordContext.Provider>
   )

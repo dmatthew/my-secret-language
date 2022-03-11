@@ -6,7 +6,7 @@ import { useWordContext } from '../contexts/word-context'
 export default function AddWord(): ReactElement {
   const [mainWord, setMainWord] = useState('')
   const [secretWord, setSecretWord] = useState('')
-  const [words, setWords] = useWordContext()
+  const { state: words, dispatch: setWords } = useWordContext()
   const mainWordInput = useRef(null)
 
   const handleAddWord = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -48,6 +48,7 @@ export default function AddWord(): ReactElement {
           <input
             value={secretWord}
             onChange={(e) => setSecretWord(e.target.value)}
+            name="secretText"
             id="secret-text"
             placeholder="Secret word here..."
             required

@@ -1,12 +1,12 @@
 import { Word } from '../lib/types'
 
-type Action =
+export type WordAction =
   | { type: 'ADD_WORD'; mainWord: string; secretWord: string }
   | { type: 'DELETE_WORD'; mainWord: string }
   | { type: 'EDIT_WORD'; mainWord: string; secretWord: string }
   | { type: 'INIT_STORED'; value: Word[] }
 
-export default function WordReducer(state: Word[], action: Action): Word[] {
+export default function WordReducer(state: Word[], action: WordAction): Word[] {
   let words: Word[], index: number
   switch (action.type) {
     case 'ADD_WORD':

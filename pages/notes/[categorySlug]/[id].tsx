@@ -8,43 +8,17 @@ import { NoteCategory } from '../../../lib/types'
 
 export default function EditNote(props): ReactElement {
   const [isEditingNote, setIsEditingNote] = useState(false)
-  const [categoryNotes, noteDispatch] = useNoteContext()
+  const { state: categoryNotes, dispatch: noteDispatch } = useNoteContext()
   const router = useRouter()
-  const { categorySlug, id } = router.query
+  const categorySlug = router.query.categorySlug.toString()
+  const id = parseInt(router.query.id.toString())
 
   const getNoteFromQuery = useCallback(() => {
-    if (typeof id === 'string') {
-      if (typeof categorySlug === 'string') {
-        let categoryGroup = categoryNotes.find((el: NoteCategory) => {
-          return el.title.toLowerCase() === categorySlug.toLowerCase()
-        })
-        if (categoryGroup) {
-          return categoryGroup.notes[id]
-        }
-      } else {
-        let categoryGroup = categoryNotes.find((el: NoteCategory) => {
-          return el.title.toLowerCase() === categorySlug[0].toLowerCase()
-        })
-        if (categoryGroup) {
-          return categoryGroup.notes[id]
-        }
-      }
-    } else {
-      if (typeof categorySlug === 'string') {
-        let categoryGroup = categoryNotes.find((el: NoteCategory) => {
-          return el.title.toLowerCase() === categorySlug.toLowerCase()
-        })
-        if (categoryGroup) {
-          return categoryGroup.notes[id[0]]
-        }
-      } else {
-        let categoryGroup = categoryNotes.find((el: NoteCategory) => {
-          return el.title.toLowerCase() === categorySlug[0].toLowerCase()
-        })
-        if (categoryGroup) {
-          return categoryGroup.notes[id[0]]
-        }
-      }
+    let categoryGroup = categoryNotes.find((el: NoteCategory) => {
+      return el.title.toLowerCase() === categorySlug.toLowerCase()
+    })
+    if (categoryGroup) {
+      return categoryGroup.notes[id]
     }
   }, [categoryNotes, categorySlug, id])
 

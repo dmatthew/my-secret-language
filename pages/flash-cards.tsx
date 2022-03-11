@@ -6,7 +6,7 @@ import { useWordContext } from '../contexts/word-context'
 import { Word } from '../lib/types'
 
 export default function FlashCards(): ReactElement {
-  const [words, setWords] = useWordContext()
+  const { state: words, dispatch: setWords } = useWordContext()
 
   const flipCard = (): void => {
     setMainIsVisible(!mainIsVisible)

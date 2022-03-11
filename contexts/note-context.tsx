@@ -1,6 +1,11 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import { NoteCategory } from '../lib/types'
-import NoteReducer from './NoteReducer'
+import NoteReducer, { NoteAction } from './NoteReducer'
+
+interface NoteState {
+  dispatch: (action: NoteAction) => void
+  state: NoteCategory[]
+}
 
 const DEFAULT_STATE: NoteCategory[] = [
   {
@@ -46,9 +51,12 @@ const DEFAULT_STATE: NoteCategory[] = [
 
 let initialState: NoteCategory[] = []
 
-const NoteContext = createContext(undefined)
+const NoteContext = createContext<NoteState>({
+  state: initialState,
+  dispatch: () => {},
+})
 
-export function NoteContextProvider({ children }) {
+export function NoteContextProvider({ children }: any) {
   const [state, dispatch] = useReducer(NoteReducer, DEFAULT_STATE)
 
   useEffect(() => {
@@ -73,7 +81,7 @@ export function NoteContextProvider({ children }) {
   }, [state])
 
   return (
-    <NoteContext.Provider value={[state, dispatch]}>
+    <NoteContext.Provider value={{ state, dispatch }}>
       {children}
     </NoteContext.Provider>
   )

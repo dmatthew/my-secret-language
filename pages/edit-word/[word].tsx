@@ -7,10 +7,10 @@ import { useRouter } from 'next/router'
 
 export default function EditWord(): ReactElement {
   const router = useRouter()
-  const { word } = router.query
+  const word = router.query.word.toString()
   const [mainWord, setMainWord] = useState(word)
   const [secretWord, setSecretWord] = useState('')
-  const [words, setWords] = useWordContext()
+  const { state: words, dispatch: setWords } = useWordContext()
 
   const deleteWord = (event: React.FormEvent<HTMLButtonElement>): void => {
     event.preventDefault()
@@ -18,7 +18,6 @@ export default function EditWord(): ReactElement {
     setWords({
       type: 'DELETE_WORD',
       mainWord,
-      secretWord,
     })
     router.back()
   }
@@ -71,4 +70,9 @@ export default function EditWord(): ReactElement {
       </div>
     </Layout>
   )
+}
+
+/** NOTE: This is needed to disable pre-rendering on this page only. */
+EditWord.getInitialProps = async () => {
+  return {}
 }

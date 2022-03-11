@@ -10,7 +10,7 @@ interface TranslatedWord {
 }
 
 export default function Translate(): ReactElement {
-  const [words, setWords] = useWordContext()
+  const { state: words, dispatch: setWords } = useWordContext()
   const [translationInput, setTranslationInput] = useState<string>('')
   const [translationOutput, setTranslationOutput] = useState<TranslatedWord[]>(
     []

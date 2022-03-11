@@ -1,6 +1,6 @@
 import { NoteCategory, Note } from '../lib/types'
 
-type Action =
+export type NoteAction =
   | {
       type: 'ADD_NOTE'
       categorySlug: string
@@ -19,7 +19,7 @@ type Action =
 
 export default function NoteReducer(
   state: NoteCategory[],
-  action: Action
+  action: NoteAction
 ): NoteCategory[] {
   let noteCategories: NoteCategory[], categoryGroupIndex: number
   switch (action.type) {
