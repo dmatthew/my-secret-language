@@ -6,7 +6,7 @@ A single page JavaScript application built with [React](https://reactjs.org) usi
 
 See the app in action at [my-secret-language.vercel.app](https://my-secret-language.vercel.app/).
 
-### Features of the app:
+## Features of the app:
 
 - Add, edit, and delete new words.
 - Translate sentences from your native language into your secret language.
@@ -19,6 +19,12 @@ See the app in action at [my-secret-language.vercel.app](https://my-secret-langu
 | ![App Home](docs/screenshots/flash-cards.png) | ![App Home](docs/screenshots/translate.png) |   ![App Home](docs/screenshots/notes.png)    |
 |                  Flash Cards                  |                  Translate                  |                    Notes                     |
 
-### License
+## Current Development
+
+New Feature: [User management](https://github.com/dmatthew/my-secret-language/pull/13)
+
+Users will be able to sign up and log in to the app.
+
+## License
 
 [MIT](/LICENSE)
