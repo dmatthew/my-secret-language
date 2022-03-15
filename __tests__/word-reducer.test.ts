@@ -1,4 +1,4 @@
-import reducers from '../contexts/WordReducer'
+import reducers from 'contexts/WordReducer'
 
 describe('Words reducer', () => {
   it('should handle ADD_WORD', () => {

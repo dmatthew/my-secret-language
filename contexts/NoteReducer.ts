@@ -1,4 +1,4 @@
-import { NoteCategory, Note } from '../lib/types'
+import { NoteCategory, Note } from 'lib/types'
 
 export type NoteAction =
   | {

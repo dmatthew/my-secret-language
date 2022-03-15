@@ -1,12 +1,16 @@
-import Layout, { siteTitle } from '../components/layout'
+import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import { ReactElement, useState } from 'react'
-import { NoteCategory, Note } from '../lib/types'
+import { NoteCategory, Note } from 'lib/types'
 import Link from 'next/link'
-import NoteListItem from '../components/NoteListItem'
-import { useNoteContext } from '../contexts/note-context'
+import NoteListItem from 'components/NoteListItem'
+import { useNoteContext } from 'contexts/note-context'
+import useUser from 'lib/useUser'
 
 export default function Notes(): ReactElement {
+  const { user } = useUser({
+    redirectTo: '/login',
+  })
   const { state: categoryNotes, dispatch: noteDispatch } = useNoteContext()
 
   let categoryList = categoryNotes.map(

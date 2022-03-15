@@ -1,11 +1,16 @@
-import Layout, { siteTitle } from '../components/layout'
+import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import { ReactElement, useState } from 'react'
-import { useWordContext } from '../contexts/word-context'
-import { Word } from '../lib/types'
+import { useWordContext } from 'contexts/word-context'
+import { Word } from 'lib/types'
 import Link from 'next/link'
+import useUser from 'lib/useUser'
 
 export default function Dictionary(): ReactElement {
+  const { user } = useUser({
+    redirectTo: '/login',
+  })
+
   const [searchTerm, setSearchTerm] = useState('')
   const { state: words, dispatch: setWords } = useWordContext()
 

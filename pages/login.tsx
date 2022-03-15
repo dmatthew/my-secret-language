@@ -1,34 +1,45 @@
-import Layout, { siteTitle } from '../components/layout'
+import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import React, { ReactElement, useRef, useState } from 'react'
 import Link from 'next/link'
+import useUser from 'lib/useUser'
+import fetchJson, { FetchError } from 'lib/fetchJson'
 
 export default function Login(): ReactElement {
+  const { mutateUser } = useUser({
+    redirectTo: '/',
+    redirectIfFound: true,
+  })
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const emailInput = useRef(null)
 
-  const loginUser = (event: React.FormEvent<HTMLFormElement>): void => {
+  const loginUser = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault()
 
     if (email.length && password.length) {
-      const user = {
-        email,
-        password,
+      const body = {
+        email: email,
+        password: password,
       }
-      const options = {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+
+      try {
+        mutateUser(
+          await fetchJson('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          })
+        )
+      } catch (error) {
+        if (error instanceof FetchError) {
+          console.log(error.data.message)
+        } else {
+          console.error('An unexpected error happened:', error)
+        }
       }
-      console.log(options)
-      fetch('/api/login', options)
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res)
-        })
     }
   }
 

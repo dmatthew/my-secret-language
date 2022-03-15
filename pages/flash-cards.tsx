@@ -1,11 +1,15 @@
-import Layout, { siteTitle } from '../components/layout'
+import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import Link from 'next/link'
 import { ReactElement, useState } from 'react'
-import { useWordContext } from '../contexts/word-context'
-import { Word } from '../lib/types'
+import { useWordContext } from 'contexts/word-context'
+import { Word } from 'lib/types'
+import useUser from 'lib/useUser'
 
 export default function FlashCards(): ReactElement {
+  const { user } = useUser({
+    redirectTo: '/login',
+  })
   const { state: words, dispatch: setWords } = useWordContext()
 
   const flipCard = (): void => {

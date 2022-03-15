@@ -1,12 +1,16 @@
-import Layout, { siteTitle } from '../../../components/layout'
+import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
-import { useNoteContext } from '../../../contexts/note-context'
-import { Note } from '../../../lib/types'
+import { useNoteContext } from 'contexts/note-context'
+import { Note } from 'lib/types'
 import { useRouter } from 'next/router'
-import { NoteCategory } from '../../../lib/types'
+import { NoteCategory } from 'lib/types'
+import useUser from 'lib/useUser'
 
 export default function EditNote(props): ReactElement {
+  const { user } = useUser({
+    redirectTo: '/login',
+  })
   const [isEditingNote, setIsEditingNote] = useState(false)
   const { state: categoryNotes, dispatch: noteDispatch } = useNoteContext()
   const router = useRouter()

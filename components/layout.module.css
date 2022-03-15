@@ -28,6 +28,16 @@
   color: #000;
 }
 
+.logoutButton {
+  position: absolute;
+  right: 15px;
+  margin: 0;
+  padding: 12px;
+  background: none;
+  border: none;
+  color: #000;
+}
+
 .content {
   background-size: cover;
   flex: 1;

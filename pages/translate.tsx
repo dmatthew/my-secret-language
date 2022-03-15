@@ -1,8 +1,9 @@
-import Layout, { siteTitle } from '../components/layout'
+import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import React, { ReactElement, useEffect, useState, useCallback } from 'react'
-import { useWordContext } from '../contexts/word-context'
-import { Word } from '../lib/types'
+import { useWordContext } from 'contexts/word-context'
+import { Word } from 'lib/types'
+import useUser from 'lib/useUser'
 
 interface TranslatedWord {
   text: string
@@ -10,6 +11,9 @@ interface TranslatedWord {
 }
 
 export default function Translate(): ReactElement {
+  const { user } = useUser({
+    redirectTo: '/login',
+  })
   const { state: words, dispatch: setWords } = useWordContext()
   const [translationInput, setTranslationInput] = useState<string>('')
   const [translationOutput, setTranslationOutput] = useState<TranslatedWord[]>(

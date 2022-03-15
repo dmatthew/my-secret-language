@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import AddWord from '../pages/add-word'
+import AddWord from 'pages/add-word'
 import React from 'react'
 
 describe('Add Word page', () => {

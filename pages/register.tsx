@@ -1,32 +1,42 @@
-import Layout, { siteTitle } from '../components/layout'
+import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import React, { ReactElement, useRef, useState } from 'react'
 import Link from 'next/link'
+import useUser from 'lib/useUser'
+import fetchJson, { FetchError } from 'lib/fetchJson'
 
 export default function Register(): ReactElement {
+  const { mutateUser } = useUser({
+    redirectTo: '/',
+    redirectIfFound: true,
+  })
   const [email, setemail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const emailInput = useRef(null)
 
-  const registerUser = (): void => {
+  const registerUser = async (): Promise<void> => {
     if (email.length && password.length) {
-      const user = {
+      const body = {
         email,
         password,
       }
-      const options = {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+
+      try {
+        mutateUser(
+          await fetchJson('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          })
+        )
+      } catch (error) {
+        if (error instanceof FetchError) {
+          console.log(error.data.message)
+        } else {
+          console.error('An unexpected error happened:', error)
+        }
       }
-      fetch('/api/register', options)
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res)
-        })
     }
   }
 

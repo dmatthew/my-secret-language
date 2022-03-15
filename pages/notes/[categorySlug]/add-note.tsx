@@ -1,11 +1,15 @@
-import Layout, { siteTitle } from '../../../components/layout'
+import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import { ReactElement, useState } from 'react'
-import { useNoteContext } from '../../../contexts/note-context'
+import { useNoteContext } from 'contexts/note-context'
 import { useRouter } from 'next/router'
-import { NoteCategory } from '../../../lib/types'
+import { NoteCategory } from 'lib/types'
+import useUser from 'lib/useUser'
 
 export default function AddNote(): ReactElement {
+  const { user } = useUser({
+    redirectTo: '/login',
+  })
   const router = useRouter()
   const categorySlug = router.query.categorySlug.toString()
   const [title, setTitle] = useState('')

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { Word } from '../lib/types'
+import { Word } from 'lib/types'
 import WordReducer, { WordAction } from './WordReducer'
 
 interface WordState {

@@ -1,9 +1,14 @@
-import Layout, { siteTitle } from '../components/layout'
+import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
-import { useWordContext } from '../contexts/word-context'
+import { useWordContext } from 'contexts/word-context'
+import useUser from 'lib/useUser'
 
 export default function AddWord(): ReactElement {
+  const { user } = useUser({
+    redirectTo: '/login',
+  })
+
   const [mainWord, setMainWord] = useState('')
   const [secretWord, setSecretWord] = useState('')
   const { state: words, dispatch: setWords } = useWordContext()

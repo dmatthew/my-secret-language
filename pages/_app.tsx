@@ -1,14 +1,25 @@
-import '../styles/global.css'
+import 'styles/global.css'
 import { AppProps } from 'next/app'
-import { WordContextProvider } from '../contexts/word-context'
-import { NoteContextProvider } from '../contexts/note-context'
+import { WordContextProvider } from 'contexts/word-context'
+import { NoteContextProvider } from 'contexts/note-context'
+import { SWRConfig } from 'swr'
+import fetchJson from 'lib/fetchJson'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <WordContextProvider>
-      <NoteContextProvider>
-        <Component {...pageProps} />
-      </NoteContextProvider>
-    </WordContextProvider>
+    <SWRConfig
+      value={{
+        fetcher: fetchJson,
+        onError: (err) => {
+          console.error(err)
+        },
+      }}
+    >
+      <WordContextProvider>
+        <NoteContextProvider>
+          <Component {...pageProps} />
+        </NoteContextProvider>
+      </WordContextProvider>
+    </SWRConfig>
   )
 }

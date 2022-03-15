@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { NoteCategory } from '../lib/types'
+import { NoteCategory } from 'lib/types'
 import NoteReducer, { NoteAction } from './NoteReducer'
 
 interface NoteState {

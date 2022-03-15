@@ -1,4 +1,4 @@
-import { Note } from '../lib/types'
+import { Note } from 'lib/types'
 import { ReactElement } from 'react'
 import Link from 'next/link'
 

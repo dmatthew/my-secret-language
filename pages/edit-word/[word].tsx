@@ -1,11 +1,14 @@
-import Layout, { siteTitle } from '../../components/layout'
+import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import { ReactElement, useState } from 'react'
-import { useWordContext } from '../../contexts/word-context'
-import { Word } from '../../lib/types'
+import { useWordContext } from 'contexts/word-context'
 import { useRouter } from 'next/router'
+import useUser from 'lib/useUser'
 
 export default function EditWord(): ReactElement {
+  const { user } = useUser({
+    redirectTo: '/login',
+  })
   const router = useRouter()
   const word = router.query.word.toString()
   const [mainWord, setMainWord] = useState(word)

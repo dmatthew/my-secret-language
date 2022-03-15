@@ -1,4 +1,4 @@
-import { Word } from '../lib/types'
+import { Word } from 'lib/types'
 
 export type WordAction =
   | { type: 'ADD_WORD'; mainWord: string; secretWord: string }

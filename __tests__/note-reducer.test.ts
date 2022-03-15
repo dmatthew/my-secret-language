@@ -1,4 +1,4 @@
-import reducers from '../contexts/NoteReducer'
+import reducers from 'contexts/NoteReducer'
 
 describe('Notes reducer', () => {
   test('should handle ADD_NOTE', () => {

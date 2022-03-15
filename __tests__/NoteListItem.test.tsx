@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import NoteListItem from '../components/NoteListItem'
+import NoteListItem from 'components/NoteListItem'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
