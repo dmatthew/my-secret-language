@@ -14,6 +14,8 @@ See the app in action at [my-secret-language.vercel.app](https://my-secret-langu
 - [Jest](https://jestjs.io/): Unit testing framework
 - [Playwright](https://playwright.dev/): End-to-end testing framework
 - [CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS): Just plain old CSS
+- [iron-session](https://github.com/vvo/iron-session): JavaScript library for managing sessions to help with user authentication
+- [Postgres](https://www.postgresql.org/): Relational database for storing data
 - [CircleCI](https://circleci.com/): Continuous integration platform to automate testing
 - [Vercel](https://vercel.com/): Hosting platform
 
