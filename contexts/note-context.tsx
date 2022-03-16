@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import { NoteCategory } from 'lib/types'
-import NoteReducer, { NoteAction } from './NoteReducer'
+import NoteReducer, { NoteAction } from 'contexts/NoteReducer'
 
 interface NoteState {
   dispatch: (action: NoteAction) => void
