@@ -20,16 +20,12 @@ export function WordContextProvider({ children }: any) {
   const useReducerWithMiddleware = (
     reducer: (state: Word[], action: WordAction) => Word[],
     initialState: Word[],
-    middlewareFns: Array<(action: WordAction) => void> = []
+    middlewareFn: (
+      dispatchFunction: React.Dispatch<WordAction>
+    ) => (action: WordAction) => Promise<void>
   ): [Word[], React.Dispatch<WordAction>] => {
     const [state, dispatch] = useReducer(reducer, initialState)
-
-    const dispatchWithMiddleware = databaseMiddleware(dispatch)
-    // const dispatchWithMiddleware = (dispatch) => {
-    //   middlewareFns.forEach((middlewareFn) => {
-    //     middlewareFn(dispatch)
-    //   })
-    // }
+    const dispatchWithMiddleware = middlewareFn(dispatch)
 
     useEffect(() => {
       async function getAllWords() {
@@ -53,20 +49,13 @@ export function WordContextProvider({ children }: any) {
       getAllWords()
     }, [])
 
-    // useEffect(() => {
-    //   if (state !== initialState) {
-    //     // create and/or set a new localStorage variable called "state"
-    //     localStorage.setItem('words', JSON.stringify(state))
-    //   }
-    // }, [state, initialState])
-
     return [state, dispatchWithMiddleware]
   }
 
   const [state, dispatch] = useReducerWithMiddleware(
     WordReducer,
     initialState,
-    [databaseMiddleware]
+    databaseMiddleware
   )
 
   return (
