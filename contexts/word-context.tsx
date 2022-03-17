@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import { Word } from 'lib/types'
 import WordReducer, { WordAction } from 'contexts/WordReducer'
-import middlewareFn from 'contexts/middleware/database'
+import databaseMiddleware from 'contexts/middleware/database'
+import fetchJson, { FetchError } from 'lib/fetchJson'
 
 interface WordState {
   dispatch: (action: WordAction) => void
@@ -19,35 +20,45 @@ export function WordContextProvider({ children }: any) {
   const useReducerWithMiddleware = (
     reducer: (state: Word[], action: WordAction) => Word[],
     initialState: Word[],
-    middlewareFns: Array<(state: Word[], action: WordAction) => void> = []
+    middlewareFns: Array<(action: WordAction) => void> = []
   ): [Word[], React.Dispatch<WordAction>] => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    const dispatchWithMiddleware = (action) => {
-      middlewareFns.forEach((middlewareFn) => {
-        middlewareFn(state, action)
-      })
-
-      dispatch(action)
-    }
+    const dispatchWithMiddleware = databaseMiddleware(dispatch)
+    // const dispatchWithMiddleware = (dispatch) => {
+    //   middlewareFns.forEach((middlewareFn) => {
+    //     middlewareFn(dispatch)
+    //   })
+    // }
 
     useEffect(() => {
-      // checking if there already is a state in localStorage
-      // if yes, update the current state with the stored one
-      if (JSON.parse(localStorage.getItem('words'))) {
-        dispatch({
-          type: 'INIT_STORED',
-          value: JSON.parse(localStorage.getItem('words')),
-        })
+      async function getAllWords() {
+        try {
+          const { response } = await fetchJson<any>('/api/words/all', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          })
+          dispatch({
+            type: 'INIT_STORED',
+            value: response.words,
+          })
+        } catch (error) {
+          if (error instanceof FetchError) {
+            console.log(error.data.message)
+          } else {
+            console.error('An unexpected error happened:', error)
+          }
+        }
       }
+      getAllWords()
     }, [])
 
-    useEffect(() => {
-      if (state !== initialState) {
-        // create and/or set a new localStorage variable called "state"
-        localStorage.setItem('words', JSON.stringify(state))
-      }
-    }, [state, initialState])
+    // useEffect(() => {
+    //   if (state !== initialState) {
+    //     // create and/or set a new localStorage variable called "state"
+    //     localStorage.setItem('words', JSON.stringify(state))
+    //   }
+    // }, [state, initialState])
 
     return [state, dispatchWithMiddleware]
   }
@@ -55,7 +66,7 @@ export function WordContextProvider({ children }: any) {
   const [state, dispatch] = useReducerWithMiddleware(
     WordReducer,
     initialState,
-    [middlewareFn]
+    [databaseMiddleware]
   )
 
   return (

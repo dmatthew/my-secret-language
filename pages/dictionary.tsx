@@ -44,7 +44,7 @@ export default function Dictionary(): ReactElement {
           <span key={index}>
             {isNewLetter && <li className="divider">{currentLetter}</li>}
             <li>
-              <Link href={`/edit-word/${word.mainWord}`}>
+              <Link href={`/edit-word/${word.id}`}>
                 <a>
                   {word.mainWord}{' '}
                   <span className="right">{word.secretWord}</span>

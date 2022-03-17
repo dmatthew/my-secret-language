@@ -10,7 +10,7 @@ See the app in action at [my-secret-language.vercel.app](https://my-secret-langu
 
 - [React](https://reactjs.org/): For the User Interface
 - [Next.js](https://nextjs.org): A React framework for client and server rendering, routing, and compilation and bundling
-- [TypeScript](https://www.typescriptlang.org/): Improvement over JavaScript for better editor tooling, easier maintenance, and catching bugs earlier
+- [TypeScript](https://www.typescriptlang.org/): Improvement over JavaScript for better editor tooling, easier maintenance, and catching errors earlier
 - [Jest](https://jestjs.io/): Unit testing framework
 - [Playwright](https://playwright.dev/): End-to-end testing framework
 - [CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS): Just plain old CSS

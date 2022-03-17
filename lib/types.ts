@@ -1,6 +1,7 @@
 export interface Word {
   mainWord: string
   secretWord: string
+  id?: number
 }
 
 export interface NoteCategory {

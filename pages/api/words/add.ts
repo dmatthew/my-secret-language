@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { addWordToDatabase, getWordFromDatabase } from 'lib/backend/words'
+import { addWordToDatabase } from 'lib/backend/words'
 
-export default async function registerRoute(
+export default async function addWordRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
@@ -15,7 +15,7 @@ export default async function registerRoute(
       secretWord: word.secretWord,
       languageId: word.languageId,
     }
-    return res.status(201).json({ response: response })
+    return res.status(201).json(response)
   } else {
     return res.status(400).json({ message: 'Word not found' })
   }

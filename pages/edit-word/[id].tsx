@@ -1,25 +1,50 @@
 import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useWordContext } from 'contexts/word-context'
 import { useRouter } from 'next/router'
 import useUser from 'lib/useUser'
+import fetchJson, { FetchError } from 'lib/fetchJson'
 
 export default function EditWord(): ReactElement {
   const { user } = useUser({
     redirectTo: '/login',
   })
   const router = useRouter()
-  const word = router.query.word.toString()
-  const [mainWord, setMainWord] = useState(word)
+  const [wordId, setWordId] = useState('')
+  const [mainWord, setMainWord] = useState('')
   const [secretWord, setSecretWord] = useState('')
   const { state: words, dispatch: setWords } = useWordContext()
 
+  useEffect(() => {
+    async function loadWord(id: string) {
+      try {
+        const response = await fetchJson<any>(`/api/words/${id}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        })
+        setWordId(response.word.id)
+        setMainWord(response.word.mainWord)
+        setSecretWord(response.word.secretWord)
+      } catch (error) {
+        if (error instanceof FetchError) {
+          console.log(error.data.message)
+        } else {
+          console.error('An unexpected error happened:', error)
+        }
+      }
+    }
+    if (router.isReady) {
+      const id = router.query.id.toString()
+      loadWord(id)
+    }
+  }, [router, setMainWord])
+
   const deleteWord = (event: React.FormEvent<HTMLButtonElement>): void => {
     event.preventDefault()
-
     setWords({
       type: 'DELETE_WORD',
+      id: wordId,
       mainWord,
     })
     router.back()
@@ -34,6 +59,7 @@ export default function EditWord(): ReactElement {
       type: 'EDIT_WORD',
       mainWord,
       secretWord,
+      id: parseInt(wordId),
     })
     setMainWord('')
     setSecretWord('')
@@ -73,9 +99,4 @@ export default function EditWord(): ReactElement {
       </div>
     </Layout>
   )
-}
-
-/** NOTE: This is needed to disable pre-rendering on this page only. */
-EditWord.getInitialProps = async () => {
-  return {}
 }

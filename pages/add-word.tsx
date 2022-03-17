@@ -11,16 +11,17 @@ export default function AddWord(): ReactElement {
 
   const [mainWord, setMainWord] = useState('')
   const [secretWord, setSecretWord] = useState('')
-  const { state: words, dispatch: setWords } = useWordContext()
+  const { state: words, dispatch: dispatchWords } = useWordContext()
   const mainWordInput = useRef(null)
 
   const handleAddWord = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
 
-    setWords({
+    dispatchWords({
       type: 'ADD_WORD',
       mainWord,
       secretWord,
+      id: null,
     })
     setMainWord('')
     setSecretWord('')

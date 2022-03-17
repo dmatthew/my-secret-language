@@ -22,7 +22,7 @@ export async function registerRoute(
     const response = { isLoggedIn: true, email: req.body.email }
     req.session.user = response
     await req.session.save()
-    res.status(201).json({ response: response })
+    return res.status(201).json({ response: response })
   } else {
     return res.status(400).json({ message: 'User not found' })
   }
