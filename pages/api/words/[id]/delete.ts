@@ -5,7 +5,8 @@ export default async function deleteWordRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  const success = await deleteWordFromDatabase(req.body.id)
+  const id = parseInt(req.query.id.toString())
+  const success = await deleteWordFromDatabase(id)
   if (success) {
     const response = {
       message: 'success',

@@ -95,11 +95,8 @@ export default function databaseMiddleware(dispatch) {
         }
         return
       case 'DELETE_WORD':
-        body = {
-          id: action.id,
-        }
         try {
-          const response = await fetchJson('/api/words/delete', {
+          const response = await fetchJson(`/api/words/${action.id}/delete`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
