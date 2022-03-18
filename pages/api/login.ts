@@ -16,7 +16,7 @@ export async function loginRoute(
     return res.status(400).json({ message: 'User not found' })
   } else {
     if (validPassword(user, password)) {
-      const response = { isLoggedIn: true, email: user.email }
+      const response = { isLoggedIn: true, email: user.email, id: user.id }
       req.session.user = response
       await req.session.save()
       return res.status(200).json(response)

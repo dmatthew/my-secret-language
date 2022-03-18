@@ -1,9 +1,21 @@
 import { Word } from 'lib/types'
 
 export type WordAction =
-  | { type: 'ADD_WORD'; mainWord: string; secretWord: string; id: number }
+  | {
+      type: 'ADD_WORD'
+      mainWord: string
+      secretWord: string
+      id: number
+      languageId: number
+    }
   | { type: 'DELETE_WORD'; mainWord: string; id: string }
-  | { type: 'EDIT_WORD'; mainWord: string; secretWord: string; id: number }
+  | {
+      type: 'EDIT_WORD'
+      mainWord: string
+      secretWord: string
+      id: number
+      languageId: number
+    }
   | { type: 'INIT_STORED'; value: Word[] }
 
 export default function WordReducer(state: Word[], action: WordAction): Word[] {
@@ -16,6 +28,7 @@ export default function WordReducer(state: Word[], action: WordAction): Word[] {
           mainWord: action.mainWord,
           secretWord: action.secretWord,
           id: action.id,
+          languageId: action.languageId,
         },
       ]
     case 'EDIT_WORD':
@@ -29,6 +42,7 @@ export default function WordReducer(state: Word[], action: WordAction): Word[] {
         mainWord: action.mainWord,
         secretWord: action.secretWord,
         id: action.id,
+        languageId: action.languageId,
       }
       return words
     case 'DELETE_WORD':

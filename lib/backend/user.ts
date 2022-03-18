@@ -1,14 +1,18 @@
 import { Client } from 'pg'
 import crypto from 'crypto'
 
-export async function getUserFromDatabase(email: string): Promise<any> {
-  const client = new Client({
+function getClient() {
+  return new Client({
     user: process.env.DATABASE_USER,
     host: process.env.DATABASE_HOST,
     database: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASS,
     port: parseInt(process.env.DATABASE_PORT),
   })
+}
+
+export async function getUserFromDatabase(email: string): Promise<any> {
+  const client = getClient()
   await client.connect()
   const { rows } = await client.query(
     `
@@ -38,25 +42,26 @@ export async function registerNewUser(
     hash: encryptedPassword,
     salt: salt,
   }
-  const client = new Client({
-    user: process.env.DATABASE_USER,
-    host: process.env.DATABASE_HOST,
-    database: process.env.DATABASE_NAME,
-    password: process.env.DATABASE_PASS,
-    port: parseInt(process.env.DATABASE_PORT),
-  })
+  const client = getClient()
   await client.connect()
-  const response = await client.query(
+  const { rows } = await client.query(
     `
     INSERT INTO users (email, hash, salt)
     VALUES ($1, $2, $3)
     ON CONFLICT DO NOTHING
+    RETURNING id, email
   `,
     [user.email, user.hash, user.salt]
   )
   await client.end()
+  if (rows.length) {
+    return {
+      id: rows[0].id,
+      email: rows[0].email,
+    }
+  }
 
-  return response.rowCount
+  return null
 }
 
 export function validPassword(
@@ -67,4 +72,20 @@ export function validPassword(
     .pbkdf2Sync(password, user.salt, 10000, 64, 'sha512')
     .toString('hex')
   return hash === user.hash
+}
+
+export async function getUserLanguagesFromDatabase(id: number) {
+  const client = getClient()
+  await client.connect()
+  const { rows } = await client.query(
+    `
+    SELECT id, name
+    FROM "languages"
+    INNER JOIN "user_language" on "languages".id = "user_language".language_id
+    WHERE "user_language".user_id = $1
+    `,
+    [id]
+  )
+  await client.end()
+  return rows
 }

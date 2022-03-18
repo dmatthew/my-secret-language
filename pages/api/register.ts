@@ -16,10 +16,10 @@ export async function registerRoute(
       .json({ message: `User with email ${req.body.email} already exists.` })
   }
 
-  const success = await registerNewUser(req.body.email, req.body.password)
+  const newUser = await registerNewUser(req.body.email, req.body.password)
 
-  if (success) {
-    const response = { isLoggedIn: true, email: req.body.email }
+  if (newUser) {
+    const response = { isLoggedIn: true, email: newUser.email, id: newUser.id }
     req.session.user = response
     await req.session.save()
     return res.status(201).json({ response: response })

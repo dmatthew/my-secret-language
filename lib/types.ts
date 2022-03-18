@@ -1,6 +1,12 @@
+export interface Language {
+  id: number
+  name: string
+}
+
 export interface Word {
   mainWord: string
   secretWord: string
+  languageId: number
   id?: number
 }
 

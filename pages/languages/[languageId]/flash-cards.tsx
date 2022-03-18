@@ -1,7 +1,7 @@
 import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import Link from 'next/link'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useWordContext } from 'contexts/word-context'
 import { Word } from 'lib/types'
 import useUser from 'lib/useUser'
@@ -11,6 +11,7 @@ export default function FlashCards(): ReactElement {
     redirectTo: '/login',
   })
   const { state: words, dispatch: setWords } = useWordContext()
+  const [flashCardWord, setFlashCardWord] = useState<Word>(null)
 
   const flipCard = (): void => {
     setMainIsVisible(!mainIsVisible)
@@ -39,8 +40,11 @@ export default function FlashCards(): ReactElement {
 
   const [mainIsVisible, setMainIsVisible] = useState<boolean>(true)
 
-  /** TODO: Is this the best way to initialize the flash card state with a value from the context? */
-  const [flashCardWord, setFlashCardWord] = useState<Word>(getNextFlashCard())
+  useEffect(() => {
+    if (words.length) {
+      setFlashCardWord(getNextFlashCard())
+    }
+  }, [setFlashCardWord, words, getNextFlashCard])
 
   return (
     <Layout>

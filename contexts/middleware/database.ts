@@ -11,6 +11,7 @@ export default function databaseMiddleware(
         body = {
           mainWord: action.mainWord,
           secretWord: action.secretWord,
+          languageId: action.languageId,
         }
         try {
           const response = await fetchJson<

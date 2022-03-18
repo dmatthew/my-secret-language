@@ -1,9 +1,12 @@
 import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import React, { ReactElement, useEffect, useState, useCallback } from 'react'
+import { useRouter } from 'next/router'
 import { useWordContext } from 'contexts/word-context'
 import { Word } from 'lib/types'
+import { Language as LanguageType } from 'lib/types'
 import useUser from 'lib/useUser'
+import fetchJson, { FetchError } from 'lib/fetchJson'
 
 interface TranslatedWord {
   text: string
@@ -14,13 +17,19 @@ export default function Translate(): ReactElement {
   const { user } = useUser({
     redirectTo: '/login',
   })
+  const router = useRouter()
+  const [language, setLanguage] = useState<LanguageType>({ id: null, name: '' })
   const { state: words, dispatch: setWords } = useWordContext()
   const [translationInput, setTranslationInput] = useState<string>('')
   const [translationOutput, setTranslationOutput] = useState<TranslatedWord[]>(
     []
   )
   const [showNewWordForm, setShowNewWordForm] = useState<boolean>(false)
-  const [newWord, setNewWord] = useState<Word>({ mainWord: '', secretWord: '' })
+  const [newWord, setNewWord] = useState<Word>({
+    mainWord: '',
+    secretWord: '',
+    languageId: null,
+  })
 
   const updateTranslationOutput = useCallback(() => {
     if (!translationInput) {
@@ -78,7 +87,7 @@ export default function Translate(): ReactElement {
 
   const handleUntranslatedWordClick = (text: string): void => {
     setShowNewWordForm(true)
-    setNewWord({ mainWord: text, secretWord: '' })
+    setNewWord({ mainWord: text, secretWord: '', languageId: language.id })
   }
 
   const handleNewWordFormSubmit = (
@@ -90,17 +99,41 @@ export default function Translate(): ReactElement {
       type: 'ADD_WORD',
       mainWord: newWord.mainWord,
       secretWord: newWord.secretWord,
+      id: null,
+      languageId: language.id,
     })
 
-    setNewWord({ mainWord: '', secretWord: '' })
+    setNewWord({ mainWord: '', secretWord: '', languageId: language.id })
     setShowNewWordForm(false)
   }
 
   const cancelNewWord = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault()
-    setNewWord({ mainWord: '', secretWord: '' })
+    setNewWord({ mainWord: '', secretWord: '', languageId: language.id })
     setShowNewWordForm(false)
   }
+
+  useEffect(() => {
+    async function getLanguage(id: number) {
+      try {
+        const response = await fetchJson<any>(`/api/languages/${id}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        })
+        setLanguage(response.language)
+      } catch (error) {
+        if (error instanceof FetchError) {
+          console.log(error.data.message)
+        } else {
+          console.error('An unexpected error happened:', error)
+        }
+      }
+    }
+    if (router.isReady) {
+      const id = parseInt(router.query.languageId.toString())
+      getLanguage(id)
+    }
+  }, [router])
 
   useEffect(() => {
     updateTranslationOutput()

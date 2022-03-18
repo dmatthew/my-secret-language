@@ -147,3 +147,22 @@ export async function editWordByIdFromDatabase(
 
   return null
 }
+
+export async function getLanguageByIdFromDatabase(id: number): Promise<any> {
+  const client = getClient()
+  await client.connect()
+  const { rows } = await client.query(
+    `
+    SELECT * FROM languages WHERE id = $1
+  `,
+    [id]
+  )
+  await client.end()
+  if (rows.length) {
+    return {
+      id: rows[0].id,
+      name: rows[0].name,
+    }
+  }
+  return null
+}
