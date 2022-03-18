@@ -28,7 +28,6 @@ export default function databaseMiddleware(
             body: JSON.stringify(body),
           })
           if ('id' in response) {
-            console.log('setting action.id')
             action.id = response.id
           }
           dispatch(action)

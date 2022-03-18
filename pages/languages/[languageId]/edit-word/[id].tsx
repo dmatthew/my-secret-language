@@ -52,9 +52,10 @@ export default function EditWord(): ReactElement {
       }
     }
     if (router.isReady) {
-      const id = parseInt(router.query.id.toString())
-      getLanguage(id)
-      loadWord(id)
+      const wordId = parseInt(router.query.id.toString())
+      const languageId = parseInt(router.query.languageId.toString())
+      getLanguage(languageId)
+      loadWord(wordId)
     }
   }, [router, setMainWord])
 
