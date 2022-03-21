@@ -14,10 +14,12 @@ export default async function addWordRoute(
   if (word) {
     const response = {
       message: 'success',
-      id: word.id,
-      mainWord: word.mainWord,
-      secretWord: word.secretWord,
-      languageId: word.languageId,
+      word: {
+        id: word.id,
+        mainWord: word.mainWord,
+        secretWord: word.secretWord,
+        languageId: word.languageId,
+      },
     }
     return res.status(201).json(response)
   } else {

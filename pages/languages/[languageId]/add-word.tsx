@@ -21,17 +21,24 @@ export default function AddWord(): ReactElement {
   const [secretWord, setSecretWord] = useState('')
   const mainWordInput = useRef(null)
 
-  const addWordToLanguage = async (id: number, word: Word) => {
+  const addWordToLanguage = async (
+    languageId: number,
+    mainWord: string,
+    secretWord: string
+  ): Promise<{ message: string; word?: Word }> => {
     const body = {
-      languageId: id,
-      mainWord: word.mainWord,
-      secretWord: word.secretWord,
+      languageId: languageId,
+      mainWord: mainWord,
+      secretWord: secretWord,
     }
-    const response = await fetchJson(`/api/words/add`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
+    const response = await fetchJson<{ message: string; word?: Word }>(
+      `/api/words/add`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      }
+    )
     return response
   }
 
@@ -40,24 +47,30 @@ export default function AddWord(): ReactElement {
   ): Promise<void> => {
     event.preventDefault()
 
-    // TODO: Move to a function in another file
-    // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
-    // --------------------------
-    const newLanguage = {
-      ...language,
-    }
-    const newWord = {
-      mainWord: mainWord,
-      secretWord: secretWord,
-      id: null, // TODO: Need to set this value after making API call.
-      languageId: language.id,
-    }
-    newLanguage.words.push(newWord)
-    // --------------------------
-
     try {
-      const response = await addWordToLanguage(language.id, newWord)
-      mutateLanguage(newLanguage)
+      const response = await addWordToLanguage(
+        language.id,
+        mainWord,
+        secretWord
+      )
+      if (response.word) {
+        // TODO: Move to a function in another file
+        // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
+        // --------------------------
+        const newLanguage = {
+          ...language,
+        }
+        const newWord = {
+          mainWord: mainWord,
+          secretWord: secretWord,
+          id: response.word.id,
+          languageId: language.id,
+        }
+        newLanguage.words.push(newWord)
+        // --------------------------
+
+        mutateLanguage(newLanguage)
+      }
     } catch (error) {
       if (error instanceof FetchError) {
         console.log(error.data)

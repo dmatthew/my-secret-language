@@ -1,7 +1,5 @@
 import 'styles/global.css'
 import { AppProps } from 'next/app'
-import { WordContextProvider } from 'contexts/word-context'
-import { NoteContextProvider } from 'contexts/note-context'
 import { SWRConfig } from 'swr'
 import fetchJson from 'lib/fetchJson'
 
@@ -15,11 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
         },
       }}
     >
-      <WordContextProvider>
-        <NoteContextProvider>
-          <Component {...pageProps} />
-        </NoteContextProvider>
-      </WordContextProvider>
+      <Component {...pageProps} />
     </SWRConfig>
   )
 }

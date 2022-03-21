@@ -1,11 +1,11 @@
 import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import { ReactElement, useEffect, useState } from 'react'
-import { useWordContext } from 'contexts/word-context'
 import { useRouter } from 'next/router'
 import useUser from 'lib/useUser'
 import useLanguage from 'lib/useLanguage'
 import fetchJson, { FetchError } from 'lib/fetchJson'
+import { Word } from 'lib/types'
 
 export default function EditWord(): ReactElement {
   const { user } = useUser({
@@ -19,7 +19,6 @@ export default function EditWord(): ReactElement {
   const [wordId, setWordId] = useState('')
   const [mainWord, setMainWord] = useState('')
   const [secretWord, setSecretWord] = useState('')
-  // const { state: words, dispatch: setWords } = useWordContext()
 
   useEffect(() => {
     if (language) {
@@ -35,19 +34,6 @@ export default function EditWord(): ReactElement {
     event: React.FormEvent<HTMLButtonElement>
   ): Promise<void> => {
     event.preventDefault()
-    // TODO: Move to a function in another file
-    // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
-    // --------------------------
-    const newLanguage = {
-      ...language,
-    }
-    const index = language.words
-      .map((el) => {
-        return el.mainWord
-      })
-      .indexOf(mainWord)
-    newLanguage.words.splice(index, 1)
-    // --------------------------
 
     try {
       const response = await fetchJson(`/api/words/${wordId}/delete`, {
@@ -55,6 +41,20 @@ export default function EditWord(): ReactElement {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({}),
       })
+      // TODO: Move to a function in another file
+      // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
+      // --------------------------
+      const newLanguage = {
+        ...language,
+      }
+      const index = language.words
+        .map((el) => {
+          return el.mainWord
+        })
+        .indexOf(mainWord)
+      newLanguage.words.splice(index, 1)
+      // --------------------------
+
       mutateLanguage(newLanguage)
     } catch (error) {
       if (error instanceof FetchError) {
@@ -72,36 +72,41 @@ export default function EditWord(): ReactElement {
   ): Promise<void> => {
     event.preventDefault()
 
-    // TODO: Move to a function in another file
-    // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
-    // --------------------------
-    const newLanguage = {
-      ...language,
-    }
-    const index = language.words
-      .map((el) => {
-        return el.mainWord
-      })
-      .indexOf(mainWord)
-    language.words[index] = {
-      mainWord: mainWord,
-      secretWord: secretWord,
-      id: wordId,
-      languageId: language.id,
-    }
-    // --------------------------
-
     const body = {
       mainWord: mainWord,
       secretWord: secretWord,
     }
     try {
-      const response = await fetchJson(`/api/words/${wordId}/edit`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
-      mutateLanguage(newLanguage)
+      const response = await fetchJson<{ message: string; word?: Word }>(
+        `/api/words/${wordId}/edit`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        }
+      )
+      if (response.word) {
+        // TODO: Move to a function in another file
+        // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
+        // --------------------------
+        const newLanguage = {
+          ...language,
+        }
+        const index = language.words
+          .map((el) => {
+            return el.mainWord
+          })
+          .indexOf(mainWord)
+        language.words[index] = {
+          mainWord: mainWord,
+          secretWord: secretWord,
+          id: wordId,
+          languageId: language.id,
+        }
+        // --------------------------
+
+        mutateLanguage(newLanguage)
+      }
     } catch (error) {
       if (error instanceof FetchError) {
         console.log(error.data)

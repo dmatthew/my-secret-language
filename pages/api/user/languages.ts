@@ -1,5 +1,4 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
-import fetchJson from 'lib/fetchJson'
 import { sessionOptions } from 'lib/session'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getUserLanguagesFromDatabase } from 'lib/backend/user'
