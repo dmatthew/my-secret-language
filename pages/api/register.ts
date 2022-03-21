@@ -16,14 +16,19 @@ export async function registerRoute(
       .json({ message: `User with email ${req.body.email} already exists.` })
   }
 
-  const newUser = await registerNewUser(req.body.email, req.body.password)
-
-  if (newUser) {
-    const response = { isLoggedIn: true, email: newUser.email, id: newUser.id }
-    req.session.user = response
-    await req.session.save()
-    return res.status(201).json({ response: response })
-  } else {
-    return res.status(400).json({ message: 'User not found' })
+  try {
+    const newUser = await registerNewUser(req.body.email, req.body.password)
+  } catch (error) {
+    return res.status(400).json({ message: error.responseText })
   }
+  // const newUser = await registerNewUser(req.body.email, req.body.password)
+
+  // if (newUser) {
+  //   const response = { isLoggedIn: true, email: newUser.email, id: newUser.id }
+  //   req.session.user = response
+  //   await req.session.save()
+  //   return res.status(201).json({ response: response })
+  // } else {
+  //   return res.status(400).json({ message: 'User not found' })
+  // }
 }
