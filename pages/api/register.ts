@@ -21,27 +21,24 @@ export async function registerRoute(
     console.log(error.responseText)
     return res.status(400).json({ message: error.responseText })
   }
-  // if (user) {
-  //   return res
-  //     .status(400)
-  //     .json({ message: `User with email ${req.body.email} already exists.` })
-  // }
 
   try {
     const newUser = await registerNewUser(req.body.email, req.body.password)
+    if (newUser) {
+      const response = {
+        isLoggedIn: true,
+        email: newUser.email,
+        id: newUser.id,
+      }
+      req.session.user = response
+      await req.session.save()
+      return res.status(201).json({ response: response })
+    } else {
+      return res.status(400).json({ message: 'User not found' })
+    }
   } catch (error) {
     console.log(error)
     console.log(error.responseText)
     return res.status(400).json({ message: error.responseText })
   }
-  // const newUser = await registerNewUser(req.body.email, req.body.password)
-
-  // if (newUser) {
-  //   const response = { isLoggedIn: true, email: newUser.email, id: newUser.id }
-  //   req.session.user = response
-  //   await req.session.save()
-  //   return res.status(201).json({ response: response })
-  // } else {
-  //   return res.status(400).json({ message: 'User not found' })
-  // }
 }
