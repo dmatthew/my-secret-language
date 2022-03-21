@@ -31,6 +31,14 @@ export default function Home() {
     getUserLanguages()
   }, [setUserLanguages])
 
+  if (typeof user === 'undefined') {
+    return (
+      <Layout home>
+        <h1>An error has occurred.</h1>
+      </Layout>
+    )
+  }
+
   return (
     <Layout home>
       <Head>
