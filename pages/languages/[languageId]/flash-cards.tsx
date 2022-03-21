@@ -1,17 +1,24 @@
 import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import Link from 'next/link'
-import { ReactElement, useEffect, useState } from 'react'
-import { useWordContext } from 'contexts/word-context'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { Word } from 'lib/types'
 import useUser from 'lib/useUser'
+import useLanguage from 'lib/useLanguage'
+import { useRouter } from 'next/router'
 
 export default function FlashCards(): ReactElement {
   const { user } = useUser({
     redirectTo: '/login',
   })
-  const { state: words, dispatch: setWords } = useWordContext()
+  const router = useRouter()
+  const { languageId } = router.query
+  const { language, mutateLanguage } = useLanguage(
+    languageId ? languageId.toString() : null
+  )
+
   const [flashCardWord, setFlashCardWord] = useState<Word>(null)
+  const [mainIsVisible, setMainIsVisible] = useState<boolean>(true)
 
   const flipCard = (): void => {
     setMainIsVisible(!mainIsVisible)
@@ -29,22 +36,20 @@ export default function FlashCards(): ReactElement {
     }
   }
 
-  const getNextFlashCard = (): Word => {
-    return getRandomValue(words)
-  }
+  const getNextFlashCard = useCallback(() => {
+    return getRandomValue(language.words)
+  }, [language])
 
   const handleNextWordClick = (): void => {
     setMainIsVisible(true)
     setFlashCardWord(getNextFlashCard())
   }
 
-  const [mainIsVisible, setMainIsVisible] = useState<boolean>(true)
-
   useEffect(() => {
-    if (words.length) {
+    if (!flashCardWord && language && language.words.length) {
       setFlashCardWord(getNextFlashCard())
     }
-  }, [setFlashCardWord, words, getNextFlashCard])
+  }, [setFlashCardWord, language, getNextFlashCard, flashCardWord])
 
   return (
     <Layout>

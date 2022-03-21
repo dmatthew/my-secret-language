@@ -1,67 +1,79 @@
 import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
-import { useWordContext } from 'contexts/word-context'
 import useUser from 'lib/useUser'
+import useLanguage from 'lib/useLanguage'
 import { useRouter } from 'next/router'
-import { Language as LanguageType } from 'lib/types'
 import fetchJson, { FetchError } from 'lib/fetchJson'
+import { Word } from 'lib/types'
 
 export default function AddWord(): ReactElement {
   const { user } = useUser({
     redirectTo: '/login',
   })
-
   const router = useRouter()
-  const [language, setLanguage] = useState<LanguageType>({ id: null, name: '' })
-  const [isLoaded, setIsLoaded] = useState(false)
+  const { languageId } = router.query
+  const { language, mutateLanguage } = useLanguage(
+    languageId ? languageId.toString() : null
+  )
+
   const [mainWord, setMainWord] = useState('')
   const [secretWord, setSecretWord] = useState('')
-  const { state: words, dispatch: dispatchWords } = useWordContext()
   const mainWordInput = useRef(null)
 
-  const handleAddWord = (event: React.FormEvent<HTMLFormElement>): void => {
+  const addWordToLanguage = async (id: number, word: Word) => {
+    const body = {
+      languageId: id,
+      mainWord: word.mainWord,
+      secretWord: word.secretWord,
+    }
+    const response = await fetchJson(`/api/words/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    return response
+  }
+
+  const handleAddWord = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault()
 
-    dispatchWords({
-      type: 'ADD_WORD',
-      mainWord,
-      secretWord,
-      id: null,
+    // TODO: Move to a function in another file
+    // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
+    // --------------------------
+    const newLanguage = {
+      ...language,
+    }
+    const newWord = {
+      mainWord: mainWord,
+      secretWord: secretWord,
+      id: null, // TODO: Need to set this value after making API call.
       languageId: language.id,
-    })
+    }
+    newLanguage.words.push(newWord)
+    // --------------------------
+
+    try {
+      const response = await addWordToLanguage(language.id, newWord)
+      mutateLanguage(newLanguage)
+    } catch (error) {
+      if (error instanceof FetchError) {
+        console.log(error.data)
+      } else {
+        console.error('An unexpected error happened:', error)
+      }
+    }
     setMainWord('')
     setSecretWord('')
   }
 
   useEffect(() => {
-    async function getLanguage(id: number) {
-      try {
-        const response = await fetchJson<any>(`/api/languages/${id}`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        })
-        setLanguage(response.language)
-        setIsLoaded(true)
-      } catch (error) {
-        if (error instanceof FetchError) {
-          console.log(error.data.message)
-        } else {
-          console.error('An unexpected error happened:', error)
-        }
-      }
-    }
-    if (router.isReady) {
-      const id = parseInt(router.query.languageId.toString())
-      getLanguage(id)
-    }
-  }, [router])
-
-  useEffect(() => {
-    if (isLoaded) {
+    if (language) {
       mainWordInput.current.focus()
     }
-  }, [isLoaded])
+  }, [language, mainWordInput])
 
   return (
     <Layout>
@@ -69,7 +81,7 @@ export default function AddWord(): ReactElement {
         <title>{siteTitle} - Add a new word</title>
       </Head>
       <div>
-        {isLoaded ? (
+        {language ? (
           <>
             <h3>Add a new {language.name} word</h3>
             <form name="addWordForm" onSubmit={handleAddWord}>

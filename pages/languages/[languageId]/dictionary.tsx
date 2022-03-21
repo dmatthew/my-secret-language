@@ -2,43 +2,21 @@ import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useWordContext } from 'contexts/word-context'
 import { Word } from 'lib/types'
 import Link from 'next/link'
 import useUser from 'lib/useUser'
-import { Language as LanguageType } from 'lib/types'
-import fetchJson, { FetchError } from 'lib/fetchJson'
+import useLanguage from 'lib/useLanguage'
 
 export default function Dictionary(): ReactElement {
   const { user } = useUser({
     redirectTo: '/login',
   })
   const router = useRouter()
-  const [language, setLanguage] = useState<LanguageType>({ id: null, name: '' })
+  const { languageId } = router.query
+  const { language, mutateLanguage } = useLanguage(
+    languageId ? languageId.toString() : null
+  )
   const [searchTerm, setSearchTerm] = useState('')
-  const { state: words, dispatch: setWords } = useWordContext()
-
-  useEffect(() => {
-    async function getLanguage(id: number) {
-      try {
-        const response = await fetchJson<any>(`/api/languages/${id}`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        })
-        setLanguage(response.language)
-      } catch (error) {
-        if (error instanceof FetchError) {
-          console.log(error.data.message)
-        } else {
-          console.error('An unexpected error happened:', error)
-        }
-      }
-    }
-    if (router.isReady) {
-      const id = parseInt(router.query.languageId.toString())
-      getLanguage(id)
-    }
-  }, [router])
 
   function sortByMainWord(wordsArray: Word[]): Word[] {
     wordsArray.sort((a, b) => {
@@ -52,12 +30,12 @@ export default function Dictionary(): ReactElement {
   }
 
   let wordsToDisplay = []
-  if (words) {
+  if (language && language.words) {
     let currentSearchTerm: string = searchTerm
     let currentLetter: string = ''
-    wordsToDisplay = words.slice(0)
-    wordsToDisplay = sortByMainWord(words)
-    wordsToDisplay = words.map((word: Word, index: number) => {
+    wordsToDisplay = language.words.slice(0)
+    wordsToDisplay = sortByMainWord(language.words)
+    wordsToDisplay = language.words.map((word: Word, index: number) => {
       let found: boolean =
         word.mainWord.indexOf(currentSearchTerm) !== -1 ||
         word.secretWord.indexOf(searchTerm) !== -1

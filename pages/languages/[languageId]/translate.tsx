@@ -2,10 +2,9 @@ import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
 import React, { ReactElement, useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/router'
-import { useWordContext } from 'contexts/word-context'
 import { Word } from 'lib/types'
-import { Language as LanguageType } from 'lib/types'
 import useUser from 'lib/useUser'
+import useLanguage from 'lib/useLanguage'
 import fetchJson, { FetchError } from 'lib/fetchJson'
 
 interface TranslatedWord {
@@ -18,8 +17,10 @@ export default function Translate(): ReactElement {
     redirectTo: '/login',
   })
   const router = useRouter()
-  const [language, setLanguage] = useState<LanguageType>({ id: null, name: '' })
-  const { state: words, dispatch: setWords } = useWordContext()
+  const { languageId } = router.query
+  const { language, mutateLanguage } = useLanguage(
+    languageId ? languageId.toString() : null
+  )
   const [translationInput, setTranslationInput] = useState<string>('')
   const [translationOutput, setTranslationOutput] = useState<TranslatedWord[]>(
     []
@@ -53,7 +54,7 @@ export default function Translate(): ReactElement {
       }
 
       // Loop through the dictionary and check if the word has been defined yet.
-      let myWord = words.find((w: Word) => {
+      let myWord = language.words.find((w: Word) => {
         return w.mainWord.toUpperCase() === inputTextItem.toUpperCase()
       })
       if (myWord) {
@@ -77,7 +78,7 @@ export default function Translate(): ReactElement {
         setTranslationOutput(translatedWords)
       }
     })
-  }, [translationInput, words])
+  }, [translationInput, language])
 
   const clearAll = (): void => {
     setShowNewWordForm(false)
@@ -90,18 +91,50 @@ export default function Translate(): ReactElement {
     setNewWord({ mainWord: text, secretWord: '', languageId: language.id })
   }
 
-  const handleNewWordFormSubmit = (
+  const addWordToLanguage = async (id: number, word: Word) => {
+    const body = {
+      languageId: id,
+      mainWord: word.mainWord,
+      secretWord: word.secretWord,
+    }
+    const response = await fetchJson(`/api/words/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    return response
+  }
+
+  const handleNewWordFormSubmit = async (
     event: React.FormEvent<HTMLFormElement>
-  ): void => {
+  ): Promise<void> => {
     event.preventDefault()
 
-    setWords({
-      type: 'ADD_WORD',
+    // TODO: Move to a function in another file
+    // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
+    // --------------------------
+    const newLanguage = {
+      ...language,
+    }
+    const wordToAdd = {
       mainWord: newWord.mainWord,
       secretWord: newWord.secretWord,
-      id: null,
+      id: null, // TODO: Need to set this value after making API call.
       languageId: language.id,
-    })
+    }
+    newLanguage.words.push(newWord)
+    // --------------------------
+
+    try {
+      const response = await addWordToLanguage(language.id, newWord)
+      mutateLanguage(newLanguage)
+    } catch (error) {
+      if (error instanceof FetchError) {
+        console.log(error.data)
+      } else {
+        console.error('An unexpected error happened:', error)
+      }
+    }
 
     setNewWord({ mainWord: '', secretWord: '', languageId: language.id })
     setShowNewWordForm(false)
@@ -112,28 +145,6 @@ export default function Translate(): ReactElement {
     setNewWord({ mainWord: '', secretWord: '', languageId: language.id })
     setShowNewWordForm(false)
   }
-
-  useEffect(() => {
-    async function getLanguage(id: number) {
-      try {
-        const response = await fetchJson<any>(`/api/languages/${id}`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        })
-        setLanguage(response.language)
-      } catch (error) {
-        if (error instanceof FetchError) {
-          console.log(error.data.message)
-        } else {
-          console.error('An unexpected error happened:', error)
-        }
-      }
-    }
-    if (router.isReady) {
-      const id = parseInt(router.query.languageId.toString())
-      getLanguage(id)
-    }
-  }, [router])
 
   useEffect(() => {
     updateTranslationOutput()

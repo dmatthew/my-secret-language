@@ -1,6 +1,8 @@
-export interface Language {
+export type Language = {
   id: number
   name: string
+  words: any[]
+  user: any
 }
 
 export interface Word {
@@ -10,12 +12,15 @@ export interface Word {
   id?: number
 }
 
-export interface NoteCategory {
-  title: string
-  notes: Array<{ title: string; description: string }>
-}
-
 export interface Note {
   title: string
   description: string
+  languageId: number
+  noteCategoryId: number
+}
+
+export interface NoteCategory {
+  id: number
+  title: string
+  notes: Note[]
 }

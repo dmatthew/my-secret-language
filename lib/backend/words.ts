@@ -22,6 +22,22 @@ export async function getAllWordsFromDatabase(): Promise<any[] | null> {
   return rows
 }
 
+export async function getAllWordsByLanguageIdFromDatabase(
+  id: number
+): Promise<any[] | null> {
+  const client = getClient()
+  await client.connect()
+  const { rows } = await client.query(
+    `
+    SELECT id, main_word as "mainWord", secret_word as "secretWord" 
+    FROM words WHERE language_id = $1
+  `,
+    [id]
+  )
+  await client.end()
+  return rows
+}
+
 export async function getWordByIdFromDatabase(id: number): Promise<any> {
   const client = getClient()
   await client.connect()
@@ -40,6 +56,7 @@ export async function getWordByIdFromDatabase(id: number): Promise<any> {
 }
 
 export async function addWordToDatabase(
+  languageId: string,
   mainWord: string,
   secretWord: string
 ): Promise<{
@@ -57,7 +74,7 @@ export async function addWordToDatabase(
     ON CONFLICT DO NOTHING
     RETURNING id, main_word, secret_word, language_id
   `,
-    [mainWord, secretWord, 1]
+    [mainWord, secretWord, languageId]
   )
   await client.end()
   if (rows.length) {
@@ -126,14 +143,12 @@ export async function editWordByIdFromDatabase(
   const { rows } = await client.query(
     `
     UPDATE "words" SET
-    "id" = $1,
-    "main_word" = $2,
-    "secret_word" = $3,
-    "language_id" = 1
-    WHERE "id" = $1
+    "main_word" = $1,
+    "secret_word" = $2
+    WHERE "id" = $3
     RETURNING id, main_word, secret_word, language_id
   `,
-    [id, mainWord, secretWord]
+    [mainWord, secretWord, id]
   )
   await client.end()
   if (rows.length) {

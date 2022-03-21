@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import { Word } from 'lib/types'
 import WordReducer, { WordAction } from 'contexts/WordReducer'
-import databaseMiddleware from 'contexts/middleware/database'
+import wordMiddleware from 'contexts/middleware/word-middleware'
 import fetchJson, { FetchError } from 'lib/fetchJson'
 
 interface WordState {
@@ -55,7 +55,7 @@ export function WordContextProvider({ children }: any) {
   const [state, dispatch] = useReducerWithMiddleware(
     WordReducer,
     initialState,
-    databaseMiddleware
+    wordMiddleware
   )
 
   return (

@@ -6,6 +6,8 @@ export type NoteAction =
       categorySlug: string
       title: string
       description: string
+      noteId: number
+      languageId: number
     }
   | { type: 'DELETE_NOTE'; categorySlug: string; id: number }
   | {
@@ -14,6 +16,7 @@ export type NoteAction =
       noteId: number
       title: string
       description: string
+      languageId: number
     }
   | { type: 'INIT_STORED'; value: NoteCategory[] }
 

@@ -1,7 +1,7 @@
 import { WordAction } from 'contexts/WordReducer'
 import fetchJson, { FetchError } from 'lib/fetchJson'
 
-export default function databaseMiddleware(
+export default function wordMiddleware(
   dispatch: React.Dispatch<WordAction>
 ): (action: WordAction) => Promise<void> {
   return async (action: WordAction) => {

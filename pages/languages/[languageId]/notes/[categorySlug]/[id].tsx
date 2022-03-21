@@ -1,28 +1,31 @@
 import Layout, { siteTitle } from 'components/layout'
 import Head from 'next/head'
-import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import { useNoteContext } from 'contexts/note-context'
 import { Note } from 'lib/types'
 import { useRouter } from 'next/router'
 import { NoteCategory } from 'lib/types'
 import useUser from 'lib/useUser'
+import { Language as LanguageType } from 'lib/types'
+import fetchJson, { FetchError } from 'lib/fetchJson'
 
 export default function EditNote(props): ReactElement {
   const { user } = useUser({
     redirectTo: '/login',
   })
+  const router = useRouter()
+  const [languageId, setLanguageId] = useState<number>(null)
   const [isEditingNote, setIsEditingNote] = useState(false)
   const { state: categoryNotes, dispatch: noteDispatch } = useNoteContext()
-  const router = useRouter()
-  const categorySlug = router.query.categorySlug.toString()
-  const id = parseInt(router.query.id.toString())
+  let categorySlug = useRef<string>('')
+  let id = useRef<number>(null)
 
   const getNoteFromQuery = useCallback(() => {
     let categoryGroup = categoryNotes.find((el: NoteCategory) => {
-      return el.title.toLowerCase() === categorySlug.toLowerCase()
+      return el.title.toLowerCase() === categorySlug.current.toLowerCase()
     })
     if (categoryGroup) {
-      return categoryGroup.notes[id]
+      return categoryGroup.notes[id.current]
     }
   }, [categoryNotes, categorySlug, id])
 
@@ -30,18 +33,23 @@ export default function EditNote(props): ReactElement {
   const [description, setDescription] = useState('')
 
   useEffect(() => {
-    /**
-     * TODO: The first time this EditNote component gets rendered the categoryNotes value from the context doesn't have the values from localStorage.
-     * The way this useEffect function is currently being used may be a hack and not following best practices for React ad/or Next.js.
-     */
-    if (!title) {
+    if (router.isReady) {
+      const id = parseInt(router.query.languageId.toString())
+      setLanguageId(id)
+    }
+  }, [router])
+
+  useEffect(() => {
+    if (router.isReady) {
+      categorySlug.current = router.query.categorySlug.toString()
+      id.current = parseInt(router.query.id.toString())
       let queryNote: Note = getNoteFromQuery()
       if (queryNote) {
         setTitle(queryNote.title)
         setDescription(queryNote.description)
       }
     }
-  }, [title, getNoteFromQuery])
+  }, [router, getNoteFromQuery])
 
   const handleEditNoteFormSubmit = (
     event: React.FormEvent<HTMLFormElement>
@@ -50,10 +58,11 @@ export default function EditNote(props): ReactElement {
 
     noteDispatch({
       type: 'EDIT_NOTE',
-      categorySlug: categorySlug,
-      noteId: id,
+      categorySlug: categorySlug.current,
+      noteId: id.current,
       title: title,
       description: description,
+      languageId: languageId,
     })
     router.back()
   }
@@ -61,8 +70,8 @@ export default function EditNote(props): ReactElement {
   const handleDeleteNoteClick = (): void => {
     noteDispatch({
       type: 'DELETE_NOTE',
-      categorySlug: categorySlug,
-      id: id,
+      categorySlug: categorySlug.current,
+      id: id.current,
     })
     router.back()
   }

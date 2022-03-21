@@ -31,12 +31,12 @@ export default function AddNote(): ReactElement {
     event: React.FormEvent<HTMLFormElement>
   ): void => {
     event.preventDefault()
-    noteDispatch({
-      type: 'ADD_NOTE',
-      categorySlug: category,
-      title: title,
-      description: description,
-    })
+    // noteDispatch({
+    //   type: 'ADD_NOTE',
+    //   categorySlug: category,
+    //   title: title,
+    //   description: description,
+    // })
     router.back()
   }
 

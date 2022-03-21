@@ -5,7 +5,11 @@ export default async function addWordRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  const word = await addWordToDatabase(req.body.mainWord, req.body.secretWord)
+  const word = await addWordToDatabase(
+    req.body.languageId,
+    req.body.mainWord,
+    req.body.secretWord
+  )
 
   if (word) {
     const response = {
