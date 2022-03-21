@@ -37,6 +37,8 @@ export default function NoteReducer(
         let newNote: Note = {
           title: action.title,
           description: action.description,
+          noteCategoryId: 1,
+          languageId: 1,
         }
         noteCategories[categoryGroupIndex].notes.push(newNote)
       }
@@ -52,6 +54,8 @@ export default function NoteReducer(
         let updatedNote: Note = {
           title: action.title,
           description: action.description,
+          noteCategoryId: 1,
+          languageId: 1,
         }
         noteCategories[categoryGroupIndex].notes[action.noteId] = updatedNote
       }
