@@ -9,12 +9,21 @@ export async function registerRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  const user = await getUserFromDatabase(req.body.email)
-  if (user) {
-    return res
-      .status(400)
-      .json({ message: `User with email ${req.body.email} already exists.` })
+  try {
+    const user = await getUserFromDatabase(req.body.email)
+    if (user) {
+      return res
+        .status(400)
+        .json({ message: `User with email ${req.body.email} already exists.` })
+    }
+  } catch (error) {
+    return res.status(400).json({ message: error.responseText })
   }
+  // if (user) {
+  //   return res
+  //     .status(400)
+  //     .json({ message: `User with email ${req.body.email} already exists.` })
+  // }
 
   try {
     const newUser = await registerNewUser(req.body.email, req.body.password)
