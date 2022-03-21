@@ -12,19 +12,25 @@ function getClient() {
 }
 
 export async function getUserFromDatabase(email: string): Promise<any> {
-  const client = getClient()
-  await client.connect()
-  const { rows } = await client.query(
-    `
-    SELECT * FROM users WHERE email = $1
-  `,
-    [email]
-  )
-  await client.end()
-  if (rows.length) {
-    return rows[0]
+  try {
+    const client = getClient()
+    await client.connect()
+    const { rows } = await client.query(
+      `
+      SELECT * FROM users WHERE email = $1
+    `,
+      [email]
+    )
+    await client.end()
+    if (rows.length) {
+      return rows[0]
+    }
+    return null
+  } catch (error) {
+    console.log(error)
+    console.log(error.responseText)
+    throw error
   }
-  return null
 }
 
 export async function registerNewUser(

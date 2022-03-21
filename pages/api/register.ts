@@ -17,6 +17,8 @@ export async function registerRoute(
         .json({ message: `User with email ${req.body.email} already exists.` })
     }
   } catch (error) {
+    console.log(error)
+    console.log(error.responseText)
     return res.status(400).json({ message: error.responseText })
   }
   // if (user) {
@@ -28,6 +30,8 @@ export async function registerRoute(
   try {
     const newUser = await registerNewUser(req.body.email, req.body.password)
   } catch (error) {
+    console.log(error)
+    console.log(error.responseText)
     return res.status(400).json({ message: error.responseText })
   }
   // const newUser = await registerNewUser(req.body.email, req.body.password)
