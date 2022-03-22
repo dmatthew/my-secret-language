@@ -18,7 +18,6 @@ export async function registerRoute(
     }
   } catch (error) {
     console.log(error)
-    console.log(error.responseText)
     return res.status(400).json({ message: error.responseText })
   }
 
@@ -38,7 +37,6 @@ export async function registerRoute(
     }
   } catch (error) {
     console.log(error)
-    console.log(error.responseText)
     return res.status(400).json({ message: error.responseText })
   }
 }

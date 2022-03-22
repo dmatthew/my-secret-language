@@ -1,10 +1,52 @@
-import { useState } from 'react'
+import { Language } from 'lib/types'
+import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
+import fetchJson, { FetchError } from 'lib/fetchJson'
 
-export default function NewLanguageForm() {
+export default function NewLanguageForm({
+  redirect = false,
+}: {
+  redirect?: boolean
+}): ReactElement {
   const [languageName, setLanguageName] = useState('')
+  const router = useRouter()
 
-  const handleAddLanguage = (event: React.FormEvent<HTMLFormElement>): void => {
+  const addLanguage = async (
+    name: string
+  ): Promise<{ message: string; language?: Language }> => {
+    const body = {
+      name: languageName,
+    }
+    const response = await fetchJson<{ message: string; language?: Language }>(
+      `/api/languages/add`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      }
+    )
+    return response
+  }
+
+  const handleAddLanguage = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault()
+
+    try {
+      const response = await addLanguage(languageName)
+      if (response.language) {
+        if (redirect) {
+          router.push(`/languages/${response.language.id}`)
+        }
+      }
+    } catch (error) {
+      if (error instanceof FetchError) {
+        console.log(error.data)
+      } else {
+        console.error('An unexpected error happened:', error)
+      }
+    }
   }
 
   return (

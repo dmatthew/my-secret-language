@@ -23,6 +23,6 @@ export default async function addWordRoute(
     }
     return res.status(201).json(response)
   } else {
-    return res.status(400).json({ message: 'Word not found' })
+    return res.status(400).json({ message: 'Unable to add word' })
   }
 }

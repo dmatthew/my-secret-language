@@ -31,14 +31,6 @@ export default function Home() {
     getUserLanguages()
   }, [setUserLanguages])
 
-  if (typeof user === 'undefined') {
-    return (
-      <Layout home>
-        <h1>An error has occurred.</h1>
-      </Layout>
-    )
-  }
-
   return (
     <Layout home>
       <Head>
@@ -62,7 +54,7 @@ export default function Home() {
               Looks like you have no languages. Get started by creating your
               first language now.
             </div>
-            <NewLanguageForm />
+            <NewLanguageForm redirect={true} />
           </div>
         )}
       </div>
