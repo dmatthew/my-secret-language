@@ -36,6 +36,18 @@ New Feature: [User management](https://github.com/dmatthew/my-secret-language/pu
 
 Users will be able to sign up and log in to the app.
 
+## Testing
+
+#### Unit tests
+```bash
+npm run test:ci
+```
+
+#### Integration tests
+```bash
+npm run test:e2e
+```
+
 ## License
 
 [MIT](/LICENSE)
