@@ -1,8 +1,8 @@
-export type Language = {
+export interface LanguageType {
   id: number
   name: string
-  words: any[]
-  user: any
+  words?: any[]
+  user?: any
 }
 
 export interface Word {

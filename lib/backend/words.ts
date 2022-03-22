@@ -16,7 +16,7 @@ function getClient() {
 }
 
 export async function getAllWordsByLanguageIdFromDatabase(
-  id: number
+  languageId: number
 ): Promise<any[] | null> {
   const client = getClient()
   await client.connect()
@@ -25,13 +25,15 @@ export async function getAllWordsByLanguageIdFromDatabase(
     SELECT id, main_word as "mainWord", secret_word as "secretWord" 
     FROM words WHERE language_id = $1
   `,
-    [id]
+    [languageId]
   )
   await client.end()
   return rows
 }
 
-export async function getWordByIdFromDatabase(id: number): Promise<any> {
+export async function getWordByIdFromDatabase(
+  languageId: number
+): Promise<any> {
   const client = getClient()
   await client.connect()
   const { rows } = await client.query(
@@ -39,7 +41,7 @@ export async function getWordByIdFromDatabase(id: number): Promise<any> {
     SELECT id, main_word as "mainWord", secret_word as "secretWord" 
     FROM words WHERE language_id = 1 AND id = $1
   `,
-    [id]
+    [languageId]
   )
   await client.end()
   if (rows.length) {

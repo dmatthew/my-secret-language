@@ -79,17 +79,16 @@ export function validPassword(
   return hash === user.hash
 }
 
-export async function getUserLanguagesFromDatabase(id: number) {
+export async function getUserLanguagesFromDatabase(userId: number) {
   const client = getClient()
   await client.connect()
   const { rows } = await client.query(
     `
-    SELECT id, name
+    SELECT id, name, user_id
     FROM "languages"
-    INNER JOIN "user_language" on "languages".id = "user_language".language_id
-    WHERE "user_language".user_id = $1
+    WHERE "languages".user_id = $1
     `,
-    [id]
+    [userId]
   )
   await client.end()
   return rows

@@ -1,59 +1,42 @@
-import { Client } from 'pg'
+import BaseDatabaseModel from './BaseDatabaseModel'
+import { Word } from 'lib/types'
 
-function getClient() {
-  const sslConfig =
-    process.env.NODE_ENV === 'development'
-      ? undefined //SSL not currently configured in local development
-      : { rejectUnauthorized: false }
-  return new Client({
-    user: process.env.DATABASE_USER,
-    host: process.env.DATABASE_HOST,
-    database: process.env.DATABASE_NAME,
-    password: process.env.DATABASE_PASS,
-    port: parseInt(process.env.DATABASE_PORT),
-    ssl: sslConfig,
-  })
-}
-
-export async function addLanguageToDatabase(
-  userId: number,
-  name: string
-): Promise<{
+class Language extends BaseDatabaseModel {
   id: number
   name: string
-} | null> {
-  const client = getClient()
-  await client.connect()
-  const response = await client.query(
-    `
-    INSERT INTO languages (name)
-    VALUES ($1)
-    ON CONFLICT DO NOTHING
-    RETURNING id, name
-  `,
-    [name]
-  )
-  if (response.rows[0].id) {
-    const response2 = await client.query(
+  words: Word[]
+  userId: number
+
+  constructor(userId: number = null, name: string = null) {
+    super()
+    this.id = null
+    this.userId = userId
+    this.name = name
+    this.words = []
+  }
+
+  async save(): Promise<boolean> {
+    if (!this.userId || !this.name) return false
+
+    const client = this.getClient()
+    await client.connect()
+    const { rows } = await client.query(
       `
-      INSERT INTO user_language (user_id, language_id)
+      INSERT INTO languages (name, user_id)
       VALUES ($1, $2)
       ON CONFLICT DO NOTHING
+      RETURNING id, name, user_id as "userId"
     `,
-      [userId, response.rows[0].id]
+      [this.name, this.userId]
     )
     await client.end()
-
-    if (response2 && response2.rowCount > 0) {
-      return {
-        id: response.rows[0].id,
-        name: response.rows[0].name,
-      }
+    if (rows.length) {
+      this.id = rows[0].id
+      return true
     } else {
-      return null
+      return false
     }
-  } else {
-    await client.end()
-    return null
   }
 }
+
+export default Language

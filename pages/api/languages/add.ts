@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { addLanguageToDatabase } from 'lib/backend/languages'
+import Language from 'lib/backend/languages'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from 'lib/session'
 
@@ -18,9 +18,10 @@ async function addLanguageRoute(
 
   const userId = user.id
 
-  const language = await addLanguageToDatabase(userId, req.body.name)
+  const language = new Language(userId, req.body.name)
+  const success = await language.save()
 
-  if (language) {
+  if (success) {
     const response = {
       message: 'success',
       language: {
