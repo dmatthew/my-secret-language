@@ -6,8 +6,6 @@ import { Note } from 'lib/types'
 import { useRouter } from 'next/router'
 import { NoteCategory } from 'lib/types'
 import useUser from 'lib/useUser'
-import { Language as LanguageType } from 'lib/types'
-import fetchJson, { FetchError } from 'lib/fetchJson'
 
 export default function EditNote(props): ReactElement {
   const { user } = useUser({
