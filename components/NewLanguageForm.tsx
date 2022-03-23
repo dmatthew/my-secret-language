@@ -1,4 +1,4 @@
-import { Language } from 'lib/types'
+import { LanguageType } from 'lib/types'
 import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 import fetchJson, { FetchError } from 'lib/fetchJson'
@@ -13,18 +13,18 @@ export default function NewLanguageForm({
 
   const addLanguage = async (
     name: string
-  ): Promise<{ message: string; language?: Language }> => {
+  ): Promise<{ message: string; language?: LanguageType }> => {
     const body = {
       name: languageName,
     }
-    const response = await fetchJson<{ message: string; language?: Language }>(
-      `/api/languages/add`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      }
-    )
+    const response = await fetchJson<{
+      message: string
+      language?: LanguageType
+    }>(`/api/languages/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
     return response
   }
 
