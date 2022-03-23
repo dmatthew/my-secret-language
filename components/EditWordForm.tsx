@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import useLanguage from 'lib/useLanguage'
 import fetchJson, { FetchError } from 'lib/fetchJson'
+import { Word } from 'lib/types'
 
 export default function EditWordForm({
   languageId,
