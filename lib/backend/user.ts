@@ -1,5 +1,6 @@
 import { Client } from 'pg'
 import crypto from 'crypto'
+import { LanguageType } from 'lib/types'
 
 function getClient() {
   const sslConfig =
@@ -79,7 +80,9 @@ export function validPassword(
   return hash === user.hash
 }
 
-export async function getUserLanguagesFromDatabase(userId: number) {
+export async function getUserLanguagesFromDatabase(
+  userId: number
+): Promise<LanguageType[]> {
   const client = getClient()
   await client.connect()
   const { rows } = await client.query(

@@ -2,17 +2,21 @@ import { ReactElement, useEffect, useState } from 'react'
 import Link from 'next/link'
 import fetchJson, { FetchError } from 'lib/fetchJson'
 import NewLanguageForm from './NewLanguageForm'
+import { LanguageType } from 'lib/types'
 
 export default function UserLanguageList(): ReactElement {
-  const [userLanguages, setUserLanguages] = useState([])
+  const [userLanguages, setUserLanguages] = useState<LanguageType[]>([])
 
   useEffect(() => {
     async function getUserLanguages() {
       try {
-        const response = await fetchJson<any>('/api/user/languages', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        })
+        const response = await fetchJson<LanguageType[]>(
+          '/api/user/languages',
+          {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
         setUserLanguages(response)
       } catch (error) {
         if (error instanceof FetchError) {

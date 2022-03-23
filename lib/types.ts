@@ -2,7 +2,7 @@ export interface LanguageType {
   id: number
   name: string
   words?: any[]
-  user?: any
+  user_id?: any
 }
 
 export interface Word {

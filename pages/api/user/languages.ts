@@ -17,13 +17,9 @@ async function languagesRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
     const userLanguages = await getUserLanguagesFromDatabase(userId)
     if (userLanguages) {
-      const response = {
-        message: 'success',
-        userLanguages: userLanguages,
-      }
+      return res.json(userLanguages)
     }
-    return res.json(userLanguages)
   } catch (error) {
-    return res.status(200).json([])
+    return res.status(200).json({})
   }
 }
