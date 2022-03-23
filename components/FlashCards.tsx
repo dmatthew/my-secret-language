@@ -1,13 +1,13 @@
 import { ReactElement } from 'react'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
-import { Language } from 'lib/types'
+import { LanguageType } from 'lib/types'
 import { Word } from 'lib/types'
 
 export default function FlashCards({
   language,
 }: {
-  language: Language
+  language: LanguageType
 }): ReactElement {
   const [flashCardWord, setFlashCardWord] = useState<Word>(null)
   const [mainIsVisible, setMainIsVisible] = useState<boolean>(true)
