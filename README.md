@@ -2,7 +2,7 @@
 
 Create your own secret language!
 
-A single page JavaScript application built with [React](https://reactjs.org) using [Next.js](https://nextjs.org/). The My Secret Language app uses the Local Storage API for storing your dictionary of words. It uses function components and React hooks.
+A single page JavaScript application built with [React](https://reactjs.org) using [Next.js](https://nextjs.org/). The My Secret Language app uses a PostgreSQL database for storing your dictionary of words and user authentication is handled by [iron-session](https://github.com/vvo/iron-session). It uses function components and React hooks.
 
 See the app in action at [my-secret-language.vercel.app](https://my-secret-language.vercel.app/).
 
