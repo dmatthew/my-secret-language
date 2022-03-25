@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import Language from 'lib/backend/languages'
+import Language from 'lib/api/languages'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from 'lib/session'
 

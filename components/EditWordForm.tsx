@@ -1,8 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import useLanguage from 'lib/useLanguage'
-import fetchJson, { FetchError } from 'lib/fetchJson'
-import { Word } from 'lib/types'
+import { editWord, deleteWord } from 'lib/words'
 
 export default function EditWordForm({
   languageId,
@@ -27,17 +26,13 @@ export default function EditWordForm({
     }
   }, [language, router])
 
-  const deleteWord = async (
+  const handleDeleteWord = async (
     event: React.FormEvent<HTMLButtonElement>
   ): Promise<void> => {
     event.preventDefault()
 
-    try {
-      const response = await fetchJson(`/api/words/${wordId}/delete`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({}),
-      })
+    const success = deleteWord(parseInt(wordId))
+    if (success) {
       // TODO: Move to a function in another file
       // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
       // --------------------------
@@ -53,15 +48,9 @@ export default function EditWordForm({
       // --------------------------
 
       mutateLanguage(newLanguage)
-    } catch (error) {
-      if (error instanceof FetchError) {
-        console.log(error.data)
-      } else {
-        console.error('An unexpected error happened:', error)
-      }
-    }
 
-    router.back()
+      router.back()
+    }
   }
 
   const handleEditWordFormSubmit = async (
@@ -69,52 +58,32 @@ export default function EditWordForm({
   ): Promise<void> => {
     event.preventDefault()
 
-    const body = {
-      mainWord: mainWord,
-      secretWord: secretWord,
-    }
-    try {
-      const response = await fetchJson<{ message: string; word?: Word }>(
-        `/api/words/${wordId}/edit`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        }
-      )
-      if (response.word) {
-        // TODO: Move to a function in another file
-        // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
-        // --------------------------
-        const newLanguage = {
-          ...language,
-        }
-        const index = language.words
-          .map((el) => {
-            return el.mainWord
-          })
-          .indexOf(mainWord)
-        language.words[index] = {
-          mainWord: mainWord,
-          secretWord: secretWord,
-          id: wordId,
-          languageId: language.id,
-        }
-        // --------------------------
-
-        mutateLanguage(newLanguage)
+    const word = await editWord(parseInt(wordId), mainWord, secretWord)
+    if (word) {
+      // TODO: Move to a function in another file
+      // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
+      // --------------------------
+      const newLanguage = {
+        ...language,
       }
-    } catch (error) {
-      if (error instanceof FetchError) {
-        console.log(error.data)
-      } else {
-        console.error('An unexpected error happened:', error)
+      const index = language.words
+        .map((el) => {
+          return el.mainWord
+        })
+        .indexOf(mainWord)
+      language.words[index] = {
+        mainWord: mainWord,
+        secretWord: secretWord,
+        id: wordId,
+        languageId: language.id,
       }
-    }
+      // --------------------------
 
-    setMainWord('')
-    setSecretWord('')
-    router.back()
+      mutateLanguage(newLanguage)
+      setMainWord('')
+      setSecretWord('')
+      router.back()
+    }
   }
 
   return (
@@ -140,7 +109,10 @@ export default function EditWordForm({
         />
         <input type="submit" className="button btn-large" value="Save" />
       </form>
-      <button className="button btn-large red" onClick={(e) => deleteWord(e)}>
+      <button
+        className="button btn-large red"
+        onClick={(e) => handleDeleteWord(e)}
+      >
         Delete
       </button>
     </div>

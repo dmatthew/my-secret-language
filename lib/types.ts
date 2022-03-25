@@ -2,7 +2,7 @@ export interface LanguageType {
   id: number
   name: string
   words?: any[]
-  user_id?: any
+  userId?: any
 }
 
 export interface Word {
@@ -23,4 +23,14 @@ export interface NoteCategory {
   id: number
   title: string
   notes: Note[]
+}
+
+export interface APIJsonResponse {
+  data?: {
+    items?: Array<{ [index: string]: any }>
+    [index: string]: any
+  }
+  error?: {
+    message: string
+  }
 }

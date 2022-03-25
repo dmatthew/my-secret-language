@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { deleteWordFromDatabase } from 'lib/backend/words'
+import { deleteWordFromDatabase } from 'lib/api/words'
 
 export default async function deleteWordRoute(
   req: NextApiRequest,
@@ -9,10 +9,16 @@ export default async function deleteWordRoute(
   const success = await deleteWordFromDatabase(id)
   if (success) {
     const response = {
-      message: 'success',
+      data: {
+        success: true,
+      },
     }
     return res.status(201).json(response)
   } else {
-    return res.status(400).json({ message: 'Unable to delete word' })
+    return res.status(400).json({
+      error: {
+        message: 'Unable to delete word',
+      },
+    })
   }
 }

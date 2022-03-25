@@ -87,7 +87,7 @@ export async function getUserLanguagesFromDatabase(
   await client.connect()
   const { rows } = await client.query(
     `
-    SELECT id, name, user_id
+    SELECT id, name, user_id as "userId"
     FROM "languages"
     WHERE "languages".user_id = $1
     `,

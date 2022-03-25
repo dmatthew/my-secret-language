@@ -1,7 +1,6 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
-import { Word } from 'lib/types'
-import fetchJson, { FetchError } from 'lib/fetchJson'
 import useLanguage from 'lib/useLanguage'
+import { addWordToLanguage } from 'lib/words'
 
 export default function AddWordForm({
   languageId,
@@ -15,72 +14,38 @@ export default function AddWordForm({
   const [secretWord, setSecretWord] = useState('')
   const mainWordInput = useRef(null)
 
-  const addWordToLanguage = async (
-    languageId: number,
-    mainWord: string,
-    secretWord: string
-  ): Promise<{ message: string; word?: Word }> => {
-    const body = {
-      languageId: languageId,
-      mainWord: mainWord,
-      secretWord: secretWord,
-    }
-    const response = await fetchJson<{ message: string; word?: Word }>(
-      `/api/words/add`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      }
-    )
-    return response
-  }
-
   const handleAddWord = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault()
 
-    try {
-      const response = await addWordToLanguage(
-        language.id,
-        mainWord,
-        secretWord
-      )
-      if (response.word) {
-        // TODO: Move to a function in another file
-        // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
-        // --------------------------
-        const newLanguage = {
-          ...language,
-        }
-        const newWord = {
-          mainWord: mainWord,
-          secretWord: secretWord,
-          id: response.word.id,
-          languageId: language.id,
-        }
-        newLanguage.words.push(newWord)
-        // --------------------------
+    const word = await addWordToLanguage(language.id, mainWord, secretWord)
+    if (word) {
+      // TODO: Move to a function in another file
+      // something like: const newLanguage = languageReducer(language, mainWord, secretWord)
+      // --------------------------
+      const newLanguage = {
+        ...language,
+      }
+      const newWord = {
+        mainWord: mainWord,
+        secretWord: secretWord,
+        id: word.id,
+        languageId: language.id,
+      }
+      newLanguage.words.push(newWord)
+      // --------------------------
 
-        mutateLanguage(newLanguage)
-      }
-    } catch (error) {
-      if (error instanceof FetchError) {
-        console.log(error.data)
-      } else {
-        console.error('An unexpected error happened:', error)
-      }
+      mutateLanguage(newLanguage)
+      setMainWord('')
+      setSecretWord('')
+      mainWordInput.current.focus()
     }
-    setMainWord('')
-    setSecretWord('')
   }
 
   useEffect(() => {
-    if (language) {
-      mainWordInput.current.focus()
-    }
-  }, [language, mainWordInput])
+    mainWordInput.current.focus()
+  }, [])
 
   return (
     <form name="addWordForm" onSubmit={handleAddWord}>

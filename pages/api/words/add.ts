@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { addWordToDatabase } from 'lib/backend/words'
+import { addWordToDatabase } from 'lib/api/words'
+import { APIJsonResponse } from 'lib/types'
 
 export default async function addWordRoute(
   req: NextApiRequest,
@@ -12,9 +13,8 @@ export default async function addWordRoute(
   )
 
   if (word) {
-    const response = {
-      message: 'success',
-      word: {
+    const response: APIJsonResponse = {
+      data: {
         id: word.id,
         mainWord: word.mainWord,
         secretWord: word.secretWord,
@@ -23,6 +23,10 @@ export default async function addWordRoute(
     }
     return res.status(201).json(response)
   } else {
-    return res.status(400).json({ message: 'Unable to add word' })
+    return res.status(400).json({
+      error: {
+        message: 'Unable to add word',
+      },
+    })
   }
 }

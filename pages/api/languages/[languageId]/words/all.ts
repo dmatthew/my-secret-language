@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getAllWordsByLanguageIdFromDatabase } from 'lib/backend/words'
+import { getAllWordsByLanguageIdFromDatabase } from 'lib/api/words'
 
 export default async function allWordsRoute(
   req: NextApiRequest,

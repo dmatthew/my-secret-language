@@ -1,7 +1,7 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from 'lib/session'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getUserLanguagesFromDatabase } from 'lib/backend/user'
+import { getUserLanguagesFromDatabase } from 'lib/api/user'
 
 export default withIronSessionApiRoute(languagesRoute, sessionOptions)
 
@@ -17,7 +17,11 @@ async function languagesRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
     const userLanguages = await getUserLanguagesFromDatabase(userId)
     if (userLanguages) {
-      return res.json(userLanguages)
+      return res.json({
+        data: {
+          items: userLanguages,
+        },
+      })
     }
   } catch (error) {
     return res.status(200).json({})

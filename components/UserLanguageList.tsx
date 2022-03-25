@@ -1,32 +1,19 @@
 import { ReactElement, useEffect, useState } from 'react'
 import Link from 'next/link'
-import fetchJson, { FetchError } from 'lib/fetchJson'
 import NewLanguageForm from './NewLanguageForm'
 import { LanguageType } from 'lib/types'
+import { getUserLanguages } from 'lib/languages'
 
 export default function UserLanguageList(): ReactElement {
   const [userLanguages, setUserLanguages] = useState<LanguageType[]>([])
 
   useEffect(() => {
-    async function getUserLanguages() {
-      try {
-        const response = await fetchJson<LanguageType[]>(
-          '/api/user/languages',
-          {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-          }
-        )
-        setUserLanguages(response)
-      } catch (error) {
-        if (error instanceof FetchError) {
-          console.log(error.data.message)
-        } else {
-          console.error('An unexpected error happened:', error)
-        }
-      }
+    async function loadUserLanguages() {
+      const response = await getUserLanguages()
+      setUserLanguages(response)
     }
-    getUserLanguages()
+
+    loadUserLanguages()
   }, [setUserLanguages])
 
   return (

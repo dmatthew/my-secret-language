@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getUserFromDatabase, validPassword } from 'lib/backend/user'
+import { getUserFromDatabase, validPassword } from 'lib/api/user'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from 'lib/session'
 

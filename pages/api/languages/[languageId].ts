@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import {
   getLanguageByIdFromDatabase,
   getAllWordsByLanguageIdFromDatabase,
-} from 'lib/backend/words'
+} from 'lib/api/words'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from 'lib/session'
 

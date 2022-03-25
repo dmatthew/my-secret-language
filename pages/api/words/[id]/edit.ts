@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { editWordByIdFromDatabase } from 'lib/backend/words'
+import { editWordByIdFromDatabase } from 'lib/api/words'
 
 export default async function editWordByIdRoute(
   req: NextApiRequest,
@@ -12,8 +12,9 @@ export default async function editWordByIdRoute(
 
   if (word) {
     const response = {
-      message: 'success',
-      word: word,
+      data: {
+        word,
+      },
     }
     return res.status(201).json(response)
   } else {
