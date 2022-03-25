@@ -1,5 +1,5 @@
-import { Word, APIJsonResponse } from './types'
-import fetchJson, { FetchError } from './fetchJson'
+import { Word, APIJsonResponse } from 'lib/types'
+import fetchJson, { FetchError } from 'lib/fetchJson'
 
 export async function addWordToLanguage(
   languageId: number,
