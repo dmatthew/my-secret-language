@@ -26,6 +26,7 @@ export default function TranslationForm({
     secretWord: '',
     languageId: null,
   })
+  const [dictionaryMap, setDictionaryMap] = useState(null)
 
   const updateTranslationOutput = useCallback(() => {
     if (!translationInput) {
@@ -38,7 +39,7 @@ export default function TranslationForm({
 
     // Loop through the textarea text
     inputTextArray.forEach((inputTextItem) => {
-      let isWordInDictionary: boolean = false
+      console.log('+')
       let specialChar: string = ''
 
       // If the word ends in a special character, split it apart.
@@ -48,19 +49,15 @@ export default function TranslationForm({
         inputTextItem = inputTextItem.slice(0, -1)
       }
 
-      // Loop through the dictionary and check if the word has been defined yet.
-      let myWord = language.words.find((w: Word) => {
-        return w.mainWord.toUpperCase() === inputTextItem.toUpperCase()
-      })
+      // Check if the word has been defined yet.
+      let myWord = dictionaryMap.get(inputTextItem.toLowerCase())
       if (myWord) {
         translatedWords.push({
           text: myWord.secretWord + specialChar + ' ',
           hasClick: false,
         })
         setTranslationOutput(translatedWords)
-        isWordInDictionary = true
-      }
-      if (!isWordInDictionary) {
+      } else {
         translatedWords.push({
           text: inputTextItem,
           hasClick: true,
@@ -73,7 +70,7 @@ export default function TranslationForm({
         setTranslationOutput(translatedWords)
       }
     })
-  }, [translationInput, language])
+  }, [translationInput, dictionaryMap])
 
   const clearAll = (): void => {
     setShowNewWordForm(false)
@@ -144,12 +141,27 @@ export default function TranslationForm({
   useEffect(() => {
     updateTranslationOutput()
   }, [updateTranslationOutput])
+  // const handleTranslationInputChange = (e) => {
+  //   e.preventDefault()
+
+  //   setTranslationInput(e.target.value)
+  //   updateTranslationOutput()
+  // }
+
+  useEffect(() => {
+    let wordMap = new Map()
+    language.words.forEach((w: Word) => {
+      wordMap.set(w.mainWord.toLowerCase(), w)
+    })
+    setDictionaryMap(wordMap)
+  }, [language, setDictionaryMap])
 
   return (
     <>
       <textarea
         value={translationInput}
         onChange={(e) => setTranslationInput(e.target.value)}
+        // onChange={(e) => handleTranslationInputChange(e)}
         placeholder="Enter your text to be translated..."
         autoFocus
       ></textarea>
