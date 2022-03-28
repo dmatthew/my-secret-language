@@ -141,12 +141,6 @@ export default function TranslationForm({
   useEffect(() => {
     updateTranslationOutput()
   }, [updateTranslationOutput])
-  // const handleTranslationInputChange = (e) => {
-  //   e.preventDefault()
-
-  //   setTranslationInput(e.target.value)
-  //   updateTranslationOutput()
-  // }
 
   useEffect(() => {
     let wordMap = new Map()
@@ -161,7 +155,6 @@ export default function TranslationForm({
       <textarea
         value={translationInput}
         onChange={(e) => setTranslationInput(e.target.value)}
-        // onChange={(e) => handleTranslationInputChange(e)}
         placeholder="Enter your text to be translated..."
         autoFocus
       ></textarea>
