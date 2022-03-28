@@ -15,7 +15,7 @@ export default function Home() {
       </Head>
       <div>
         <h1>User Dashboard</h1>
-        <UserLanguageList />
+        {user && user.isLoggedIn && <UserLanguageList />}
       </div>
     </Layout>
   )

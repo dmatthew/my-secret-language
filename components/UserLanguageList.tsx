@@ -18,7 +18,7 @@ export default function UserLanguageList(): ReactElement {
 
   return (
     <>
-      {userLanguages.length > 0 ? (
+      {userLanguages && userLanguages.length > 0 ? (
         <div>
           {userLanguages.map((language, index) => {
             return (
