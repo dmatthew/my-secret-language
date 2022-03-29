@@ -1,4 +1,4 @@
-import { NoteCategory, Note } from '../lib/types'
+import { NoteCategory, Note } from 'lib/types'
 
 export type NoteAction =
   | {
@@ -6,6 +6,8 @@ export type NoteAction =
       categorySlug: string
       title: string
       description: string
+      noteId: number
+      languageId: number
     }
   | { type: 'DELETE_NOTE'; categorySlug: string; id: number }
   | {
@@ -14,6 +16,7 @@ export type NoteAction =
       noteId: number
       title: string
       description: string
+      languageId: number
     }
   | { type: 'INIT_STORED'; value: NoteCategory[] }
 
@@ -34,6 +37,8 @@ export default function NoteReducer(
         let newNote: Note = {
           title: action.title,
           description: action.description,
+          noteCategoryId: 1,
+          languageId: 1,
         }
         noteCategories[categoryGroupIndex].notes.push(newNote)
       }
@@ -49,6 +54,8 @@ export default function NoteReducer(
         let updatedNote: Note = {
           title: action.title,
           description: action.description,
+          noteCategoryId: 1,
+          languageId: 1,
         }
         noteCategories[categoryGroupIndex].notes[action.noteId] = updatedNote
       }
