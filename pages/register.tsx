@@ -14,6 +14,7 @@ export default function Register(): ReactElement {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [hasPasswordError, setHasPasswordError] = useState(false)
+  const [hasEmailError, setHasEmailError] = useState(false)
   const emailInput = useRef(null)
 
   const registerUser = async (): Promise<void> => {
@@ -33,7 +34,8 @@ export default function Register(): ReactElement {
         )
       } catch (error) {
         if (error instanceof FetchError) {
-          console.log(error.data.message)
+          setHasEmailError(true)
+          console.log(error.data.error.message)
         } else {
           console.error('An unexpected error happened:', error)
         }
@@ -45,10 +47,11 @@ export default function Register(): ReactElement {
     event: React.FormEvent<HTMLFormElement>
   ): void => {
     event.preventDefault()
+    setHasPasswordError(false)
+    setHasEmailError(false)
     if (password !== confirmPassword) {
       setHasPasswordError(true)
     } else {
-      setHasPasswordError(false)
       registerUser()
     }
   }
@@ -72,6 +75,7 @@ export default function Register(): ReactElement {
             required
             type="text"
           />
+          {hasEmailError && <div>* This email is already in use.</div>}
           <label htmlFor="password">Password</label>
           <input
             value={password}
@@ -94,7 +98,7 @@ export default function Register(): ReactElement {
           />
           {hasPasswordError && (
             <div>
-              <span>{"Those passwords didn't match. Try again."}</span>
+              <span>{"* Those passwords didn't match. Try again."}</span>
             </div>
           )}
           <input type="submit" className="button btn-large" value="Register" />

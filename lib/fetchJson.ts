@@ -15,30 +15,35 @@ export default async function fetchJson<JSON = unknown>(
   }
 
   throw new FetchError({
-    message: response.statusText,
+    statusText: response.statusText,
     response,
     data,
   })
 }
 
 export class FetchError extends Error {
+  statusText: string
   response: Response
   data: {
-    message: string
+    error: {
+      message: string
+    }
   }
   constructor({
-    message,
+    statusText,
     response,
     data,
   }: {
-    message: string
+    statusText: string
     response: Response
     data: {
-      message: string
+      error: {
+        message: string
+      }
     }
   }) {
     // Pass remaining arguments (including vendor specific ones) to parent constructor
-    super(message)
+    super(statusText)
 
     // Maintains proper stack trace for where our error was thrown (only available on V8)
     if (Error.captureStackTrace) {
@@ -47,6 +52,7 @@ export class FetchError extends Error {
 
     this.name = 'FetchError'
     this.response = response
-    this.data = data ?? { message: message }
+    this.statusText = statusText
+    this.data = data ?? { error: { message: statusText } }
   }
 }

@@ -12,9 +12,11 @@ export async function registerRoute(
   try {
     const user = await getUserFromDatabase(req.body.email)
     if (user) {
-      return res
-        .status(400)
-        .json({ message: `User with email ${req.body.email} already exists.` })
+      return res.status(400).json({
+        error: {
+          message: `User with email ${req.body.email} already exists.`,
+        },
+      })
     }
   } catch (error) {
     console.log(error)

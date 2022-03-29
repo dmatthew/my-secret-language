@@ -31,7 +31,7 @@ export default function Notes(): ReactElement {
         // setLanguage(response.language)
       } catch (error) {
         if (error instanceof FetchError) {
-          console.log(error.data.message)
+          console.log(error.data)
         } else {
           console.error('An unexpected error happened:', error)
         }

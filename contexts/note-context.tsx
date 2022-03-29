@@ -95,7 +95,7 @@ export function NoteContextProvider({ children }: any) {
           })
         } catch (error) {
           if (error instanceof FetchError) {
-            console.log(error.data.message)
+            console.log(error.data)
           } else {
             console.error('An unexpected error happened:', error)
           }
