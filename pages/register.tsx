@@ -13,6 +13,7 @@ export default function Register(): ReactElement {
   const [email, setemail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [hasPasswordError, setHasPasswordError] = useState(false)
   const emailInput = useRef(null)
 
   const registerUser = async (): Promise<void> => {
@@ -45,8 +46,9 @@ export default function Register(): ReactElement {
   ): void => {
     event.preventDefault()
     if (password !== confirmPassword) {
-      alert('Passwords do not match')
+      setHasPasswordError(true)
     } else {
+      setHasPasswordError(false)
       registerUser()
     }
   }
@@ -90,6 +92,11 @@ export default function Register(): ReactElement {
             required
             type="password"
           />
+          {hasPasswordError && (
+            <div>
+              <span>{"Those passwords didn't match. Try again."}</span>
+            </div>
+          )}
           <input type="submit" className="button btn-large" value="Register" />
         </form>
         <div>
