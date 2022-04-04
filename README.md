@@ -31,12 +31,12 @@ See the app in action at [my-secret-language.vercel.app](https://my-secret-langu
 |                     Home                      |                  Add Word                   |                  Dictionary                  |
 | ![App Home](docs/screenshots/flash-cards.png) | ![App Home](docs/screenshots/translate.png) |   ![App Home](docs/screenshots/notes.png)    |
 |                  Flash Cards                  |                  Translate                  |                    Notes                     |
-
+<!-- 
 ## Current Development
 
 New Feature: [User management](https://github.com/dmatthew/my-secret-language/pull/13)
 
-Users will be able to sign up and log in to the app.
+Users will be able to sign up and log in to the app. -->
 
 ## Testing
 
